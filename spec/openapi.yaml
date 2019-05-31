@@ -68,7 +68,7 @@ paths:
 
       # security schemas applied to this operation
       security:
-        - JWT Authentication: []
+        - JWTAuthentication: []
       responses: # list of responses
         '201':
           description: Admin created  
@@ -107,7 +107,7 @@ paths:
             type: string
             
       security: 
-        - JWT Authentication: []
+        - JWTAuthentication: []
         
       responses:
         '200':
@@ -149,7 +149,7 @@ paths:
       description: Get one admin
       
       security: 
-        - JWT Authentication: []
+        - JWTAuthentication: []
       
       responses:
         '200':
@@ -182,7 +182,7 @@ paths:
       summary: Patch one admin - INTER CALL ONLY
       description: Patch one admin
       security: 
-        - JWT Authentication: []
+        - JWTAuthentication: []
       requestBody:
         content:
           application/json:
@@ -218,7 +218,7 @@ paths:
       summary: Delete one admin - INTER CALL ONLY
       description: Delete one admin
       security: 
-        - JWT Authentication: []
+        - JWTAuthentication: []
       responses:
         '200':
           description: "Delete success"
@@ -229,7 +229,7 @@ paths:
       
 components:
   securitySchemes:
-    JWT Authentication:
+    JWTAuthentication:
       type: apiKey
       in: header
       name: Authorization
