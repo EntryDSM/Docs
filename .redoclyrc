@@ -1,0 +1,8 @@
+
+apiTitle: EntryDSM-API
+splitSpec: false
+codeSamples: false
+swaggerUI: true
+travis: true
+repo: EntryDSM/docs
+oasVersion: 3.0.0
