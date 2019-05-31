@@ -17,6 +17,14 @@ tags:
     description: 'Handles all EntryDSM user(admin, applicant) related functions on the EntryDSM platform'
   - name: Louis-Vuitton
     description: LV is in charge of process of entrance application
+  - name: Chanel
+    description: EntryDSM auth service
+  - name: Gucci
+    description: EntryDSM QnA service
+  - name: Rolex
+    description: EntryDSM admin service
+  - name: Yves-Saint-Laurent
+    description: EntryDSM interview service
 servers:
   - url: 'https://entrydsn.hs.kr/api/v1'
 paths:
