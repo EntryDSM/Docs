@@ -628,34 +628,6 @@ paths:
           description: "Patch success"
         '401':
           description: "Authentication failed"
-  /applicant/me/password:
-    put:
-      tags:
-        - Hermes
-      summary: Reset my applicant password
-      description: Reset my applicant info, Gateway trnas-request this to `PATCH /applicant/{email}` with given JWT credential
-      parameters:
-        - name: verify
-          in: query
-          example: 0cfc54
-          description: 6-digit verification code
-          schema:
-            type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                password:
-                  type: string
-                  example: p@ssword
-                  description: password to be changed
-      responses:
-        '200':
-          description: "Reset success"
-        '401':
-          description: "Authentication failed"
   /applicant/me/photo:
     put:
       tags: 
@@ -679,6 +651,33 @@ paths:
 
   /password-reset:
     put:
+      tags:
+        - Chanel
+      summary: Reset my applicant password
+      description: Reset my applicant info
+      parameters:
+        - name: verify
+          in: query
+          example: 0cfc54
+          description: 6-digit verification code
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                password:
+                  type: string
+                  example: p@ssword
+                  description: password to be changed
+      responses:
+        '200':
+          description: "Reset success"
+        '401':
+          description: "Authentication failed"
+    post:
       tags:
         - Chanel
       summary: Send password reset verification email
