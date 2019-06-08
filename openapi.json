@@ -50,8 +50,13 @@
         "tags": [
           "Hermes"
         ],
-        "summary": "Create new admin - INTER CALL ONLY",
+        "summary": "Create new admin",
         "description": "Create new admin",
+        "security": [
+          {
+            "RootAdmin": []
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -95,11 +100,6 @@
             }
           }
         },
-        "security": [
-          {
-            "JWTAuthentication": []
-          }
-        ],
         "responses": {
           "201": {
             "description": "Admin created"
@@ -121,8 +121,16 @@
         "tags": [
           "Hermes"
         ],
-        "summary": "Get multiple admins - INTER CALL ONLY",
+        "summary": "Get multiple admins",
         "description": "Get multiple admins",
+        "security": [
+          {
+            "RootAdmin": []
+          },
+          {
+            "Service": []
+          }
+        ],
         "parameters": [
           {
             "name": "admin_id",
@@ -155,11 +163,6 @@
             "schema": {
               "type": "string"
             }
-          }
-        ],
-        "security": [
-          {
-            "JWTAuthentication": []
           }
         ],
         "responses": {
@@ -217,11 +220,14 @@
         "tags": [
           "Hermes"
         ],
-        "summary": "Get one admin - INTER CALL ONLY",
+        "summary": "Get one admin",
         "description": "Get one admin",
         "security": [
           {
-            "JWTAuthentication": []
+            "RootAdmin": []
+          },
+          {
+            "Service": []
           }
         ],
         "responses": {
@@ -266,11 +272,14 @@
         "tags": [
           "Hermes"
         ],
-        "summary": "Patch one admin - INTER CALL ONLY",
+        "summary": "Patch one admin",
         "description": "Patch one admin",
         "security": [
           {
-            "JWTAuthentication": []
+            "RootAdmin": []
+          },
+          {
+            "Service": []
           }
         ],
         "requestBody": {
@@ -320,11 +329,14 @@
         "tags": [
           "Hermes"
         ],
-        "summary": "Delete one admin - INTER CALL ONLY",
+        "summary": "Delete one admin",
         "description": "Delete one admin",
         "security": [
           {
-            "JWTAuthentication": []
+            "RootAdmin": []
+          },
+          {
+            "Service": []
           }
         ],
         "responses": {
@@ -339,14 +351,731 @@
           }
         }
       }
+    },
+    "/admin/me": {
+      "get": {
+        "tags": [
+          "Hermes"
+        ],
+        "summary": "Get my admin info",
+        "description": "Get my admin info, Gateway trnas-request this to `/admin{admin_id}` with given JWT credential",
+        "security": [
+          {
+            "Admin": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Query success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "admin_id": {
+                      "type": "string",
+                      "example": "entry2019root"
+                    },
+                    "admin_email": {
+                      "type": "string",
+                      "example": "entry@entrydsm.hs.kr"
+                    },
+                    "admin_name": {
+                      "type": "string",
+                      "example": "연준모"
+                    },
+                    "admin_type": {
+                      "type": "string",
+                      "example": "ROOT",
+                      "description": "one of `ROOT`, `ADMINISTRATION`,`INTERVIEW`"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication failed"
+          },
+          "404": {
+            "description": "Admin not found"
+          }
+        }
+      }
+    },
+    "/applicant": {
+      "post": {
+        "tags": [
+          "Hermes"
+        ],
+        "summary": "Create new applicant",
+        "description": "create new applicant that verified by `Chanel` service",
+        "security": [
+          {
+            "Service": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "email",
+                  "password"
+                ],
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "example": "seonghyeon@entrydsm.hs.kr",
+                    "description": "applicant's email"
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "p@ssword!",
+                    "description": "applicant's password"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Applicant created"
+          },
+          "400": {
+            "description": "Bad request, check your payload"
+          },
+          "401": {
+            "description": "Authentication failed"
+          },
+          "409": {
+            "description": "Applicant already exists"
+          }
+        }
+      }
+    },
+    "/applicant/batch": {
+      "get": {
+        "tags": [
+          "Hermes"
+        ],
+        "summary": "Get multiple applicants",
+        "description": "Get multiple applicants",
+        "security": [
+          {
+            "Admin": []
+          },
+          {
+            "RootAdmin": []
+          },
+          {
+            "Service": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "email",
+            "in": "query",
+            "description": "applicant email",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "applicant_name",
+            "in": "query",
+            "description": "applicant name",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sex",
+            "in": "query",
+            "description": "applicant sex, must be one of `MALE` and `FEMALE`",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Query succeess",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "email": {
+                        "type": "string",
+                        "example": "entry@entrydsm.hs.kr"
+                      },
+                      "applicant_name": {
+                        "type": "string",
+                        "example": "홍길동"
+                      },
+                      "sex": {
+                        "type": "string",
+                        "example": "MALE",
+                        "description": "one of `MALE` and `FEMALE`"
+                      },
+                      "birth_date": {
+                        "type": "string",
+                        "example": "2019-06-08T00:00:00.000Z",
+                        "description": "birth date"
+                      },
+                      "parent_name": {
+                        "type": "string",
+                        "example": "홍판서",
+                        "description": "applicnat's parent name"
+                      },
+                      "parent_tel": {
+                        "type": "string",
+                        "example": "010-1234-5678",
+                        "description": "parent tel"
+                      },
+                      "applicant_tel": {
+                        "type": "string",
+                        "example": "010-1234-5678",
+                        "description": "applicant tel"
+                      },
+                      "address": {
+                        "type": "string",
+                        "example": "경기도 용인시 기흥구 구성 3로 65",
+                        "description": "address"
+                      },
+                      "post_code": {
+                        "type": "string",
+                        "example": 17002,
+                        "description": "post code"
+                      },
+                      "image_path": {
+                        "type": "string",
+                        "example": "eee824f7ff5f48d7b1bef0de68627726",
+                        "description": "request like this, \"cdn.entrydsm.hs.kr\" + {image_path}"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication failed"
+          }
+        }
+      }
+    },
+    "/applicant/{email}": {
+      "parameters": [
+        {
+          "name": "email",
+          "in": "path",
+          "description": "applicant email",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "get": {
+        "tags": [
+          "Hermes"
+        ],
+        "summary": "Get one applicant",
+        "description": "Get one applicant",
+        "security": [
+          {
+            "Admin": []
+          },
+          {
+            "RootAdmin": []
+          },
+          {
+            "Service": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Query succeess",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "email": {
+                      "type": "string",
+                      "example": "entry@entrydsm.hs.kr",
+                      "description": "email"
+                    },
+                    "applicant_name": {
+                      "type": "string",
+                      "example": "홍길동",
+                      "description": "name"
+                    },
+                    "sex": {
+                      "type": "string",
+                      "example": "MALE",
+                      "description": "one of `MALE` and `FEMALE`"
+                    },
+                    "birth_date": {
+                      "type": "string",
+                      "example": "2019-06-08T00:00:00.000Z",
+                      "description": "birth date"
+                    },
+                    "parent_name": {
+                      "type": "string",
+                      "example": "홍판서",
+                      "description": "applicnat's parent name"
+                    },
+                    "parent_tel": {
+                      "type": "string",
+                      "example": "010-1234-5678",
+                      "description": "parent tel"
+                    },
+                    "applicant_tel": {
+                      "type": "string",
+                      "example": "010-1234-5678",
+                      "description": "applicant tel"
+                    },
+                    "address": {
+                      "type": "string",
+                      "example": "경기도 용인시 기흥구 구성 3로 65",
+                      "description": "address"
+                    },
+                    "post_code": {
+                      "type": "string",
+                      "example": 17002,
+                      "description": "post code"
+                    },
+                    "image_path": {
+                      "type": "string",
+                      "example": "eee824f7ff5f48d7b1bef0de68627726",
+                      "description": "request like this, \"cdn.entrydsm.hs.kr\" + {image_path}"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication failed"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Hermes"
+        ],
+        "summary": "Patch one applicant",
+        "description": "Patch one applicant",
+        "security": [
+          {
+            "Service": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "password": {
+                    "type": "string",
+                    "example": "p@ssword",
+                    "description": "password will changed"
+                  },
+                  "applicant_name": {
+                    "type": "string",
+                    "example": "홍길동",
+                    "description": "name"
+                  },
+                  "sex": {
+                    "type": "string",
+                    "example": "MALE",
+                    "description": "one of `MALE` and `FEMALE`"
+                  },
+                  "birth_date": {
+                    "type": "string",
+                    "example": "2019-06-08T00:00:00.000Z",
+                    "description": "birth date"
+                  },
+                  "parent_name": {
+                    "type": "string",
+                    "example": "홍판서",
+                    "description": "applicnat's parent name"
+                  },
+                  "parent_tel": {
+                    "type": "string",
+                    "example": "010-1234-5678",
+                    "description": "parent tel"
+                  },
+                  "applicant_tel": {
+                    "type": "string",
+                    "example": "010-1234-5678",
+                    "description": "applicant tel"
+                  },
+                  "address": {
+                    "type": "string",
+                    "example": "경기도 용인시 기흥구 구성 3로 65",
+                    "description": "address"
+                  },
+                  "post_code": {
+                    "type": "string",
+                    "example": 17002,
+                    "description": "post code"
+                  },
+                  "image_path": {
+                    "type": "string",
+                    "example": "eee824f7ff5f48d7b1bef0de68627726",
+                    "description": "request like this, \"cdn.entrydsm.hs.kr\" + {image_path}"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Patch success"
+          },
+          "401": {
+            "description": "Authentication failed"
+          },
+          "404": {
+            "description": "Applicant not found"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Hermes"
+        ],
+        "summary": "Delete one applicant",
+        "description": "Delete one applicant",
+        "security": [
+          {
+            "Admin": []
+          },
+          {
+            "RootAdmin": []
+          },
+          {
+            "Service": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Delete success"
+          },
+          "401": {
+            "description": "Authentication failed"
+          },
+          "404": {
+            "description": "Applicant not found"
+          }
+        }
+      }
+    },
+    "/applicant/me": {
+      "get": {
+        "tags": [
+          "Hermes"
+        ],
+        "summary": "Get my applicant info",
+        "description": "Get my applicant info, Gateway trnas-request this to `GET /applicant/{email}` with given JWT credential",
+        "security": [
+          {
+            "Applicant": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Query succeess",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "email": {
+                      "type": "string",
+                      "example": "entry@entrydsm.hs.kr",
+                      "description": "email"
+                    },
+                    "applicant_name": {
+                      "type": "string",
+                      "example": "홍길동",
+                      "description": "name"
+                    },
+                    "sex": {
+                      "type": "string",
+                      "example": "MALE",
+                      "description": "one of `MALE` and `FEMALE`"
+                    },
+                    "birth_date": {
+                      "type": "string",
+                      "example": "2019-06-08T00:00:00.000Z",
+                      "description": "birth date"
+                    },
+                    "parent_name": {
+                      "type": "string",
+                      "example": "홍판서",
+                      "description": "applicnat's parent name"
+                    },
+                    "parent_tel": {
+                      "type": "string",
+                      "example": "010-1234-5678",
+                      "description": "parent tel"
+                    },
+                    "applicant_tel": {
+                      "type": "string",
+                      "example": "010-1234-5678",
+                      "description": "applicant tel"
+                    },
+                    "address": {
+                      "type": "string",
+                      "example": "경기도 용인시 기흥구 구성 3로 65",
+                      "description": "address"
+                    },
+                    "post_code": {
+                      "type": "string",
+                      "example": 17002,
+                      "description": "post code"
+                    },
+                    "image_path": {
+                      "type": "string",
+                      "example": "eee824f7ff5f48d7b1bef0de68627726",
+                      "description": "request like this, \"cdn.entrydsm.hs.kr\" + {image_path}"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication failed"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Hermes"
+        ],
+        "summary": "Patch my applicant info",
+        "description": "Patch my applicant info, Gateway trnas-request this to `PATCH /applicant/{email}` with given JWT credential",
+        "security": [
+          {
+            "Applicant": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "applicant_name": {
+                    "type": "string",
+                    "example": "홍길동",
+                    "description": "name"
+                  },
+                  "sex": {
+                    "type": "string",
+                    "example": "MALE",
+                    "description": "one of `MALE` and `FEMALE`"
+                  },
+                  "birth_date": {
+                    "type": "string",
+                    "example": "2019-06-08T00:00:00.000Z",
+                    "description": "birth date"
+                  },
+                  "parent_name": {
+                    "type": "string",
+                    "example": "홍판서",
+                    "description": "applicnat's parent name"
+                  },
+                  "parent_tel": {
+                    "type": "string",
+                    "example": "010-1234-5678",
+                    "description": "parent tel"
+                  },
+                  "applicant_tel": {
+                    "type": "string",
+                    "example": "010-1234-5678",
+                    "description": "applicant tel"
+                  },
+                  "address": {
+                    "type": "string",
+                    "example": "경기도 용인시 기흥구 구성 3로 65",
+                    "description": "address"
+                  },
+                  "post_code": {
+                    "type": "string",
+                    "example": 17002,
+                    "description": "post code"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Patch success"
+          },
+          "401": {
+            "description": "Authentication failed"
+          }
+        }
+      }
+    },
+    "/applicant/me/password": {
+      "put": {
+        "tags": [
+          "Hermes"
+        ],
+        "summary": "Reset my applicant password",
+        "description": "Reset my applicant info, Gateway trnas-request this to `PATCH /applicant/{email}` with given JWT credential",
+        "parameters": [
+          {
+            "name": "verify",
+            "in": "query",
+            "example": "0cfc54",
+            "description": "6-digit verification code",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "password": {
+                    "type": "string",
+                    "example": "p@ssword",
+                    "description": "password to be changed"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Reset success"
+          },
+          "401": {
+            "description": "Authentication failed"
+          }
+        }
+      }
+    },
+    "/applicant/me/photo": {
+      "put": {
+        "tags": [
+          "Hermes"
+        ],
+        "summary": "Change my applicnat photo",
+        "description": "Change my applicnat photo, this uploads your photo to cdn and save image patho with `PATCH`/applicant/{email}",
+        "security": [
+          {
+            "Applicant": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "image/png": {
+              "schema": {
+                "type": "string",
+                "format": "binary",
+                "description": "image"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "File upload success"
+          },
+          "401": {
+            "description": "Authentication failed"
+          }
+        }
+      }
+    },
+    "/password-reset": {
+      "put": {
+        "tags": [
+          "Chanel"
+        ],
+        "summary": "Send password reset verification email",
+        "description": "Send password reset verification email",
+        "parameters": [
+          {
+            "name": "email",
+            "in": "query",
+            "example": "entry@entrydsm.hs.kr",
+            "description": "email that registered in entrydsm",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Email sent"
+          },
+          "404": {
+            "description": "Applicant not found"
+          }
+        }
+      }
     }
   },
   "components": {
     "securitySchemes": {
-      "JWTAuthentication": {
+      "Public": {
         "type": "apiKey",
         "in": "header",
-        "name": "Authorization"
+        "name": "Authorization",
+        "description": "If endpoint makred as this, it can be accessed by anyone"
+      },
+      "Applicant": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "Authorization",
+        "description": "If endpoint marked as this, it can be accessed with applicant authority"
+      },
+      "Admin": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "Authorization",
+        "description": "If endpoint marked as this, it can be accessed with normal admin authority"
+      },
+      "Interviewer": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "Authorization",
+        "description": "If endpoint marked as this, it can be accessed with interview admin authority"
+      },
+      "RootAdmin": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "Authorization",
+        "description": "If endpoint marked as this, it can be accessed with root admin authority"
+      },
+      "Service": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "Authorization",
+        "description": "If endpoint marked as this, it can be accessed with inter service authority"
       }
     }
   }
