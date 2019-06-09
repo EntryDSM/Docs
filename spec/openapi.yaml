@@ -1,4 +1,4 @@
-openapi: 3.0.0
+openapi: '3.0.0'
 info:
   version: '1.0.0'
   
@@ -233,7 +233,205 @@ paths:
           description: "Authentication failed"
         '404':
           description: "Admin not found"
-      
+  '/sign-up':
+    post:
+      tags:
+        - Chanel
+      summary: Make a casual users, and verifying their email. - PUBLIC ONLY
+      description: sign-up
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required: 
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                  example: by09115@jaehoon.kim
+                  description: user email
+                password:
+                  type: string
+                  example: thisIsP@ssword
+                  description: user password
+      responses:
+        '202':
+          description: account has created
+        '400':
+          description: bad request
+        '409':
+          description: conflict
+  '/sign-up/verify':
+    get:
+      tags: 
+        - Chanel
+      summary: Validate the token issued for email verification - PUBLIC ONLY
+      description: (e.g. /sign-up/verify?code={{code}})
+      parameters: 
+        - name: code
+          in: query
+          description: validate code
+          schema:
+            type: string
+      responses:
+        '200':
+          description: O.K.
+        '400':
+          description: incorrect validate code
+  '/login':
+    post:
+      tags:
+        - Chanel
+      summary: Check user's info for Authentication. - PUBLIC ONLY
+      description: log-in
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required: 
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                  example: by09115@jaehoon.kim
+                  description: user email
+                password:
+                  type: string
+                  example: thisIsP@ssword
+                  description: user password
+      responses:
+        '201':
+          description: Login successed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  access:
+                    type: string
+                    example: "ThIsIs.TrUlY.AcCeSsToKeN"
+                  refresh:
+                    type: string
+                    example: "ThIsIs.TrUlY.ReFrEsHtOkEn"
+        '403':
+          description: Bad request
+  '/refresh':
+    patch:
+      tags:
+        - Chanel
+      summary: refresh the token - PUBLIC ONLY
+      description: refresh the token
+      parameters: 
+        - name: 'X-Refresh-Token'
+          in: header
+          description: (e.g. "Bearer {token}")
+          schema:
+            type: string
+      responses:
+        '201':
+          description: successfuly refreshed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  access:
+                    type: string
+                    example: "{{ access token }}"
+        '403':
+          description: incorrect token
+  '/logout':
+    delete:
+      tags:
+        - Chanel
+      summary: destroy the token
+      description: destroy the token
+      parameters: 
+        - name: 'X-Refresh-Token'
+          in: header
+          description: (e.g. "Bearer {token}")
+          schema:
+            type: string
+      responses:
+        '202':
+          description: Accepted
+        '403':
+          description: Bad request(incorrect token)
+  '/service/token':
+    post:
+      tags:
+        - Chanel
+      summary: Create a new token
+      description: Create service token
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required: 
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                  example: by09115@jaehoon.kim
+                  description: user email
+                password:
+                  type: string
+                  example: thisIsP@ssword
+                  description: user password
+      responses:
+        '201':
+          description: Login successed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  access:
+                    type: string
+                    example: "ThIsIs.TrUlY.AcCeSsToKeN"
+                  refresh:
+                    type: string
+                    example: "ThIsIs.TrUlY.ReFrEsHtOkEn"
+        '403':
+          description: Bad request
+    delete:
+      tags:
+        - Chanel
+      summary: destroy the token
+      description: 기존에 사용중이던 토큰 파기
+      parameters: 
+        - name: 'Authorization'
+          in: header
+          description: (e.g. "Bearer {token}")
+          schema:
+            type: string
+      responses:
+        '204':
+          description: successfuly destroyed the token
+        '403':
+          description: incorrect token
+    patch:
+      tags:
+        - Chanel
+      summary: refresh the service token
+      description: 토큰 재발급
+      parameters: 
+        - name: 'Authorization'
+          in: header
+          description: refresh token (e.g. "Bearer {token}")
+          schema:
+            type: string
+      responses:
+        '201':
+          description: successfuly refreshed
+        '403':
+          description: incorrect token
 components:
   securitySchemes:
     JWTAuthentication:
