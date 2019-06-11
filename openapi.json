@@ -966,13 +966,13 @@
         }
       }
     },
-    "/sign-up": {
+    "/signup": {
       "post": {
         "tags": [
           "Chanel"
         ],
         "summary": "Sign up",
-        "description": "Create a temporary user and `verification_code`, and email the link with that code.",
+        "description": "Create a temporary user and `verification_code`, and send email the link with that code.",
         "requestBody": {
           "content": {
             "application/json": {
@@ -1000,24 +1000,24 @@
         },
         "responses": {
           "202": {
-            "description": "account has created"
+            "description": "E-mail sent, temp user created"
           },
           "400": {
-            "description": "bad request"
+            "description": "Bad request"
           },
           "409": {
-            "description": "conflict"
+            "description": "Conflict"
           }
         }
       }
     },
-    "/sign-up/verify": {
+    "/signup/verify": {
       "get": {
         "tags": [
           "Chanel"
         ],
-        "summary": "Check validation code",
-        "description": "It will be used to validate that tokens issued for email verification (e.g. /sign-up/verify?code={{code}})",
+        "summary": "Verify user",
+        "description": "Verify user by verification code that sent with e-mail",
         "parameters": [
           {
             "name": "code",
@@ -1030,10 +1030,10 @@
         ],
         "responses": {
           "200": {
-            "description": "O.K."
+            "description": "Account has been verified"
           },
-          "400": {
-            "description": "incorrect validate code"
+          "401": {
+            "description": "Incorrect verification code"
           }
         }
       }
@@ -1043,8 +1043,8 @@
         "tags": [
           "Chanel"
         ],
-        "summary": "Login",
-        "description": "Check user's info for Authentication. - PUBLIC ONLY",
+        "summary": "Create applicant's JWT credential",
+        "description": "Get applicant's JWT credential by check applicant info",
         "requestBody": {
           "content": {
             "application/json": {
@@ -1058,12 +1058,12 @@
                   "email": {
                     "type": "string",
                     "example": "by09115@jaehoon.kim",
-                    "description": "user email"
+                    "description": "applicant email"
                   },
                   "password": {
                     "type": "string",
                     "example": "thisIsP@ssword",
-                    "description": "user password"
+                    "description": "applicant password"
                   }
                 }
               }
@@ -1091,8 +1091,11 @@
               }
             }
           },
+          "400": {
+            "description": "Bad Request"
+          },
           "403": {
-            "description": "Bad request"
+            "description": "Can not find match applicant info"
           }
         }
       }
@@ -1102,8 +1105,8 @@
         "tags": [
           "Chanel"
         ],
-        "summary": "Refresh the token",
-        "description": "refresh the token - PUBLIC ONLY",
+        "summary": "Refresh applicant JWT credential",
+        "description": "Refresh applicant JWT credential",
         "parameters": [
           {
             "name": "X-Refresh-Token",
@@ -1116,7 +1119,7 @@
         ],
         "responses": {
           "201": {
-            "description": "successfuly refreshed",
+            "description": "Successfuly refreshed",
             "content": {
               "application/json": {
                 "schema": {
@@ -1131,8 +1134,8 @@
               }
             }
           },
-          "403": {
-            "description": "incorrect token"
+          "400": {
+            "description": "Incorrect refresh token or Missing header"
           }
         }
       }
@@ -1142,8 +1145,8 @@
         "tags": [
           "Chanel"
         ],
-        "summary": "Logout",
-        "description": "destroy the token",
+        "summary": "Destroy applicant JWT credential",
+        "description": "Destroy applicant JWT credential",
         "parameters": [
           {
             "name": "X-Refresh-Token",
@@ -1158,122 +1161,16 @@
           "202": {
             "description": "Accepted"
           },
+          "400": {
+            "description": "Missing authorization header"
+          },
           "403": {
-            "description": "Bad request(incorrect token)"
+            "description": "Incorrect refresh token"
           }
         }
       }
     },
-    "/service/token": {
-      "post": {
-        "tags": [
-          "Chanel"
-        ],
-        "summary": "Create service token",
-        "description": "Create service token",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "required": [
-                  "email",
-                  "password"
-                ],
-                "properties": {
-                  "email": {
-                    "type": "string",
-                    "example": "by09115@jaehoon.kim",
-                    "description": "user email"
-                  },
-                  "password": {
-                    "type": "string",
-                    "example": "thisIsP@ssword",
-                    "description": "user password"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "Login successed",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "access": {
-                      "type": "string",
-                      "example": "ThIsIs.TrUlY.AcCeSsToKeN"
-                    },
-                    "refresh": {
-                      "type": "string",
-                      "example": "ThIsIs.TrUlY.ReFrEsHtOkEn"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Bad request"
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "Chanel"
-        ],
-        "summary": "Destroy service token",
-        "description": "기존에 사용중이던 토큰 파기",
-        "parameters": [
-          {
-            "name": "Authorization",
-            "in": "header",
-            "description": "(e.g. \"Bearer {token}\")",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "successfuly destroyed the token"
-          },
-          "403": {
-            "description": "incorrect token"
-          }
-        }
-      },
-      "patch": {
-        "tags": [
-          "Chanel"
-        ],
-        "summary": "Refresh service token",
-        "description": "토큰 재발급",
-        "parameters": [
-          {
-            "name": "Authorization",
-            "in": "header",
-            "description": "refresh token (e.g. \"Bearer {token}\")",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "successfuly refreshed"
-          },
-          "403": {
-            "description": "incorrect token"
-          }
-        }
-      }
-    },
-    "/password-reset": {
+    "/password/reset": {
       "put": {
         "tags": [
           "Chanel"
