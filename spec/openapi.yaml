@@ -648,12 +648,13 @@ paths:
           description: File upload success
         401:
           description: Authentication failed
-  '/sign-up':
+  
+  /signup:
     post:
       tags:
         - Chanel
       summary: Sign up
-      description: Create a temporary user and `verification_code`, and email the link with that code.
+      description: Create a temporary user and `verification_code`, and send email the link with that code.
       requestBody:
         content:
           application/json:
@@ -673,17 +674,17 @@ paths:
                   description: user password
       responses:
         '202':
-          description: account has created
+          description: E-mail sent, temp user created
         '400':
-          description: bad request
+          description: Bad request
         '409':
-          description: conflict
-  '/sign-up/verify':
+          description: Conflict
+  /signup/verify:
     get:
       tags:
         - Chanel
-      summary: Check validation code
-      description: It will be used to validate that tokens issued for email verification (e.g. /sign-up/verify?code={{code}})
+      summary: Verify user
+      description: Verify user by verification code that sent with e-mail
       parameters:
         - name: code
           in: query
@@ -692,15 +693,16 @@ paths:
             type: string
       responses:
         '200':
-          description: O.K.
-        '400':
-          description: incorrect validate code
-  '/login':
+          description: Account has been verified
+        '401':
+          description: Incorrect verification code
+  
+  /login:
     post:
       tags:
         - Chanel
-      summary: Login
-      description: Check user's info for Authentication. - PUBLIC ONLY
+      summary: Create applicant's JWT credential
+      description: Get applicant's JWT credential by check applicant info
       requestBody:
         content:
           application/json:
@@ -713,13 +715,13 @@ paths:
                 email:
                   type: string
                   example: by09115@jaehoon.kim
-                  description: user email
+                  description: applicant email
                 password:
                   type: string
                   example: thisIsP@ssword
-                  description: user password
+                  description: applicant password
       responses:
-        '201':
+        201:
           description: Login successed
           content:
             application/json:
@@ -732,14 +734,16 @@ paths:
                   refresh:
                     type: string
                     example: "ThIsIs.TrUlY.ReFrEsHtOkEn"
-        '403':
-          description: Bad request
-  '/refresh':
+        400:
+          description: Bad Request
+        403:
+          description: Can not find match applicant info
+  /refresh:
     patch:
       tags:
         - Chanel
-      summary: Refresh the token
-      description: refresh the token - PUBLIC ONLY
+      summary: Refresh applicant JWT credential
+      description: Refresh applicant JWT credential
       parameters:
         - name: 'X-Refresh-Token'
           in: header
@@ -748,7 +752,7 @@ paths:
             type: string
       responses:
         '201':
-          description: successfuly refreshed
+          description: Successfuly refreshed
           content:
             application/json:
               schema:
@@ -757,14 +761,14 @@ paths:
                   access:
                     type: string
                     example: "{{ access token }}"
-        '403':
-          description: incorrect token
-  '/logout':
+        400:
+          description: Incorrect refresh token or Missing header
+  /logout:
     delete:
       tags:
         - Chanel
-      summary: Logout
-      description: destroy the token
+      summary: Destroy applicant JWT credential
+      description: Destroy applicant JWT credential
       parameters:
         - name: 'X-Refresh-Token'
           in: header
@@ -772,83 +776,13 @@ paths:
           schema:
             type: string
       responses:
-        '202':
+        202:
           description: Accepted
-        '403':
-          description: Bad request(incorrect token)
-  '/service/token':
-    post:
-      tags:
-        - Chanel
-      summary: Create service token
-      description: Create service token
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - email
-                - password
-              properties:
-                email:
-                  type: string
-                  example: by09115@jaehoon.kim
-                  description: user email
-                password:
-                  type: string
-                  example: thisIsP@ssword
-                  description: user password
-      responses:
-        '201':
-          description: Login successed
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  access:
-                    type: string
-                    example: "ThIsIs.TrUlY.AcCeSsToKeN"
-                  refresh:
-                    type: string
-                    example: "ThIsIs.TrUlY.ReFrEsHtOkEn"
-        '403':
-          description: Bad request
-    delete:
-      tags:
-        - Chanel
-      summary: Destroy service token
-      description: 기존에 사용중이던 토큰 파기
-      parameters:
-        - name: 'Authorization'
-          in: header
-          description: (e.g. "Bearer {token}")
-          schema:
-            type: string
-      responses:
-        '204':
-          description: successfuly destroyed the token
-        '403':
-          description: incorrect token
-    patch:
-      tags:
-        - Chanel
-      summary: Refresh service token
-      description: 토큰 재발급
-      parameters:
-        - name: 'Authorization'
-          in: header
-          description: refresh token (e.g. "Bearer {token}")
-          schema:
-            type: string
-      responses:
-        '201':
-          description: successfuly refreshed
-        '403':
-          description: incorrect token
-
-  /password-reset:
+        400:
+          description: Missing authorization header
+        403:
+          description: Incorrect refresh token
+  /password/reset:
     put:
       tags:
         - Chanel
@@ -893,7 +827,7 @@ paths:
           description: Email sent
         404:
           description: Applicant not found
-
+  
 components:
   securitySchemes:
     Public:
