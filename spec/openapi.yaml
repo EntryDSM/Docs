@@ -644,9 +644,9 @@ paths:
           description: Query succeess
           content:
             application/json:
-              type: object
-              properties:
-                schema:
+              schema:
+                type: object
+                properties:
                   is_paid:
                     type: boolean
                     example: false
