@@ -667,6 +667,8 @@ paths:
                     example: 124533
         '401':
           description: Authentication failed
+        '404':
+          description: Applicant not found
     patch:
       tags:
         - Hermes
