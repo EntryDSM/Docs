@@ -656,14 +656,16 @@ paths:
                     example: 1
                   exam_code:
                     type: string
-                    example: null
+                    example: 124533
         '401':
           description: Authentication failed
+        '404':
+          description: Applicant not found
     patch:
       tags:
         - Hermes
-      summary: Patch one applicant
-      description: Patch one applicant
+      summary: Patch one applicant's status
+      description: Patch one applicant's status
       security:
         - Service: []
       requestBody:
@@ -672,46 +674,21 @@ paths:
             schema:
               type: object
               properties:
-                password:
+                is_paid:
+                  type: boolean
+                  example: false
+                is_passed_first_apply:
+                  type: boolean
+                  example: false
+                is_printed_application_arrived:
+                  type: boolean
+                  example: false
+                is_final_submit:
+                  type: boolean
+                  example: false
+                exam_code:
                   type: string
-                  example: p@ssword
-                  description: password will changed
-                applicant_name:
-                  type: string
-                  example: 홍길동
-                  description: name
-                sex:
-                  type: string
-                  example: MALE
-                  description: one of `MALE` and `FEMALE`
-                birth_date:
-                  type: string
-                  example: 2019-06-08T00:00:00.000Z
-                  description: birth date
-                parent_name:
-                  type: string
-                  example: 홍판서
-                  description: applicnat's parent name
-                parent_tel:
-                  type: string
-                  example: 010-1234-5678
-                  description: parent tel
-                applicant_tel:
-                  type: string
-                  example: 010-1234-5678
-                  description: applicant tel
-                address:
-                  type: string
-                  example: 경기도 용인시 기흥구 구성 3로 65
-                  description: address
-                post_code:
-                  type: string
-                  example: 17002
-                  description: post code
-                image_path:
-                  type: string
-                  example: eee824f7ff5f48d7b1bef0de68627726
-                  description: 'request like this, "cdn.entrydsm.hs.kr" + {image_path}'
+                  example: 124533
       responses:
         '200':
           description: Patch success
@@ -720,46 +697,24 @@ paths:
               schema:
                 type: object
                 properties:
-                  email:
+                  is_paid:
+                    type: boolean
+                    example: false
+                  is_passed_first_apply:
+                    type: boolean
+                    example: false
+                  is_printed_application_arrived:
+                    type: boolean
+                    example: false
+                  is_final_submit:
+                    type: boolean
+                    example: false
+                  receipt_code:
+                    type: integer
+                    example: 1
+                  exam_code:
                     type: string
-                    example: entry@entrydsm.hs.kr
-                    description: email
-                  applicant_name:
-                    type: string
-                    example: 홍길동
-                    description: name
-                  sex:
-                    type: string
-                    example: MALE
-                    description: one of `MALE` and `FEMALE`
-                  birth_date:
-                    type: string
-                    example: 2019-06-08T00:00:00.000Z
-                    description: birth date
-                  parent_name:
-                    type: string
-                    example: 홍판서
-                    description: applicnat's parent name
-                  parent_tel:
-                    type: string
-                    example: 010-1234-5678
-                    description: parent tel
-                  applicant_tel:
-                    type: string
-                    example: 010-1234-5678
-                    description: applicant tel
-                  address:
-                    type: string
-                    example: 경기도 용인시 기흥구 구성 3로 65
-                    description: address
-                  post_code:
-                    type: string
-                    example: 17002
-                    description: post code
-                  image_path:
-                    type: string
-                    example: eee824f7ff5f48d7b1bef0de68627726
-                    description: 'request like this, "cdn.entrydsm.hs.kr" +   {image_path}'
+                    example: 124533
         '400':
           description: Wrong data type
         '401':
@@ -872,6 +827,42 @@ paths:
       responses:
         '200':
           description: Patch success
+        '401':
+          description: Authentication failed
+  /applicant/me/status:
+    get:
+      tags:
+        - Hermes
+      summary: Get my applicant's status
+      description: 'Get my applicant''s status. Gateway trnas-request this to `GET /applicant/{email}` with given JWT credential'
+      security:
+        - Applicant: []
+      responses:
+        '200':
+          description: Query succeess
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  is_paid:
+                    type: boolean
+                    example: false
+                  is_passed_first_apply:
+                    type: boolean
+                    example: false
+                  is_printed_application_arrived:
+                    type: boolean
+                    example: false
+                  is_final_submit:
+                    type: boolean
+                    example: false
+                  receipt_code:
+                    type: integer
+                    example: 1
+                  exam_code:
+                    type: string
+                    example: 124533
         '401':
           description: Authentication failed
   /applicant/me/photo:
