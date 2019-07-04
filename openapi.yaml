@@ -229,7 +229,7 @@ paths:
     get:
       tags:
         - Hermes
-      summary: Get my admin info
+      summary: Get my admin info - GATEWAY ONLY
       description: 'Get my admin info, Gateway trnas-request this to `/admin{admin_id}` with given JWT credential'
       security:
         - Admin: []
@@ -725,7 +725,7 @@ paths:
     get:
       tags:
         - Hermes
-      summary: Get my applicant info
+      summary: Get my applicant info - GATEWAY ONLY
       description: 'Get my applicant info, Gateway trnas-request this to `GET /applicant/{email}` with given JWT credential'
       security:
         - Applicant: []
@@ -782,7 +782,7 @@ paths:
     patch:
       tags:
         - Hermes
-      summary: Patch my applicant info
+      summary: Patch my applicant info - GATEWAY ONLY
       description: 'Patch my applicant info, Gateway trnas-request this to `PATCH /applicant/{email}` with given JWT credential'
       security:
         - Applicant: []
@@ -833,7 +833,7 @@ paths:
     get:
       tags:
         - Hermes
-      summary: Get my applicant's status
+      summary: Get my applicant's status - GATEWAY ONLY
       description: 'Get my applicant''s status. Gateway trnas-request this to `GET /applicant/{email}` with given JWT credential'
       security:
         - Applicant: []
@@ -869,7 +869,7 @@ paths:
     put:
       tags:
         - Hermes
-      summary: Change my applicnat photo
+      summary: Change my applicnat photo - GATEWAY ONLY
       description: 'Change my applicnat photo, this uploads your photo to cdn and save image patho with `PATCH`/applicant/{email}'
       security:
         - Applicant: []
@@ -1143,7 +1143,7 @@ paths:
     get:
       tags:
         - Louis-Vuitton
-      summary: Get my classification info
+      summary: Get my classification info - GATEWAY ONLY
       description: Get my classification info
       security:
         - Service: []
@@ -1178,7 +1178,7 @@ paths:
     patch:
       tags:
         - Louis-Vuitton
-      summary: Patch my classification info
+      summary: Patch my classification info - GATEWAY ONLY
       description: Patch my classification info
       requestBody:
         content:
@@ -1266,7 +1266,7 @@ paths:
     get:
       tags:
         - Louis-Vuitton
-      summary: Get my document
+      summary: Get my document - GATEWAY ONLY
       description: Get my document
       security:
         - Applicant: []
@@ -1287,7 +1287,7 @@ paths:
     post:
       tags:
         - Louis-Vuitton
-      summary: Patch my document
+      summary: Patch my document - GATEWAY ONLY
       description: Patch my document
       requestBody:
         content:
