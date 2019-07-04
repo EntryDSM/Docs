@@ -1599,6 +1599,390 @@
           }
         }
       }
+    },
+    "/applicant/{email}/classification": {
+      "parameters": [
+        {
+          "name": "email",
+          "in": "path",
+          "description": "applicant email",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "get": {
+        "tags": [
+          "Louis-Vuitton"
+        ],
+        "summary": "Get applicant classification info",
+        "description": "Get applicant classification info",
+        "security": [
+          {
+            "Service": []
+          },
+          {
+            "Admin": []
+          },
+          {
+            "RootAdmin": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Query success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "is_ged": {
+                      "type": "boolean",
+                      "nullable": true
+                    },
+                    "apply_type": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "social_detail_type": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "is_daejeon": {
+                      "type": "boolean",
+                      "nullable": true
+                    },
+                    "is_graduated": {
+                      "type": "boolean",
+                      "nullable": true
+                    },
+                    "additional_type": {
+                      "type": "boolean",
+                      "nullable": true
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Louis-Vuitton"
+        ],
+        "summary": "Patch applicant classification info",
+        "description": "Patch applicant classification info",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "is_ged": {
+                    "type": "boolean",
+                    "nullable": true
+                  },
+                  "apply_type": {
+                    "type": "string",
+                    "nullable": true
+                  },
+                  "social_detail_type": {
+                    "type": "string",
+                    "nullable": true
+                  },
+                  "is_daejeon": {
+                    "type": "boolean",
+                    "nullable": true
+                  },
+                  "is_graduated": {
+                    "type": "boolean",
+                    "nullable": true
+                  },
+                  "additional_type": {
+                    "type": "boolean",
+                    "nullable": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Patch success"
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/applicant/me/classification": {
+      "get": {
+        "tags": [
+          "Louis-Vuitton"
+        ],
+        "summary": "Get my classification info",
+        "description": "Get my classification info",
+        "security": [
+          {
+            "Service": []
+          },
+          {
+            "Admin": []
+          },
+          {
+            "RootAdmin": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Query success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "is_ged": {
+                      "type": "boolean",
+                      "nullable": true
+                    },
+                    "apply_type": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "social_detail_type": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "is_daejeon": {
+                      "type": "boolean",
+                      "nullable": true
+                    },
+                    "is_graduated": {
+                      "type": "boolean",
+                      "nullable": true
+                    },
+                    "additional_type": {
+                      "type": "boolean",
+                      "nullable": true
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Louis-Vuitton"
+        ],
+        "summary": "Patch my classification info",
+        "description": "Patch my classification info",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "is_ged": {
+                    "type": "boolean",
+                    "nullable": true
+                  },
+                  "apply_type": {
+                    "type": "string",
+                    "nullable": true
+                  },
+                  "social_detail_type": {
+                    "type": "string",
+                    "nullable": true
+                  },
+                  "is_daejeon": {
+                    "type": "boolean",
+                    "nullable": true
+                  },
+                  "is_graduated": {
+                    "type": "boolean",
+                    "nullable": true
+                  },
+                  "additional_type": {
+                    "type": "boolean",
+                    "nullable": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Patch success"
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/applicant/{email}/document": {
+      "parameters": [
+        {
+          "name": "email",
+          "in": "path",
+          "description": "applicant email",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "get": {
+        "tags": [
+          "Louis-Vuitton"
+        ],
+        "summary": "Get applicant document",
+        "description": "Get applicant document",
+        "security": [
+          {
+            "Service": []
+          },
+          {
+            "RootAdmin": []
+          },
+          {
+            "Admin": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Query success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "self_introduction_text": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "study_plan_text": {
+                      "type": "string",
+                      "nullable": true
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Louis-Vuitton"
+        ],
+        "summary": "Patch applicant document",
+        "description": "Patch applicant document",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "self_introduction_text": {
+                    "type": "string",
+                    "nullable": true
+                  },
+                  "study_plan_text": {
+                    "type": "string",
+                    "nullable": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Patch success"
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/applicant/me/document": {
+      "get": {
+        "tags": [
+          "Louis-Vuitton"
+        ],
+        "summary": "Get my document",
+        "description": "Get my document",
+        "security": [
+          {
+            "Applicant": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Query success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "self_introduction_text": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "study_plan_text": {
+                      "type": "string",
+                      "nullable": true
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Louis-Vuitton"
+        ],
+        "summary": "Patch my document",
+        "description": "Patch my document",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "self_introduction_text": {
+                    "type": "string",
+                    "nullable": true
+                  },
+                  "study_plan_text": {
+                    "type": "string",
+                    "nullable": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Patch success"
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
     }
   },
   "components": {
