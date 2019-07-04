@@ -120,16 +120,20 @@ paths:
                     admin_id:
                       type: string
                       example: entry2019root
+                      nullable: true
                     admin_email:
                       type: string
                       example: entry@entrydsm.hs.kr
+                      nullable: true
                     admin_name:
                       type: string
                       example: 연준모
+                      nullable: true
                     admin_type:
                       type: string
                       example: ROOT
                       description: 'one of `ROOT`, `ADMINISTRATION`, `INTERVIEW`'
+                      nullable: true
         '401':
           description: Authentication failed
   '/admin/{admin_id}':
@@ -191,18 +195,22 @@ paths:
                   type: string
                   example: entry@entrydsm.hs.kr
                   description: admin email
+                  nullable: true
                 admin_name:
                   type: string
                   example: 연준모
                   description: admin name
+                  nullable: true
                 admin_password:
                   type: string
                   example: p@assword
                   description: admin password
+                  nullable: true
                 admin_type:
                   type: string
                   example: admin type
                   description: 'admin type, one of `ROOT`, `ADMINISTRATION`, `INTERVIEW`'
+                  nullable: true
       responses:
         '200':
           description: Patch success
@@ -225,6 +233,36 @@ paths:
           description: Authentication failed
         '404':
           description: Admin not found
+  '/admin/{admin_id}/authorization':
+    parameters:
+      - name: admin_id
+        in: path
+        description: admin id
+        required: true
+        schema:
+          type: string
+    post:
+      tags:
+        - Hermes
+      description: Get authorty of admin login
+      summary: Get authority of admin login
+      security:
+        - Service: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                password:
+                  type: string
+      responses:
+        '200':
+          description: Authorized
+        '400':
+          description: Bad request
+        '403':
+          description: Authorization failed
   /admin/me:
     get:
       tags:
@@ -390,38 +428,47 @@ paths:
                     applicant_name:
                       type: string
                       example: 홍길동
+                      nullable: true
                     sex:
                       type: string
                       example: MALE
                       description: one of `MALE` and `FEMALE`
+                      nullable: true
                     birth_date:
                       type: string
                       example: 2019-06-08T00:00:00.000Z
                       description: birth date
+                      nullable: true
                     parent_name:
                       type: string
                       example: 홍판서
                       description: applicnat's parent name
+                      nullable: true
                     parent_tel:
                       type: string
                       example: 010-1234-5678
                       description: parent tel
+                      nullable: true
                     applicant_tel:
                       type: string
                       example: 010-1234-5678
                       description: applicant tel
+                      nullable: true
                     address:
                       type: string
                       example: 경기도 용인시 기흥구 구성 3로 65
                       description: address
+                      nullable: true
                     post_code:
                       type: string
                       example: 17002
                       description: post code
+                      nullable: true
                     image_path:
                       type: string
                       example: eee824f7ff5f48d7b1bef0de68627726
                       description: 'request like this, "cdn.entrydsm.hs.kr" + {image_path}'
+                      nullable: true
         '401':
           description: Authentication failed
   '/applicant/{email}':
@@ -457,38 +504,47 @@ paths:
                     type: string
                     example: 홍길동
                     description: name
+                    nullable: true
                   sex:
                     type: string
                     example: MALE
                     description: one of `MALE` and `FEMALE`
+                    nullable: true
                   birth_date:
                     type: string
                     example: 2019-06-08T00:00:00.000Z
                     description: birth date
+                    nullable: true
                   parent_name:
                     type: string
                     example: 홍판서
                     description: applicnat's parent name
+                    nullable: true
                   parent_tel:
                     type: string
                     example: 010-1234-5678
                     description: parent tel
+                    nullable: true
                   applicant_tel:
                     type: string
                     example: 010-1234-5678
                     description: applicant tel
+                    nullable: true
                   address:
                     type: string
                     example: 경기도 용인시 기흥구 구성 3로 65
                     description: address
+                    nullable: true
                   post_code:
                     type: string
                     example: 17002
                     description: post code
+                    nullable: true
                   image_path:
                     type: string
                     example: eee824f7ff5f48d7b1bef0de68627726
                     description: 'request like this, "cdn.entrydsm.hs.kr" + {image_path}'
+                    nullable: true
         '401':
           description: Authentication failed
     patch:
@@ -508,42 +564,52 @@ paths:
                   type: string
                   example: p@ssword
                   description: password will changed
+                  nullable: true
                 applicant_name:
                   type: string
                   example: 홍길동
                   description: name
+                  nullable: true
                 sex:
                   type: string
                   example: MALE
                   description: one of `MALE` and `FEMALE`
+                  nullable: true
                 birth_date:
                   type: string
                   example: 2019-06-08T00:00:00.000Z
                   description: birth date
+                  nullable: true
                 parent_name:
                   type: string
                   example: 홍판서
                   description: applicnat's parent name
+                  nullable: true
                 parent_tel:
                   type: string
                   example: 010-1234-5678
                   description: parent tel
+                  nullable: true
                 applicant_tel:
                   type: string
                   example: 010-1234-5678
                   description: applicant tel
+                  nullable: true
                 address:
                   type: string
                   example: 경기도 용인시 기흥구 구성 3로 65
                   description: address
+                  nullable: true
                 post_code:
                   type: string
                   example: 17002
                   description: post code
+                  nullable: true
                 image_path:
                   type: string
                   example: eee824f7ff5f48d7b1bef0de68627726
                   description: 'request like this, "cdn.entrydsm.hs.kr" + {image_path}'
+                  nullable: true
       responses:
         '200':
           description: Patch success
@@ -560,38 +626,47 @@ paths:
                     type: string
                     example: 홍길동
                     description: name
+                    nullable: true
                   sex:
                     type: string
                     example: MALE
                     description: one of `MALE` and `FEMALE`
+                    nullable: true
                   birth_date:
                     type: string
                     example: 2019-06-08T00:00:00.000Z
                     description: birth date
+                    nullable: true
                   parent_name:
                     type: string
                     example: 홍판서
                     description: applicnat's parent name
+                    nullable: true
                   parent_tel:
                     type: string
                     example: 010-1234-5678
                     description: parent tel
+                    nullable: true
                   applicant_tel:
                     type: string
                     example: 010-1234-5678
                     description: applicant tel
+                    nullable: true
                   address:
                     type: string
                     example: 경기도 용인시 기흥구 구성 3로 65
                     description: address
+                    nullable: true
                   post_code:
                     type: string
                     example: 17002
                     description: post code
+                    nullable: true
                   image_path:
                     type: string
                     example: eee824f7ff5f48d7b1bef0de68627726
                     description: 'request like this, "cdn.entrydsm.hs.kr" +   {image_path}'
+                    nullable: true
         '400':
           description: Wrong data type
         '401':
@@ -657,6 +732,7 @@ paths:
                   exam_code:
                     type: string
                     example: 124533
+                    nullable: true
         '401':
           description: Authentication failed
         '404':
@@ -677,18 +753,23 @@ paths:
                 is_paid:
                   type: boolean
                   example: false
+                  nullable: true
                 is_passed_first_apply:
                   type: boolean
                   example: false
+                  nullable: true
                 is_printed_application_arrived:
                   type: boolean
                   example: false
+                  nullable: true
                 is_final_submit:
                   type: boolean
                   example: false
+                  nullable: true
                 exam_code:
                   type: string
                   example: 124533
+                  nullable: true
       responses:
         '200':
           description: Patch success
@@ -715,12 +796,43 @@ paths:
                   exam_code:
                     type: string
                     example: 124533
+                    nullable: true
         '400':
           description: Wrong data type
         '401':
           description: Authentication failed
         '404':
           description: Applicant not found
+  '/applicant/{email}/authorization':
+    parameters:
+      - name: email
+        in: path
+        description: applicant email
+        required: true
+        schema:
+          type: string
+    post:
+      tags:
+        - Hermes
+      description: Get authorty of applicant login
+      summary: Get authority of applicant login
+      security:
+        - Service: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                password:
+                  type: string
+      responses:
+        '200':
+          description: Authorized
+        '400':
+          description: Bad request
+        '403':
+          description: Authorization failed
   /applicant/me:
     get:
       tags:
@@ -745,38 +857,47 @@ paths:
                     type: string
                     example: 홍길동
                     description: name
+                    nullable: true
                   sex:
                     type: string
                     example: MALE
                     description: one of `MALE` and `FEMALE`
+                    nullable: true
                   birth_date:
                     type: string
                     example: 2019-06-08T00:00:00.000Z
                     description: birth date
+                    nullable: true
                   parent_name:
                     type: string
                     example: 홍판서
                     description: applicnat's parent name
+                    nullable: true
                   parent_tel:
                     type: string
                     example: 010-1234-5678
                     description: parent tel
+                    nullable: true
                   applicant_tel:
                     type: string
                     example: 010-1234-5678
                     description: applicant tel
+                    nullable: true
                   address:
                     type: string
                     example: 경기도 용인시 기흥구 구성 3로 65
                     description: address
+                    nullable: true
                   post_code:
                     type: string
                     example: 17002
                     description: post code
+                    nullable: true
                   image_path:
                     type: string
                     example: eee824f7ff5f48d7b1bef0de68627726
                     description: 'request like this, "cdn.entrydsm.hs.kr" + {image_path}'
+                    nullable: true
         '401':
           description: Authentication failed
     patch:
@@ -796,34 +917,42 @@ paths:
                   type: string
                   example: 홍길동
                   description: name
+                  nullable: true
                 sex:
                   type: string
                   example: MALE
                   description: one of `MALE` and `FEMALE`
+                  nullable: true
                 birth_date:
                   type: string
                   example: 2019-06-08T00:00:00.000Z
                   description: birth date
+                  nullable: true
                 parent_name:
                   type: string
                   example: 홍판서
                   description: applicnat's parent name
+                  nullable: true
                 parent_tel:
                   type: string
                   example: 010-1234-5678
                   description: parent tel
+                  nullable: true
                 applicant_tel:
                   type: string
                   example: 010-1234-5678
                   description: applicant tel
+                  nullable: true
                 address:
                   type: string
                   example: 경기도 용인시 기흥구 구성 3로 65
                   description: address
+                  nullable: true
                 post_code:
                   type: string
                   example: 17002
                   description: post code
+                  nullable: true
       responses:
         '200':
           description: Patch success
@@ -863,6 +992,7 @@ paths:
                   exam_code:
                     type: string
                     example: 124533
+                    nullable: true
         '401':
           description: Authentication failed
   /applicant/me/photo:
