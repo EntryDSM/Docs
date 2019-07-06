@@ -269,7 +269,7 @@ paths:
           description: Authorization failed
         400:
           description: Bad request
-          
+
   /admin/me:
     get:
       tags:
@@ -841,7 +841,7 @@ paths:
           description: Authorization failed
         400:
           description: Bad request
-      
+
 
   /applicant/me:
     get:
@@ -1025,7 +1025,7 @@ paths:
           description: File upload success
         401:
           description: Authentication failed
-  
+
   /signup:
     post:
       tags:
@@ -1073,7 +1073,7 @@ paths:
           description: Account has been verified
         '401':
           description: Incorrect verification code
-  
+
   /login:
     post:
       tags:
@@ -1159,6 +1159,91 @@ paths:
           description: Missing authorization header
         403:
           description: Incorrect refresh token
+  /admin/login:
+    post:
+      tags:
+        - Chanel
+      summary: Create admin's JWT credential
+      description: Get admin's JWT credential by check admin info
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                  example: by09115@jaehoon.kim
+                  description: admin email
+                password:
+                  type: string
+                  example: thisIsP@ssword
+                  description: admin password
+      responses:
+        201:
+          description: Login successed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  access:
+                    type: string
+                    example: "ThIsIs.TrUlY.AcCeSsToKeN"
+                  refresh:
+                    type: string
+                    example: "ThIsIs.TrUlY.ReFrEsHtOkEn"
+        400:
+          description: Bad Request
+        403:
+          description: Can not find match admin info
+  /admin/refresh:
+    patch:
+      tags:
+        - Chanel
+      summary: Refresh admin's JWT credential
+      description: Refresh admin's JWT credential
+      parameters:
+        - name: 'X-Refresh-Token'
+          in: header
+          description: (e.g. "Bearer {token}")
+          schema:
+            type: string
+      responses:
+        '201':
+          description: Successfuly refreshed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  access:
+                    type: string
+                    example: "{{ access token }}"
+        '400':
+          description: Incorrect refresh token or Missing header
+  /admin/logout:
+    delete:
+      tags:
+        - Chanel
+      summary: Destroy admin's JWT credential
+      description: Destroy admin's JWT credential
+      parameters:
+        - name: 'X-Refresh-Token'
+          in: header
+          description: (e.g. "Bearer {token}")
+          schema:
+            type: string
+      responses:
+        202:
+          description: Accepted
+        400:
+          description: Missing authorization header
+        403:
+          description: Incorrect refresh token
   /password/reset:
     put:
       tags:
@@ -1204,7 +1289,7 @@ paths:
           description: Email sent
         404:
           description: Applicant not found
-  
+
   /applicant/{email}/classification:
     parameters:
       - name: email
@@ -1451,7 +1536,7 @@ paths:
         400:
           description: Bad request
 
-  
+
 components:
   securitySchemes:
     Public:
