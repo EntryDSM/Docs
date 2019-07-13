@@ -1159,13 +1159,13 @@ paths:
             schema:
               type: object
               required:
-                - email
+                - admin_id
                 - password
               properties:
                 email:
                   type: string
-                  example: by09115@jaehoon.kim
-                  description: admin email
+                  example: by09115
+                  description: admin id
                 password:
                   type: string
                   example: thisIsP@ssword
