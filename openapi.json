@@ -2285,6 +2285,507 @@
           }
         }
       }
+    },
+    "/stats/competition": {
+      "get": {
+        "tags": [
+          "Rolex"
+        ],
+        "summary": "Get competition rate of region(daejeon or nation)",
+        "description": "Get competition rate of region(daejeon or nation). get region by query.",
+        "security": [
+          {
+            "Admin": []
+          },
+          {
+            "RootAdmin": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "region",
+            "in": "query",
+            "example": "daejeon",
+            "description": "daejeon or region",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Query succeess",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "rate": {
+                      "type": "number",
+                      "example": 187
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication failed"
+          }
+        }
+      }
+    },
+    "/stats/applicant": {
+      "get": {
+        "tags": [
+          "Rolex"
+        ],
+        "summary": "Get Receipt status table information of applicant",
+        "description": "Get Receipt status table information of applicant",
+        "security": [
+          {
+            "Admin": []
+          },
+          {
+            "RootAdmin": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Query Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "daejeon": {
+                      "properties": {
+                        "meister": {
+                          "type": "number",
+                          "example": 10
+                        },
+                        "social": {
+                          "type": "number",
+                          "example": 11
+                        },
+                        "common": {
+                          "type": "number",
+                          "example": 53
+                        }
+                      }
+                    },
+                    "nation": {
+                      "properties": {
+                        "meister": {
+                          "type": "number",
+                          "example": 25
+                        },
+                        "social": {
+                          "type": "number",
+                          "example": 17
+                        },
+                        "common": {
+                          "type": "number",
+                          "example": 104
+                        }
+                      }
+                    },
+                    "total": {
+                      "properties": {
+                        "daejeon": {
+                          "type": "number",
+                          "example": 74
+                        },
+                        "nation": {
+                          "type": "number",
+                          "example": 146
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/stats/rate": {
+      "get": {
+        "tags": [
+          "Rolex"
+        ],
+        "summary": "Get Receipt status table information of rate",
+        "description": "Get Receipt status table information of rate",
+        "security": [
+          {
+            "Admin": []
+          },
+          {
+            "RootAdmin": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Query Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "daejeon": {
+                      "properties": {
+                        "meister": {
+                          "type": "string",
+                          "example": "1:1"
+                        },
+                        "social": {
+                          "type": "string",
+                          "example": "2.8:1"
+                        },
+                        "common": {
+                          "type": "string",
+                          "example": "2.9:1"
+                        }
+                      }
+                    },
+                    "nation": {
+                      "properties": {
+                        "meister": {
+                          "type": "string",
+                          "example": "1.8:1"
+                        },
+                        "social": {
+                          "type": "string",
+                          "example": "4:1"
+                        },
+                        "common": {
+                          "type": "string",
+                          "example": "4.9:1"
+                        }
+                      }
+                    },
+                    "total": {
+                      "properties": {
+                        "daejeon": {
+                          "type": "string",
+                          "example": "2.3:1"
+                        },
+                        "nation": {
+                          "type": "string",
+                          "example": "3:1"
+                        },
+                        "all": {
+                          "type": "string",
+                          "example": "2.75:1"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/student": {
+      "get": {
+        "tags": [
+          "Rolex"
+        ],
+        "summary": "Get multiple applicants",
+        "description": "Get mutiple applicants information for make list of student. Set search option by querystring",
+        "security": [
+          {
+            "Admin": []
+          },
+          {
+            "RootAdmin": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "description": "applicant name",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "region",
+            "in": "query",
+            "description": "applicant region, must be one of `daejeon` and `nation`",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "description": "applicant type, must be one of `common` and `meister` and `social`",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "applicant status (bitflag), `11` - 원서 결제 ok, `10` - 원서 ok, `01` - 결제 ok",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Query Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "code": {
+                        "type": "string",
+                        "example": "1234"
+                      },
+                      "name": {
+                        "type": "string",
+                        "example": "홍길동"
+                      },
+                      "region": {
+                        "type": "string",
+                        "example": "nation"
+                      },
+                      "type": {
+                        "type": "string",
+                        "example": "social"
+                      },
+                      "arrive": {
+                        "type": "number",
+                        "example": 1
+                      },
+                      "paid": {
+                        "type": "number",
+                        "example": 1
+                      },
+                      "submit": {
+                        "type": "number",
+                        "example": 1
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication failed"
+          }
+        }
+      }
+    },
+    "/student/{email}": {
+      "get": {
+        "tags": [
+          "Rolex"
+        ],
+        "summary": "Get Information of one student",
+        "description": "Get Detail Information of one student by applicant email",
+        "security": [
+          {
+            "Admin": []
+          },
+          {
+            "RootAdmin": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "email",
+            "in": "path",
+            "description": "applicant email",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Query Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "info": {
+                      "properties": {
+                        "name": {
+                          "type": "string",
+                          "example": "홍길동"
+                        },
+                        "image_path": {
+                          "type": "string",
+                          "example": "eee824f7ff5f48d7b1bef0de68627726"
+                        },
+                        "email": {
+                          "type": "string",
+                          "example": "entry@entrydsm.hs.kr"
+                        },
+                        "sex": {
+                          "type": "string",
+                          "example": "male"
+                        },
+                        "birth_date": {
+                          "type": "object",
+                          "example": {}
+                        },
+                        "parent_tel": {
+                          "type": "string",
+                          "example": "010-1234-5678"
+                        },
+                        "academic_tel": {
+                          "type": "string",
+                          "example": "070-123-456"
+                        }
+                      }
+                    },
+                    "score": {
+                      "properties": {
+                        "volunteer_time": {
+                          "type": "number",
+                          "example": 60
+                        },
+                        "full": {
+                          "type": "number",
+                          "example": 0
+                        },
+                        "period": {
+                          "type": "number",
+                          "example": 0
+                        },
+                        "late": {
+                          "type": "number",
+                          "example": 0
+                        },
+                        "leave": {
+                          "type": "number",
+                          "example": 0
+                        }
+                      }
+                    },
+                    "status": {
+                      "properties": {
+                        "arrive": {
+                          "type": "number",
+                          "example": 1
+                        },
+                        "paid": {
+                          "type": "number",
+                          "example": 0
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication failed"
+          }
+        }
+      }
+    },
+    "/student/{email}/document": {
+      "get": {
+        "tags": [
+          "Rolex"
+        ],
+        "summary": "Get Document of one student",
+        "description": "Get Detail Information of one student by applicant email",
+        "security": [
+          {
+            "Admin": []
+          },
+          {
+            "RootAdmin": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "email",
+            "in": "path",
+            "description": "applicant email",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Query Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "intro": {
+                      "type": "string",
+                      "example": "저는 000 입니다. 제가 이 학교 ~"
+                    },
+                    "plan": {
+                      "type": "string",
+                      "example": "저는 이 학교에서 000을 공부하고 ~"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/student/{email}/submit": {
+      "patch": {
+        "tags": [
+          "Rolex"
+        ],
+        "summary": "Cancel sumbit application",
+        "description": "Cancel sumbit application",
+        "security": [
+          {
+            "Admin": []
+          },
+          {
+            "RootAdmin": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "email",
+            "required": true,
+            "in": "path",
+            "description": "applicant email",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "sumbit cancel success"
+          },
+          "401": {
+            "description": "Authentication failed"
+          }
+        }
+      }
     }
   },
   "components": {
