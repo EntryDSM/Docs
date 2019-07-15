@@ -1535,12 +1535,15 @@ paths:
           description: Patch success
         400:
           description: Bad request
-  /competition:
+  /stats/competition:
     get:
       tags:
         - Rolex
       summary: Get competition rate of region(daejeon or nation)
       description: Get competition rate of region(daejeon or nation). get region by query.
+      security:
+        - Admin: []
+        - RootAdmin: []
       parameters:
         - name: region
           in: query
@@ -1562,12 +1565,15 @@ paths:
                 
         '401':
           description: Authentication failed
-  /table/applicant:
+  /stats/applicant:
     get:
       tags:
         - Rolex
       summary: Get Receipt status table information of applicant
       description: Get Receipt status table information of applicant
+      security:
+        - Admin: []
+        - RootAdmin: []
       responses:
         '200':
           description: Query Success
@@ -1606,12 +1612,15 @@ paths:
                         nation:
                           type: number
                           example: 146
-  /table/rate:
+  /stats/rate:
     get:
       tags:
         - Rolex
       summary: Get Receipt status table information of rate
       description: Get Receipt status table information of rate
+      security:
+        - Admin: []
+        - RootAdmin: []
       responses:
         '200':
           description: Query Success
@@ -1660,6 +1669,9 @@ paths:
         - Rolex
       summary: Get multiple applicants 
       description: Get mutiple applicants information for make list of student. Set search option by querystring
+      security:
+        - Admin: []
+        - RootAdmin: []
       parameters:
         - name: name
           in: query
@@ -1721,6 +1733,9 @@ paths:
         - Rolex
       summary: Get Information of one student
       description: Get Detail Information of one student by applicant email
+      security:
+        - Admin: []
+        - RootAdmin: []
       parameters:
       - name: email
         in: path
@@ -1787,12 +1802,15 @@ paths:
         '401':
           description: Authentication failed
 
-  /student/{email}:
+  /student/{email}/document:
     get:
       tags:
         - Rolex
       summary: Get Document of one student
       description: Get Detail Information of one student by applicant email
+      security:
+        - Admin: []
+        - RootAdmin: []
       parameters:
       - name: email
         in: path
@@ -1814,12 +1832,15 @@ paths:
                   plan:
                     type: string
                     example: "저는 이 학교에서 000을 공부하고 ~"
-  /submit/{email}:
+  /student/{email}/submit:
     patch:
       tags:
         - Rolex
       summary: Cancel sumbit application
       description: Cancel sumbit application
+      security:
+        - Admin: []
+        - RootAdmin: []
       parameters:
         - name: email
           required: true
