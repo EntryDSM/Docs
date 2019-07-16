@@ -1233,6 +1233,23 @@ paths:
         '403':
           description: Incorrect refresh token
   /password/reset:
+    get:
+      tags:
+        - Chanel
+      summary: check the verify code's exists
+      description: check the verify code
+      parameters:
+        - name: verify
+          in: query
+          example: d2_2dc
+          description: 6-digit verification code
+          schema:
+            type: string
+      responses:
+        '200':
+          description: code has verified
+        '404':
+          description: code isn't exist.
     put:
       tags:
         - Chanel
