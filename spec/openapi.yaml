@@ -1870,7 +1870,123 @@ paths:
           description: sumbit cancel success
         '401':
           description: Authentication failed
+  
+  /agency/cheak:
+    get:
+      tags:
+        - Yves-Saint-Laurent
+      summary: Check agency code
+      description: Check agency code
+      parameters: 
+        - name: code
+          in : query
+          example: ENTRY19
+          description: agency code
+          schema:
+            type: string
+      responses:
+        200:
+          description: check agency succese
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  agency_name:
+                    type: string
+                    example: "ENTRYDSM"
+        404:
+          description: unseen agency
+                  
+  /admin/{agency_code}/interviewer/accept: 
+    post:
+      tags:
+        - Yves-Saint-Laurent
+      summary: accept interviewer
+      description: acceptance of interviewer
+      parameters:
+      - name: agency_code
+        in: path
+        description: agency_code
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+             schema:
+               type: object
+               properties:
+                 user_email:
+                  type: string
+                  example: eunjuoi0515@gmail.com
+      responses:
+        200:
+          description: Successful interviewer accept
+        400:
+          description: Bad request
+          
+  /admin/{agency_code}/interviewer/reject:
+    post:
+      tags:
+        - Yves-Saint-Laurent
+      summary: reject interviewer
+      description: be rejected by the agency
+      parameters:
+      - name: agency_code
+        in: path
+        description: agency_code
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+             schema:
+               type: object
+               properties:
+                 user_email:
+                  type: string
+                  example: "eunjuoi0515@gmail.com"
+      responses:
+        200:
+          description: Successful interviewer reject
+        400:
+          description: Bad request
+  
+  /admin/{agency_code}/interviewer:
+    get:
+      tags:
+          - Yves-Saint-Laurent
+      summary: an applicant interviewer
+      description: an applicant interviewer list
+      parameters:
+        - name: agency_code
+          in: path
+          description: agency_code
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: applicant interviewer list
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  interviewer:
+                    type: array
+                    items:
+                      properties:
+                          interviwer_temper:
+                              type: string
+                              example: "대덕소프트웨어마이스터고등학교"
+                          interviewer_name:
+                              type: string
                               example: "이채은"
+  
+    
 
 components:
   securitySchemes:
