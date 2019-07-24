@@ -1895,6 +1895,9 @@ paths:
                   agency_name:
                     type: string
                     example: "ENTRYDSM"
+                  agnecy_explanation:
+                    type: string
+                    example: "학교입학전형을 만드는 엔트리 개발팀입니다."
         404:
           description: unseen agency
                   
@@ -1919,7 +1922,7 @@ paths:
                properties:
                  user_email:
                   type: string
-                  example: eunjuoi0515@gmail.com
+                  example: "eunjuoi0515@gmail.com"
       responses:
         200:
           description: Successful interviewer accept
@@ -1986,7 +1989,291 @@ paths:
                               type: string
                               example: "이채은"
   
+  /admin/{agency_code}:
+    delete:
+      tags:
+        - Yves-Saint-Laurent
+      summary: delete agency
+      description: delete agency
+      parameters:
+      - name: agency_code
+        in: path
+        description: agency_code
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: successful agency delete
+    get:
+      tags:
+      - Yves-Saint-Laurent
+      summary: get agency information
+      description: get agency information
+      parameters:
+      - name: agency_code
+        in: path
+        description: agency_code
+        required: true
+        schema:
+          type: string
+      responses:
+        200: 
+          description: get agency information
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  agency_name:
+                    type: string
+                    example: "DSM"
+                  agency_kind:
+                    type: string
+                    example: "학교/특수목적고등학교"
+                  agency_code:
+                    type: string
+                    example: "1EDOLW"
+  
+  /agency:
+    get:
+      tags:
+          - Yves-Saint-Laurent
+      summary: interviewer belonged agency
+      description: View the agency the interviewer subscribes to
+      responses:
+        200:
+          description: get interviewer belonged agency
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  agency:
+                    type: array
+                    items:
+                      properties:
+                          agency_name:
+                              type: string
+                              example: "Entry"
+  
+  /{agency_code}:
+    get:
+      tags:
+          - Yves-Saint-Laurent
+      summary: get an ongoing interview with an agency
+      description: get an ongoing interview with an agency
+      parameters:
+      - name: agency_code
+        in: path
+        description: agency_code
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: get ongoing interview
+          content:
+            application/json:
+                schema:
+                  type: object
+                  properties:
+                    interview:
+                      type: array
+                      items:
+                        properties:
+                            interview_name:
+                              type: string
+                              example: "대전일반전형면접"
+                            interivew_explanation:
+                              type: string
+                              example: "대전 일반 전형에 대한 면접입니다."
+  
+  /admin/{agency_code}/ready/interview:
+    get:
+      tags:
+          - Yves-Saint-Laurent
+      summary: get an ready interview list
+      description: get an ready interview list with an agency
+      parameters:
+      - name: agency_code
+        in: path
+        description: agency_code
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: get ready interview
+          content:
+            application/json:
+                schema:
+                  type: object
+                  properties:
+                    interview:
+                      type: array
+                      items:
+                        properties:
+                            interview_name:
+                              type: string
+                              example: "대전일반전형면접"
+                            interivew_explanation:
+                              type: string
+                              example: "대전 일반 전형에 대한 면접입니다."
+  
+  /{agency_code}/{interview_id}/{question_num}:
+    get:
+      tags:
+          - Yves-Saint-Laurent
+      summary: answer to interview question
+      description: answer to interview question
+      parameters:
+      - name: agency_code
+        in: path
+        description: agency_code
+        required: true
+        schema:
+          type: string
+      - name: interview_id
+        in: path
+        description: interivew_id
+        required: true
+        schema:
+          type: integer
+      - name: question_num
+        in: path
+        description: question_num
+        required: true
+        schema:
+          type: integer
+      responses:
+        200:
+          description: get interivew question 
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  question:
+                    type: string
+                    example: "간단하게 자기소개를 해주세요."
+                    
+  /{agency_code}/{interview_id}/{question_num}/{student_code}:
+    post:
+      tags:
+          - Yves-Saint-Laurent
+      summary: get interview question
+      description: create interview
+      parameters:
+      - name: agency_code
+        in: path
+        description: agency_code
+        required: true
+        schema:
+          type: string
+      - name: interview_id
+        in: path
+        description: interivew_id
+        required: true
+        schema:
+          type: integer
+      - name: question_num
+        in: path
+        description: question_num
+        required: true
+        schema:
+          type: integer
+      - name: student_code
+        in: path
+        description: student_code
+        required: true
+        schema:
+          type: integer
+      requestBody:
+        content:
+          application/json:
+             schema:
+               type: object
+               properties:
+                 answer:
+                  type: string
+                  example: "저는 부산에서자라~"
+      responses:
+        200:
+          description: Successful answer
     
+  /{agency_code}/{interview_id}:
+    get:
+      tags:
+          - Yves-Saint-Laurent
+      summary: search interviewee
+      description: search interviewee
+      parameters:
+      - name: agency_code
+        in: path
+        description: agency_code
+        required: true
+        schema:
+          type: string
+      - name: interview_id
+        in: path
+        description: interivew_id
+        required: true
+        schema:
+          type: integer
+      - name: interviewee
+        in: query
+        description: interviewee
+        required: true
+        schema:
+          type: integer
+      responses:
+        200: 
+          description: find interviewee
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  interviewee_name:
+                    type: string
+                    example: "오경태"
+        409:
+          description: already evaluated interviewee
+        400:
+          description: an interviewee without
+  
+  /admin/{agency_code}/done/interview:
+    get:
+      tags:
+          - Yves-Saint-Laurent
+      summary: get an done interview list
+      description: get an done interview list with an agency
+      parameters:
+      - name: agency_code
+        in: path
+        description: agency_code
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: get done interview
+          content:
+            application/json:
+                schema:
+                  type: object
+                  properties:
+                    interview:
+                      type: array
+                      items:
+                        properties:
+                            interview_name:
+                              type: string
+                              example: "대전일반전형면접"
+                            interivew_explanation:
+                              type: string
+                              example: "대전 일반 전형에 대한 면접입니다."
 
 components:
   securitySchemes:
