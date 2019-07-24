@@ -1870,6 +1870,7 @@ paths:
           description: sumbit cancel success
         '401':
           description: Authentication failed
+                              example: "이채은"
 
 components:
   securitySchemes:
