@@ -1988,8 +1988,8 @@ paths:
                           interviewer_name:
                               type: string
                               example: "이채은"
-  
-  /admin/{agency_code}:
+                              
+  /admin/agency/{agency_code}:
     delete:
       tags:
         - Yves-Saint-Laurent
