@@ -2090,13 +2090,7 @@
         "description": "Get my classification info",
         "security": [
           {
-            "Service": []
-          },
-          {
-            "Admin": []
-          },
-          {
-            "RootAdmin": []
+            "Applicant": []
           }
         ],
         "responses": {
