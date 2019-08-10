@@ -1413,9 +1413,7 @@ paths:
       summary: Get my classification info - GATEWAY ONLY
       description: Get my classification info
       security:
-        - Service: []
-        - Admin: []
-        - RootAdmin: []
+        - Applicant: []
       responses:
         200:
           description: Query success
