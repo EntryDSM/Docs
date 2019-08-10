@@ -1432,6 +1432,8 @@ paths:
         - Louis-Vuitton
       summary: Patch my classification info - GATEWAY ONLY
       description: Patch my classification info
+      security:
+        - Applicant: []
       requestBody:
         content:
           application/json:
@@ -1492,7 +1494,7 @@ paths:
                   study_plan_text:
                     type: string
                     nullable: true
-    post:
+    patch:
       tags:
         - Louis-Vuitton
       summary: Patch applicant document
@@ -1536,11 +1538,13 @@ paths:
                   study_plan_text:
                     type: string
                     nullable: true
-    post:
+    patch:
       tags:
         - Louis-Vuitton
       summary: Patch my document - GATEWAY ONLY
       description: Patch my document
+      security:
+        - Applicant: []
       requestBody:
         content:
           application/json:

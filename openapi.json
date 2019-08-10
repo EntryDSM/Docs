@@ -2138,6 +2138,11 @@
         ],
         "summary": "Patch my classification info - GATEWAY ONLY",
         "description": "Patch my classification info",
+        "security": [
+          {
+            "Applicant": []
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -2235,7 +2240,7 @@
           }
         }
       },
-      "post": {
+      "patch": {
         "tags": [
           "Louis-Vuitton"
         ],
@@ -2305,12 +2310,17 @@
           }
         }
       },
-      "post": {
+      "patch": {
         "tags": [
           "Louis-Vuitton"
         ],
         "summary": "Patch my document - GATEWAY ONLY",
         "description": "Patch my document",
+        "security": [
+          {
+            "Applicant": []
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
