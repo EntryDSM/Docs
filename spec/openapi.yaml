@@ -1982,14 +1982,11 @@ paths:
                     type: array
                     items:
                       properties:
-                          interviwer_temper:
-                              type: string
-                              example: "대덕소프트웨어마이스터고등학교"
                           interviewer_name:
                               type: string
                               example: "이채은"
                               
-  /admin/agency/{agency_code}:
+  /admin/{agency_code}:
     delete:
       tags:
         - Yves-Saint-Laurent
@@ -2125,8 +2122,8 @@ paths:
     get:
       tags:
           - Yves-Saint-Laurent
-      summary: answer to interview question
-      description: answer to interview question
+      summary: get interview question
+      description: get interview question
       parameters:
       - name: agency_code
         in: path
@@ -2162,8 +2159,8 @@ paths:
     post:
       tags:
           - Yves-Saint-Laurent
-      summary: get interview question
-      description: create interview
+      summary: answer to interview question
+      description: answer to interview question
       parameters:
       - name: agency_code
         in: path
