@@ -1073,6 +1073,28 @@ paths:
           description: Account has been verified
         '401':
           description: Incorrect verification code
+    post:
+      tags:
+        - Chanel
+      summary: send email to verify user
+      description: send email(with verification code) to verify user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+              properties:
+                email:
+                  type: string
+                  example: example@entrydsm.hs.kr
+                  description: applicant email
+      responses:
+        201:
+          description: sent a email successfuly
+        400:
+          description: bad request
 
   /login:
     post:
@@ -1350,6 +1372,7 @@ paths:
                   additional_type:
                     type: boolean
                     nullable: true
+    
     patch:
       tags:
         - Louis-Vuitton
@@ -1391,9 +1414,7 @@ paths:
       summary: Get my classification info - GATEWAY ONLY
       description: Get my classification info
       security:
-        - Service: []
-        - Admin: []
-        - RootAdmin: []
+        - Applicant: []
       responses:
         200:
           description: Query success
@@ -1425,6 +1446,8 @@ paths:
         - Louis-Vuitton
       summary: Patch my classification info - GATEWAY ONLY
       description: Patch my classification info
+      security:
+        - Applicant: []
       requestBody:
         content:
           application/json:
@@ -1486,7 +1509,7 @@ paths:
                   study_plan_text:
                     type: string
                     nullable: true
-    post:
+    patch:
       tags:
         - Louis-Vuitton
       summary: Patch applicant document
@@ -1530,11 +1553,13 @@ paths:
                   study_plan_text:
                     type: string
                     nullable: true
-    post:
+    patch:
       tags:
         - Louis-Vuitton
       summary: Patch my document - GATEWAY ONLY
       description: Patch my document
+      security:
+        - Applicant: []
       requestBody:
         content:
           application/json:
@@ -1552,6 +1577,7 @@ paths:
           description: Patch success
         400:
           description: Bad request
+  
   /stats/competition:
     get:
       tags:
