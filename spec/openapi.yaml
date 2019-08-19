@@ -2326,7 +2326,85 @@ paths:
                               type: string
                               example: "대전 일반 전형에 대한 면접입니다."
                               
+  /admin/{agency_code}/interview:
+    post:
+      tags:
+          - Yves-Saint-Laurent
+      summary: create interview
+      description: create interview
+      parameters:
+      - name: agency_code
+        in: path
+        description: agency_code
+        required: true
+        schema:
+          type: string
+      requestBody:
+          content:
+            application/json:
+               schema:
+                 type: object
+                 properties:
+                  name:
+                    type: string
+                    example: "대전 일반전형 면접1실"
+                  start date:
+                    type: string
+                    example: "2019-07-23"
+                  end date:
+                    type: string
+                    example: "2019-08-30"
+      responses:
+        200: 
+          description: Successful create interview
+        400:
+          description: Cheak json format
   
+  /admin/{agency_code}/{interview_code}/question:
+    post:
+      tags:
+          - Yves-Saint-Laurent
+      summary: create interview qeustion
+      description: create interview qeustion
+      parameters:
+      - name: agency_code
+        in: path
+        description: agency_code
+        required: true
+        schema:
+          type: string
+      - name: interview_code
+        in: path
+        description: interview_code
+        required: true
+        schema:
+          type: string
+      requestBody:
+          content:
+            application/json:
+               schema:
+                 type: object
+                 properties:
+                  question_num:
+                    type: integer
+                    example: 1
+                  content:
+                    type: string
+                    example: "자기소개해주세요"
+                  type:
+                    type: integer
+                    example: 2
+      responses:
+        200:
+          description: Successful create interview question
+        400:
+          description: Cheak json format
+        
+                  
+      
+        
+              
+      
         
       
         
