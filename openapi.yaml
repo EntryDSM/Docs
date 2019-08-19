@@ -1931,7 +1931,7 @@ paths:
         '200':
           description: Successful interviewer accept
         '400':
-          description: Bad request
+          description: Cheak json format
   '/admin/{agency_code}/interviewer/reject':
     post:
       tags:
@@ -1958,7 +1958,7 @@ paths:
         '200':
           description: Successful interviewer reject
         '400':
-          description: Bad request
+          description: Cheak json format
   '/admin/{agency_code}/interviewer':
     get:
       tags:
@@ -2032,6 +2032,32 @@ paths:
                   agency_code:
                     type: string
                     example: 1EDOLW
+    patch:
+      tags:
+        - Yves-Saint-Laurent
+      summary: change agency explanation
+      description: change agency explanation
+      parameters:
+        - name: agency_code
+          in: path
+          description: agency_code
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                explanation:
+                  type: string
+                  example: 저희 엔트리는 입학전형~
+      responses:
+        '200':
+          description: Successful change agency explanation
+        '400':
+          description: Cheak json format
   /agency:
     get:
       tags:
@@ -2194,6 +2220,8 @@ paths:
       responses:
         '200':
           description: Successful answer
+        '400':
+          description: Cheak json format
   '/{agency_code}/{interview_id}':
     get:
       tags:
