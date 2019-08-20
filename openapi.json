@@ -1496,7 +1496,7 @@
         }
       }
     },
-    "/signup": {
+    "/applicant/signup": {
       "post": {
         "tags": [
           "Chanel"
@@ -1541,7 +1541,7 @@
         }
       }
     },
-    "/signup/verify": {
+    "/applicant/signup/verify": {
       "get": {
         "tags": [
           "Chanel"
@@ -1602,7 +1602,7 @@
         }
       }
     },
-    "/login": {
+    "/applicant/login": {
       "post": {
         "tags": [
           "Chanel"
@@ -1664,7 +1664,7 @@
         }
       }
     },
-    "/refresh": {
+    "/applicant/refresh": {
       "patch": {
         "tags": [
           "Chanel"
@@ -1704,7 +1704,7 @@
         }
       }
     },
-    "/logout": {
+    "/applicant/logout": {
       "delete": {
         "tags": [
           "Chanel"
@@ -1866,7 +1866,7 @@
         }
       }
     },
-    "/password/reset": {
+    "/applicant/password/reset": {
       "get": {
         "tags": [
           "Chanel"
