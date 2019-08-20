@@ -2890,7 +2890,7 @@
               }
             }
           },
-          "404": {
+          "400": {
             "description": "unseen agency"
           }
         }
@@ -2930,11 +2930,11 @@
           }
         },
         "responses": {
-          "200": {
+          "201": {
             "description": "Successful interviewer accept"
           },
           "400": {
-            "description": "Cheak json format"
+            "description": "Check json format"
           }
         }
       }
@@ -2973,11 +2973,11 @@
           }
         },
         "responses": {
-          "200": {
+          "201": {
             "description": "Successful interviewer reject"
           },
           "400": {
-            "description": "Cheak json format"
+            "description": "Check json format"
           }
         }
       }
@@ -3023,6 +3023,9 @@
                 }
               }
             }
+          },
+          "400": {
+            "description": "None Resources"
           }
         }
       }
@@ -3048,6 +3051,9 @@
         "responses": {
           "200": {
             "description": "successful agency delete"
+          },
+          "400": {
+            "description": "None Resources"
           }
         }
       },
@@ -3092,6 +3098,9 @@
                 }
               }
             }
+          },
+          "400": {
+            "description": "None Resources"
           }
         }
       },
@@ -3128,11 +3137,11 @@
           }
         },
         "responses": {
-          "200": {
+          "201": {
             "description": "Successful change agency explanation"
           },
           "400": {
-            "description": "Cheak json format"
+            "description": "Check json format"
           }
         }
       }
@@ -3167,6 +3176,9 @@
                 }
               }
             }
+          },
+          "400": {
+            "description": "None Resources"
           }
         }
       }
@@ -3216,6 +3228,9 @@
                 }
               }
             }
+          },
+          "400": {
+            "description": "None Resources"
           }
         }
       }
@@ -3265,6 +3280,9 @@
                 }
               }
             }
+          },
+          "400": {
+            "description": "None Resources"
           }
         }
       }
@@ -3321,6 +3339,9 @@
                 }
               }
             }
+          },
+          "400": {
+            "description": "None Resources"
           }
         }
       }
@@ -3386,11 +3407,11 @@
           }
         },
         "responses": {
-          "200": {
+          "201": {
             "description": "Successful answer"
           },
           "400": {
-            "description": "Cheak json format"
+            "description": "Check json format"
           }
         }
       }
@@ -3450,9 +3471,6 @@
           },
           "400": {
             "description": "an interviewee without"
-          },
-          "409": {
-            "description": "already evaluated interviewee"
           }
         }
       }
@@ -3502,6 +3520,9 @@
                 }
               }
             }
+          },
+          "400": {
+            "description": "None Resources"
           }
         }
       }
@@ -3548,16 +3569,16 @@
           }
         },
         "responses": {
-          "200": {
+          "201": {
             "description": "Successful create interview"
           },
           "400": {
-            "description": "Cheak json format"
+            "description": "Check json format"
           }
         }
       }
     },
-    "/admin/{agency_code}/{interview_code}/question": {
+    "/admin/{agency_code}/{interview_id}/question": {
       "post": {
         "tags": [
           "Yves-Saint-Laurent"
@@ -3575,7 +3596,7 @@
             }
           },
           {
-            "name": "interview_code",
+            "name": "interview_id",
             "in": "path",
             "description": "interview_code",
             "required": true,
@@ -3608,11 +3629,629 @@
           }
         },
         "responses": {
-          "200": {
+          "201": {
             "description": "Successful create interview question"
           },
           "400": {
             "description": "Cheak json format"
+          }
+        }
+      }
+    },
+    "/admin/{agency_code}/{interview_id}": {
+      "get": {
+        "tags": [
+          "Yves-Saint-Laurent"
+        ],
+        "summary": "get interview qeustion",
+        "description": "get interview qeustion",
+        "parameters": [
+          {
+            "name": "agency_code",
+            "in": "path",
+            "description": "agency_code",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "interview_id",
+            "in": "path",
+            "description": "interview_code",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "get interview quesiton list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "interview_question": {
+                      "type": "array",
+                      "items": {
+                        "properties": {
+                          "question_num": {
+                            "type": "integer",
+                            "example": 1
+                          },
+                          "content": {
+                            "type": "string",
+                            "example": "자기소개를해주세요."
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "None Resources"
+          }
+        }
+      }
+    },
+    "/admin/{agency_code}/{interview_id}/{question_num}": {
+      "put": {
+        "tags": [
+          "Yves-Saint-Laurent"
+        ],
+        "summary": "modified interview qeustion",
+        "description": "modified interview qeustion",
+        "parameters": [
+          {
+            "name": "agency_code",
+            "in": "path",
+            "description": "agency_code",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "interview_id",
+            "in": "path",
+            "description": "interview_id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "question_num",
+            "in": "path",
+            "description": "quesion_num",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "question_num": {
+                    "type": "integer",
+                    "example": 1
+                  },
+                  "content": {
+                    "type": "string",
+                    "example": "자기소개좀 해주세요."
+                  },
+                  "type": {
+                    "type": "integer",
+                    "example": 3
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful change question"
+          },
+          "400": {
+            "description": "Cheak json format"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Yves-Saint-Laurent"
+        ],
+        "summary": "modified interview qeustion",
+        "description": "modified interview qeustion",
+        "parameters": [
+          {
+            "name": "agency_code",
+            "in": "path",
+            "description": "agency_code",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "interview_id",
+            "in": "path",
+            "description": "interview_id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "question_num",
+            "in": "path",
+            "description": "quesion_num",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful delete question"
+          },
+          "400": {
+            "description": "Cheak json format"
+          }
+        }
+      }
+    },
+    "/admin/{agency_code}/{interview_id}/evaluation": {
+      "get": {
+        "tags": [
+          "Yves-Saint-Laurent"
+        ],
+        "summary": "search the Evaluated Interviewer",
+        "description": "search the Evaluated Interviewer",
+        "parameters": [
+          {
+            "name": "agency_code",
+            "in": "path",
+            "description": "agency_code",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "interview_id",
+            "in": "path",
+            "description": "interivew_id",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "interviewee",
+            "in": "query",
+            "description": "interviewee",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "find interviewee",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "interviewee_name": {
+                      "type": "string",
+                      "example": "이채은"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "an interviewee without"
+          }
+        }
+      }
+    },
+    "/admin/{agency_code}/{interview_id}/evaluation/{interviewee_code}/interviewer": {
+      "get": {
+        "tags": [
+          "Yves-Saint-Laurent"
+        ],
+        "summary": "get interviewee evaluation interviewer list",
+        "description": "get interviewee evaluation interviewer list",
+        "parameters": [
+          {
+            "name": "agency_code",
+            "in": "path",
+            "description": "agency_code",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "interview_id",
+            "in": "path",
+            "description": "interivew_id",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "interviewee_code",
+            "in": "path",
+            "description": "interviewee",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "get interviewee evaluation interviewer list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "interviewer": {
+                      "type": "array",
+                      "items": {
+                        "properties": {
+                          "interviewer_id": {
+                            "type": "string",
+                            "example": "eunjuoi0515@gmail.com"
+                          },
+                          "interviwer_name": {
+                            "type": "string",
+                            "example": "신은주"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "None Resources"
+          }
+        }
+      }
+    },
+    "/admin/{agency_code}/{interview_id}/evaluation/{interviewee_code}/interviewer/{interviewer_id}": {
+      "get": {
+        "tags": [
+          "Yves-Saint-Laurent"
+        ],
+        "summary": "get interviewee evaluation interviewer list",
+        "description": "get interviewee evaluation interviewer list",
+        "parameters": [
+          {
+            "name": "agency_code",
+            "in": "path",
+            "description": "agency_code",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "interview_id",
+            "in": "path",
+            "description": "interivew_id",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "interviewee_code",
+            "in": "path",
+            "description": "interviewee",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "interviewer_id",
+            "in": "path",
+            "description": "interviewer_id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "get interviewee evaluation interviewer result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "evaluation": {
+                      "type": "array",
+                      "items": {
+                        "properties": {
+                          "qeustion_num": {
+                            "type": "integer",
+                            "example": 1
+                          },
+                          "qeustion_content": {
+                            "type": "string",
+                            "example": "자기소개해주세요"
+                          },
+                          "answer": {
+                            "type": "string",
+                            "example": "당차고 당당한 자세가 마음에 듦"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "None Resources"
+          }
+        }
+      }
+    },
+    "/agency/join": {
+      "post": {
+        "tags": [
+          "Yves-Saint-Laurent"
+        ],
+        "summary": "To apply to an agency",
+        "description": "To apply to an agency",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "agency_code": {
+                    "type": "string",
+                    "example": "EXEGS23"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful change question"
+          },
+          "400": {
+            "description": "It's agency that doesn't exist."
+          }
+        }
+      }
+    },
+    "/interviewer/signup": {
+      "post": {
+        "tags": [
+          "Yves-Saint-Laurent"
+        ],
+        "summary": "signup to interviewer",
+        "description": "signup to interviewer",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "이채은"
+                  },
+                  "eamil": {
+                    "type": "string",
+                    "example": "entry@dsm.hs.kr"
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "1234qwer"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful signup to interviwer"
+          },
+          "400": {
+            "description": "Check json format"
+          },
+          "409": {
+            "description": "This email has already been signed up."
+          }
+        }
+      }
+    },
+    "/admin/signup": {
+      "post": {
+        "tags": [
+          "Yves-Saint-Laurent"
+        ],
+        "summary": "signup to admin",
+        "description": "signup to admin",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "agency_name": {
+                    "type": "string",
+                    "example": "ENTRY"
+                  },
+                  "agency_kind": {
+                    "type": "string",
+                    "example": "고등학교"
+                  },
+                  "eamil": {
+                    "type": "string",
+                    "example": "entry@dsm.hs.kr"
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "1234qwer"
+                  },
+                  "agency_explanation": {
+                    "type": "string",
+                    "example": "즐겁고 행복한 입학전형팀"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful signup to admin"
+          },
+          "400": {
+            "description": "Check json format"
+          },
+          "409": {
+            "description": "This email has already been signed up."
+          }
+        }
+      }
+    },
+    "/agency_admin/login": {
+      "post": {
+        "tags": [
+          "Yves-Saint-Laurent"
+        ],
+        "summary": "login to admin",
+        "description": "login to admin",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "eamil": {
+                    "type": "string",
+                    "example": "entry@dsm.hs.kr"
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "1234qwer"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful login to admin",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "access_token": {
+                      "type": "string",
+                      "example": "3924802pedlefsdnkfsnlndlk"
+                    },
+                    "refresh_token": {
+                      "type": "string",
+                      "example": "304923j92030498920394830984"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Cheak eamil and password"
+          }
+        }
+      }
+    },
+    "/interviewer/login": {
+      "post": {
+        "tags": [
+          "Yves-Saint-Laurent"
+        ],
+        "summary": "login to interviwer",
+        "description": "login to interviewer",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "eamil": {
+                    "type": "string",
+                    "example": "entry@dsm.hs.kr"
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "1234qwer"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful login to interviewer",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "access_token": {
+                      "type": "string",
+                      "example": "3924802pedlefsdnkfsnlndlk"
+                    },
+                    "refresh_token": {
+                      "type": "string",
+                      "example": "304923j92030498920394830984"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Cheak eamil and password"
           }
         }
       }
