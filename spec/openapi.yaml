@@ -1026,7 +1026,7 @@ paths:
         401:
           description: Authentication failed
 
-  /signup:
+  /applicant/signup:
     post:
       tags:
         - Chanel
@@ -1056,7 +1056,7 @@ paths:
           description: Bad request
         '409':
           description: Conflict
-  /signup/verify:
+  /applicant/signup/verify:
     get:
       tags:
         - Chanel
@@ -1096,7 +1096,7 @@ paths:
         400:
           description: bad request
 
-  /login:
+  /applicant/login:
     post:
       tags:
         - Chanel
@@ -1137,7 +1137,7 @@ paths:
           description: Bad Request
         403:
           description: Can not find match applicant info
-  /refresh:
+  /applicant/refresh:
     patch:
       tags:
         - Chanel
@@ -1162,7 +1162,7 @@ paths:
                     example: "{{ access token }}"
         400:
           description: Incorrect refresh token or Missing header
-  /logout:
+  /applicant/logout:
     delete:
       tags:
         - Chanel
@@ -1266,7 +1266,7 @@ paths:
           description: Missing authorization header
         403:
           description: Incorrect refresh token
-  /password/reset:
+  /applicant/password/reset:
     get:
       tags:
         - Chanel
