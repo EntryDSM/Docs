@@ -2329,10 +2329,10 @@ paths:
                 name:
                   type: string
                   example: 대전 일반전형 면접1실
-                start date:
+                start_date:
                   type: string
                   example: '2019-07-23'
-                end date:
+                end_date:
                   type: string
                   example: '2019-08-30'
       responses:
