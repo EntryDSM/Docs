@@ -2671,6 +2671,12 @@ paths:
                           answer:
                               type: string
                               example: "당차고 당당한 자세가 마음에 듦"
+                          interviewee_name:
+                              type: string
+                              example: "이채은"
+                          interviewee_code:
+                              type: integer
+                              example: 3098
         400:
           description: None Resources
   
