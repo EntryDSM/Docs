@@ -1184,7 +1184,7 @@ paths:
                 - admin_id
                 - password
               properties:
-                email:
+                admin_id:
                   type: string
                   example: by09115
                   description: admin id
