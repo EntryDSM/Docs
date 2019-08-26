@@ -126,9 +126,6 @@
         "security": [
           {
             "RootAdmin": []
-          },
-          {
-            "Service": []
           }
         ],
         "parameters": [
@@ -229,9 +226,6 @@
         "security": [
           {
             "RootAdmin": []
-          },
-          {
-            "Service": []
           }
         ],
         "responses": {
@@ -281,9 +275,6 @@
         "security": [
           {
             "RootAdmin": []
-          },
-          {
-            "Service": []
           }
         ],
         "requestBody": {
@@ -342,9 +333,6 @@
         "security": [
           {
             "RootAdmin": []
-          },
-          {
-            "Service": []
           }
         ],
         "responses": {
@@ -378,11 +366,6 @@
         ],
         "description": "Get authorty of admin login",
         "summary": "Get authority of admin login",
-        "security": [
-          {
-            "Service": []
-          }
-        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -468,11 +451,6 @@
         ],
         "summary": "Create new applicant",
         "description": "create new applicant that verified by `Chanel` service",
-        "security": [
-          {
-            "Service": []
-          }
-        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -605,9 +583,6 @@
           },
           {
             "RootAdmin": []
-          },
-          {
-            "Service": []
           }
         ],
         "parameters": [
@@ -739,9 +714,6 @@
           },
           {
             "RootAdmin": []
-          },
-          {
-            "Service": []
           }
         ],
         "responses": {
@@ -827,11 +799,6 @@
         ],
         "summary": "Patch one applicant",
         "description": "Patch one applicant",
-        "security": [
-          {
-            "Service": []
-          }
-        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -998,9 +965,6 @@
           },
           {
             "RootAdmin": []
-          },
-          {
-            "Service": []
           }
         ],
         "responses": {
@@ -1040,9 +1004,6 @@
           },
           {
             "RootAdmin": []
-          },
-          {
-            "Service": []
           }
         ],
         "responses": {
@@ -1097,11 +1058,6 @@
         ],
         "summary": "Patch one applicant's status",
         "description": "Patch one applicant's status",
-        "security": [
-          {
-            "Service": []
-          }
-        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -1206,11 +1162,6 @@
         ],
         "description": "Get authorty of applicant login",
         "summary": "Get authority of applicant login",
-        "security": [
-          {
-            "Service": []
-          }
-        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -1985,9 +1936,6 @@
         "description": "Get applicant classification info",
         "security": [
           {
-            "Service": []
-          },
-          {
             "Admin": []
           },
           {
@@ -2210,9 +2158,6 @@
         "summary": "Get applicant document",
         "description": "Get applicant document",
         "security": [
-          {
-            "Service": []
-          },
           {
             "RootAdmin": []
           },
@@ -4299,12 +4244,6 @@
         "in": "header",
         "name": "Authorization",
         "description": "If endpoint marked as this, it can be accessed with root admin authority"
-      },
-      "Service": {
-        "type": "apiKey",
-        "in": "header",
-        "name": "Authorization",
-        "description": "If endpoint marked as this, it can be accessed with inter service authority"
       }
     }
   }

@@ -85,7 +85,6 @@ paths:
       description: Get multiple admins
       security:
         - RootAdmin: []
-        - Service: []
       parameters:
         - name: admin_id
           in: query
@@ -151,7 +150,6 @@ paths:
       description: Get one admin
       security:
         - RootAdmin: []
-        - Service: []
       responses:
         '200':
           description: Query success
@@ -184,7 +182,6 @@ paths:
       description: Patch one admin
       security:
         - RootAdmin: []
-        - Service: []
       requestBody:
         content:
           application/json:
@@ -225,7 +222,6 @@ paths:
       description: Delete one admin
       security:
         - RootAdmin: []
-        - Service: []
       responses:
         '200':
           description: Delete success
@@ -246,8 +242,6 @@ paths:
         - Hermes
       description: Get authorty of admin login
       summary: Get authority of admin login
-      security:
-        - Service: []
       requestBody:
         content:
           application/json:
@@ -302,8 +296,6 @@ paths:
         - Hermes
       summary: Create new applicant
       description: create new applicant that verified by `Chanel` service
-      security:
-        - Service: []
       requestBody:
         content:
           application/json:
@@ -395,7 +387,6 @@ paths:
       security:
         - Admin: []
         - RootAdmin: []
-        - Service: []
       parameters:
         - name: email
           in: query
@@ -487,7 +478,6 @@ paths:
       security:
         - Admin: []
         - RootAdmin: []
-        - Service: []
       responses:
         '200':
           description: Query succeess
@@ -552,8 +542,6 @@ paths:
         - Hermes
       summary: Patch one applicant
       description: Patch one applicant
-      security:
-        - Service: []
       requestBody:
         content:
           application/json:
@@ -681,7 +669,6 @@ paths:
       security:
         - Admin: []
         - RootAdmin: []
-        - Service: []
       responses:
         '200':
           description: Delete success
@@ -705,7 +692,6 @@ paths:
       security:
         - Admin: []
         - RootAdmin: []
-        - Service: []
       responses:
         '200':
           description: Query succeess
@@ -742,8 +728,6 @@ paths:
         - Hermes
       summary: Patch one applicant's status
       description: Patch one applicant's status
-      security:
-        - Service: []
       requestBody:
         content:
           application/json:
@@ -816,8 +800,6 @@ paths:
         - Hermes
       description: Get authorty of applicant login
       summary: Get authority of applicant login
-      security:
-        - Service: []
       requestBody:
         content:
           application/json:
@@ -1332,7 +1314,6 @@ paths:
       summary: Get applicant classification info
       description: Get applicant classification info
       security:
-        - Service: []
         - Admin: []
         - RootAdmin: []
       responses:
@@ -1479,7 +1460,6 @@ paths:
       summary: Get applicant document
       description: Get applicant document
       security:
-        - Service: []
         - RootAdmin: []
         - Admin: []
       responses:
@@ -2814,8 +2794,3 @@ components:
       in: header
       name: Authorization
       description: 'If endpoint marked as this, it can be accessed with root admin authority'
-    Service:
-      type: apiKey
-      in: header
-      name: Authorization
-      description: 'If endpoint marked as this, it can be accessed with inter service authority'
