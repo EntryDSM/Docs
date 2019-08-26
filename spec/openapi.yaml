@@ -91,7 +91,6 @@ paths:
       description: Get multiple admins
       security:
         - RootAdmin: []
-        - Service: []
       parameters:
         - name: admin_id
           in: query
@@ -157,7 +156,7 @@ paths:
       description: Get one admin
       security:
         - RootAdmin: []
-        - Service: []
+
       responses:
         '200':
           description: Query success
@@ -190,7 +189,7 @@ paths:
       description: Patch one admin
       security:
         - RootAdmin: []
-        - Service: []
+
       requestBody:
         content:
           application/json:
@@ -231,7 +230,7 @@ paths:
       description: Delete one admin
       security:
         - RootAdmin: []
-        - Service: []
+
       responses:
         '200':
           description: "Delete success"
@@ -252,8 +251,6 @@ paths:
         - Hermes
       description: Get authorty of admin login
       summary: Get authority of admin login
-      security:
-        - Service: []
       requestBody:
         content:
           application/json:
@@ -310,8 +307,6 @@ paths:
         - Hermes
       summary: Create new applicant
       description: create new applicant that verified by `Chanel` service
-      security:
-        - Service: []
       requestBody:
         content:
           application/json:
@@ -403,7 +398,6 @@ paths:
       security:
         - Admin: []
         - RootAdmin: []
-        - Service: []
       parameters:
         - name: email
           in: query
@@ -495,7 +489,6 @@ paths:
       security:
         - Admin: []
         - RootAdmin: []
-        - Service: []
       responses:
         200:
           description: Query succeess
@@ -560,8 +553,6 @@ paths:
         - Hermes
       summary: Patch one applicant
       description: Patch one applicant
-      security:
-        - Service: []
       requestBody:
         content:
           application/json:
@@ -689,7 +680,6 @@ paths:
       security:
         - Admin: []
         - RootAdmin: []
-        - Service: []
       responses:
         '200':
           description: "Delete success"
@@ -713,7 +703,6 @@ paths:
       security:
         - Admin: []
         - RootAdmin: []
-        - Service: []
       responses:
         '200':
           description: Query succeess
@@ -750,8 +739,6 @@ paths:
         - Hermes
       summary: Patch one applicant's status
       description: Patch one applicant's status
-      security:
-        - Service: []
       requestBody:
        content:
         application/json:
@@ -824,8 +811,6 @@ paths:
         - Hermes
       description: Get authorty of applicant login
       summary: Get authority of applicant login
-      security:
-        - Service: []
       requestBody:
         content:
           application/json:
@@ -1345,7 +1330,6 @@ paths:
       summary: Get applicant classification info
       description: Get applicant classification info
       security:
-        - Service: []
         - Admin: []
         - RootAdmin: []
       responses:
@@ -1374,7 +1358,7 @@ paths:
                   additional_type:
                     type: boolean
                     nullable: true
-    
+
     patch:
       tags:
         - Louis-Vuitton
@@ -1494,7 +1478,6 @@ paths:
       summary: Get applicant document
       description: Get applicant document
       security:
-        - Service: []
         - RootAdmin: []
         - Admin: []
       responses:
@@ -1579,7 +1562,7 @@ paths:
           description: Patch success
         400:
           description: Bad request
-  
+
   /stats/competition:
     get:
       tags:
@@ -1607,7 +1590,7 @@ paths:
                   rate:
                     type: number
                     example: 187
-                
+
         '401':
           description: Authentication failed
   /stats/applicant:
@@ -1640,7 +1623,7 @@ paths:
                           example: 53
                     nation:
                       properties:
-                        meister: 
+                        meister:
                           type: number
                           example: 25
                         social:
@@ -1649,7 +1632,7 @@ paths:
                         common:
                           type: number
                           example: 104
-                    total: 
+                    total:
                       properties:
                         daejeon:
                           type: number
@@ -1687,7 +1670,7 @@ paths:
                           example: "2.9:1"
                     nation:
                       properties:
-                        meister: 
+                        meister:
                           type: string
                           example: "1.8:1"
                         social:
@@ -1696,7 +1679,7 @@ paths:
                         common:
                           type: string
                           example: "4.9:1"
-                    total: 
+                    total:
                       properties:
                         daejeon:
                           type: string
@@ -1706,13 +1689,13 @@ paths:
                           example: "3:1"
                         all:
                           type: string
-                          example: "2.75:1"  
-                          
+                          example: "2.75:1"
+
   /student:
     get:
       tags:
         - Rolex
-      summary: Get multiple applicants 
+      summary: Get multiple applicants
       description: Get mutiple applicants information for make list of student. Set search option by querystring
       security:
         - Admin: []
@@ -1737,7 +1720,7 @@ paths:
           in: query
           description: applicant status (bitflag), `11` - 원서 결제 ok, `10` - 원서 ok, `01` - 결제 ok
           schema:
-            type: string    
+            type: string
       responses:
         '200':
           description: Query Success
@@ -1745,13 +1728,13 @@ paths:
             application/json:
               schema:
                 type: array
-                items: 
+                items:
                   type: object
                   properties:
                     code:
                       type: string
                       example: "1234"
-                    name: 
+                    name:
                       type: string
                       example: "홍길동"
                     region:
@@ -1769,7 +1752,7 @@ paths:
                     submit:
                       type: number
                       example: 1
-                
+
         '401':
           description: Authentication failed
   /student/{email}:
@@ -1807,13 +1790,13 @@ paths:
                         email:
                           type: string
                           example: "entry@entrydsm.hs.kr"
-                        sex: 
+                        sex:
                           type: string
                           example: male
                         birth_date:
                           type: object
                           example: {}
-                        parent_tel: 
+                        parent_tel:
                           type: string
                           example: "010-1234-5678"
                         academic_tel:
@@ -1830,7 +1813,7 @@ paths:
                         period:
                           type: number
                           example: 0
-                        late: 
+                        late:
                           type: number
                           example: 0
                         leave:
@@ -1870,14 +1853,14 @@ paths:
             application/json:
               schema:
                 type: object
-                properties:             
+                properties:
                   intro:
                     type: string
                     example: "저는 000 입니다. 제가 이 학교 ~"
                   plan:
                     type: string
                     example: "저는 이 학교에서 000을 공부하고 ~"
-                    
+
   /student/{email}/submit:
     patch:
       tags:
@@ -1899,14 +1882,14 @@ paths:
           description: sumbit cancel success
         '401':
           description: Authentication failed
-  
+
   /agency/cheak:
     get:
       tags:
         - Yves-Saint-Laurent
       summary: Check agency code
       description: Check agency code
-      parameters: 
+      parameters:
         - name: code
           in : query
           example: ENTRY19
@@ -1929,8 +1912,8 @@ paths:
                     example: "학교입학전형을 만드는 엔트리 개발팀입니다."
         400:
           description: unseen agency
-                  
-  /admin/{agency_code}/interviewer/accept: 
+
+  /admin/{agency_code}/interviewer/accept:
     post:
       tags:
         - Yves-Saint-Laurent
@@ -1957,7 +1940,7 @@ paths:
           description: Successful interviewer accept
         400:
           description: Check json format
-          
+
   /admin/{agency_code}/interviewer/reject:
     post:
       tags:
@@ -1985,7 +1968,7 @@ paths:
           description: Successful interviewer reject
         400:
           description: Check json format
-  
+
   /admin/{agency_code}/interviewer:
     get:
       tags:
@@ -2016,7 +1999,7 @@ paths:
                               example: "이채은"
         400:
           description: None Resources
-                              
+
   /admin/agency/{agency_code}:
     delete:
       tags:
@@ -2035,7 +2018,7 @@ paths:
           description: successful agency delete
         400:
           description: None Resources
-          
+
     get:
       tags:
       - Yves-Saint-Laurent
@@ -2049,7 +2032,7 @@ paths:
         schema:
           type: string
       responses:
-        200: 
+        200:
           description: get agency information
           content:
             application/json:
@@ -2067,7 +2050,7 @@ paths:
                     example: "1EDOLW"
         400:
           description: None Resources
-          
+
     patch:
       tags:
         - Yves-Saint-Laurent
@@ -2090,11 +2073,11 @@ paths:
                   type: string
                   example: "저희 엔트리는 입학전형~"
       responses:
-        201: 
+        201:
           description: Successful change agency explanation
         400:
           description: Check json format
-  
+
   /agency:
     get:
       tags:
@@ -2118,7 +2101,7 @@ paths:
                               example: "Entry"
         400:
           description: None Resources
-  
+
   /{agency_code}:
     get:
       tags:
@@ -2152,7 +2135,7 @@ paths:
                               example: "대전 일반 전형에 대한 면접입니다."
         400:
           description: None Resources
-  
+
   /admin/{agency_code}/ready/interview:
     get:
       tags:
@@ -2186,7 +2169,7 @@ paths:
                               example: "대전 일반 전형에 대한 면접입니다."
         400:
           description: None Resources
-  
+
   /{agency_code}/{interview_id}/{question_num}:
     get:
       tags:
@@ -2214,7 +2197,7 @@ paths:
           type: integer
       responses:
         200:
-          description: get interivew question 
+          description: get interivew question
           content:
             application/json:
               schema:
@@ -2225,7 +2208,7 @@ paths:
                     example: "간단하게 자기소개를 해주세요."
         400:
           description: None Resources
-                    
+
   /{agency_code}/{interview_id}/{question_num}/{student_code}:
     post:
       tags:
@@ -2271,7 +2254,7 @@ paths:
           description: Successful answer
         400:
           description: Check json format
-    
+
   /{agency_code}/{interview_id}:
     get:
       tags:
@@ -2298,7 +2281,7 @@ paths:
         schema:
           type: integer
       responses:
-        200: 
+        200:
           description: find interviewee
           content:
             application/json:
@@ -2310,8 +2293,8 @@ paths:
                     example: "오경태"
         400:
           description: an interviewee without
-        
-  
+
+
   /admin/{agency_code}/done/interview:
     get:
       tags:
@@ -2345,7 +2328,7 @@ paths:
                               example: "대전 일반 전형에 대한 면접입니다."
         400:
           description: None Resources
-                              
+
   /admin/{agency_code}/interview:
     post:
       tags:
@@ -2375,11 +2358,11 @@ paths:
                     type: string
                     example: "2019-08-30"
       responses:
-        201: 
+        201:
           description: Successful create interview
         400:
           description: Check json format
-  
+
   /admin/{agency_code}/{interview_id}/question:
     post:
       tags:
@@ -2419,7 +2402,7 @@ paths:
           description: Successful create interview question
         400:
           description: Cheak json format
-        
+
   /admin/{agency_code}/{interview_id}:
     get:
       tags:
@@ -2459,7 +2442,7 @@ paths:
                               example: "자기소개를해주세요."
         400:
           description: None Resources
-        
+
   /admin/{agency_code}/{interview_id}/{question_num}:
     put:
       tags:
@@ -2505,7 +2488,7 @@ paths:
           description: Successful change question
         400:
           description: Cheak json format
-          
+
     delete:
       tags:
             - Yves-Saint-Laurent
@@ -2532,10 +2515,10 @@ paths:
           type: integer
       responses:
         200:
-          description: Successful delete question  
+          description: Successful delete question
         400:
           description: Cheak json format
-          
+
   /admin/{agency_code}/{interview_id}/evaluation:
     get:
       tags:
@@ -2562,7 +2545,7 @@ paths:
         schema:
           type: integer
       responses:
-        200: 
+        200:
           description: find interviewee
           content:
             application/json:
@@ -2574,7 +2557,7 @@ paths:
                     example: "이채은"
         400:
           description: an interviewee without
-          
+
   /admin/{agency_code}/{interview_id}/evaluation/{interviewee_code}/interviewer:
     get:
       tags:
@@ -2601,7 +2584,7 @@ paths:
         schema:
           type: integer
       responses:
-        200: 
+        200:
           description: get interviewee evaluation interviewer list
           content:
             application/json:
@@ -2620,7 +2603,7 @@ paths:
                               example: "신은주"
         400:
           description: None Resources
-  
+
   /admin/{agency_code}/{interview_id}/evaluation/{interviewee_code}/interviewer/{interviewer_id}:
     get:
       tags:
@@ -2653,7 +2636,7 @@ paths:
         schema:
           type: string
       responses:
-        200: 
+        200:
           description: get interviewee evaluation interviewer result
           content:
             application/json:
@@ -2681,7 +2664,7 @@ paths:
                               example: 3098
         400:
           description: None Resources
-  
+
   /agency/join:
     post:
       tags:
@@ -2702,7 +2685,7 @@ paths:
           description: Successful change question
         400:
           description: It's agency that doesn't exist.
-    
+
   /interviewer/signup:
     post:
       tags:
@@ -2731,7 +2714,7 @@ paths:
           description: Check json format
         409:
           description: This email has already been signed up.
-  
+
   /admin/signup:
     post:
       tags:
@@ -2755,7 +2738,7 @@ paths:
                     example: "entry@dsm.hs.kr"
                   password:
                     type: string
-                    example: "1234qwer" 
+                    example: "1234qwer"
                   agency_explanation:
                     type: string
                     example: "즐겁고 행복한 입학전형팀"
@@ -2763,10 +2746,10 @@ paths:
         201:
           description: Successful signup to admin
         400:
-          description: Check json format   
+          description: Check json format
         409:
           description: This email has already been signed up.
-    
+
   /agency_admin/login:
     post:
       tags:
@@ -2784,7 +2767,7 @@ paths:
                     example: "entry@dsm.hs.kr"
                   password:
                     type: string
-                    example: "1234qwer" 
+                    example: "1234qwer"
       responses:
         200:
           description: Successful login to admin
@@ -2801,7 +2784,7 @@ paths:
                     example: "304923j92030498920394830984"
         400:
           description: Cheak eamil and password
-  
+
   /interviewer/login:
     post:
       tags:
@@ -2819,7 +2802,7 @@ paths:
                     example: "entry@dsm.hs.kr"
                   password:
                     type: string
-                    example: "1234qwer" 
+                    example: "1234qwer"
       responses:
         200:
           description: Successful login to interviewer
@@ -2836,7 +2819,7 @@ paths:
                     example: "304923j92030498920394830984"
         400:
           description: Cheak eamil and password
-      
+
 
 components:
   securitySchemes:
@@ -2865,8 +2848,3 @@ components:
       in: header
       name: Authorization
       description: If endpoint marked as this, it can be accessed with root admin authority
-    Service:
-      type: apiKey
-      in: header
-      name: Authorization
-      description: If endpoint marked as this, it can be accessed with inter service authority
