@@ -1131,7 +1131,9 @@ paths:
                     type: string
                     example: '{{ access token }}'
         '400':
-          description: Incorrect refresh token or Missing header
+          description: Missing header
+        '403':
+          description: Incorrect refresh token
   /applicant/logout:
     delete:
       tags:

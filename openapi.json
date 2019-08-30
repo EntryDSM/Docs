@@ -1650,7 +1650,10 @@
             }
           },
           "400": {
-            "description": "Incorrect refresh token or Missing header"
+            "description": "Missing header"
+          },
+          "403": {
+            "description": "Incorrect refresh token"
           }
         }
       }
