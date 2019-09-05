@@ -548,6 +548,8 @@ paths:
                     nullable: true
         401:
           description: Authentication failed
+        404:
+          description: Applicant does not exists
     patch:
       tags:
         - Hermes
@@ -1063,6 +1065,12 @@ paths:
         - Chanel
       summary: send email to verify user
       description: send email(with verification code) to verify user
+      parameters:
+        - name: resend
+          in: query
+          description: 재전송 여부(재전송일 경우 "true", 아니면 붙이지 않음.)
+          schema:
+            type: string
       requestBody:
         content:
           application/json:
