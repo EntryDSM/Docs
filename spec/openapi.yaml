@@ -1358,24 +1358,30 @@ paths:
               schema:
                 type: object
                 properties:
-                  is_ged:
-                    type: boolean
-                    nullable: true
-                  apply_type:
-                    type: string
-                    nullable: true
-                  social_detail_type:
-                    type: string
-                    nullable: true
-                  is_daejeon:
-                    type: boolean
-                    nullable: true
-                  is_graduated:
-                    type: boolean
-                    nullable: true
-                  additional_type:
-                    type: boolean
-                    nullable: true
+                  data:
+                    type: object
+                    properties:
+                      is_ged:
+                        type: boolean
+                        nullable: false
+                      apply_type:
+                        type: string
+                        nullable: false
+                      social_detail_type:
+                        type: string
+                        nullable: true
+                      is_daejeon:
+                        type: boolean
+                        nullable: false
+                      is_graduated:
+                        type: boolean
+                        nullable: true
+                      graduated_year:
+                        type: string
+                        nullable: true
+                      additional_type:
+                        type: boolean
+                        nullable: true
 
     patch:
       tags:
@@ -1390,21 +1396,24 @@ paths:
               properties:
                 is_ged:
                   type: boolean
-                  nullable: true
+                  nullable: False
                 apply_type:
                   type: string
-                  nullable: true
+                  nullable: false
                 social_detail_type:
                   type: string
                   nullable: true
                 is_daejeon:
                   type: boolean
-                  nullable: true
+                  nullable: false
                 is_graduated:
                   type: boolean
                   nullable: true
+                graduated_year:
+                  type: string
+                  nullable: true
                 additional_type:
-                  type: boolean
+                  type: string
                   nullable: true
       responses:
         200:
@@ -1427,24 +1436,31 @@ paths:
               schema:
                 type: object
                 properties:
-                  is_ged:
-                    type: boolean
-                    nullable: true
-                  apply_type:
-                    type: string
-                    nullable: true
-                  social_detail_type:
-                    type: string
-                    nullable: true
-                  is_daejeon:
-                    type: boolean
-                    nullable: true
-                  is_graduated:
-                    type: boolean
-                    nullable: true
-                  additional_type:
-                    type: boolean
-                    nullable: true
+                  data:
+                    type: object
+                    properties:
+                      is_ged:
+                        type: boolean
+                        nullable: false
+                      apply_type:
+                        type: string
+                        nullable: false
+                      social_detail_type:
+                        type: string
+                        nullable: true
+                      is_daejeon:
+                        type: boolean
+                        nullable: false
+                      is_graduated:
+                        type: boolean
+                        nullable: true
+                      graduated_year:
+                        type: string
+                        nullable: true
+                      additional_type:
+                        type: boolean
+                        nullable: true
+
     patch:
       tags:
         - Louis-Vuitton
@@ -1460,21 +1476,24 @@ paths:
               properties:
                 is_ged:
                   type: boolean
-                  nullable: true
+                  nullable: False
                 apply_type:
                   type: string
-                  nullable: true
+                  nullable: false
                 social_detail_type:
                   type: string
                   nullable: true
                 is_daejeon:
                   type: boolean
-                  nullable: true
+                  nullable: false
                 is_graduated:
                   type: boolean
                   nullable: true
+                graduated_year:
+                  type: string
+                  nullable: true
                 additional_type:
-                  type: boolean
+                  type: string
                   nullable: true
       responses:
         200:
@@ -1506,12 +1525,15 @@ paths:
               schema:
                 type: object
                 properties:
-                  self_introduction_text:
-                    type: string
-                    nullable: true
-                  study_plan_text:
-                    type: string
-                    nullable: true
+                  data:
+                    type: object
+                    properties:
+                      self_introduction_text:
+                        type: string
+                        nullable: true
+                      study_plan_text:
+                        type: string
+                        nullable: true
     patch:
       tags:
         - Louis-Vuitton
@@ -1550,12 +1572,15 @@ paths:
               schema:
                 type: object
                 properties:
-                  self_introduction_text:
-                    type: string
-                    nullable: true
-                  study_plan_text:
-                    type: string
-                    nullable: true
+                  data:
+                    type: object
+                    properties:
+                      self_introduction_text:
+                        type: string
+                        nullable: true
+                      study_plan_text:
+                        type: string
+                        nullable: true
     patch:
       tags:
         - Louis-Vuitton
@@ -1581,6 +1606,212 @@ paths:
         400:
           description: Bad request
 
+  /applicant/{email}/diligence:
+    parameters:
+    - name: email
+      in: path
+      description: applicant email
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+        - Louis-Vuitton
+      summary: Get applicant diligence grade
+      description: 지원자 출결/봉사 성적
+      security:
+        - RootAdmin: []
+        - Admin: []
+      responses:
+        200:
+          description: Query success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      volunteer_time:
+                        type: integer
+                        example: 60
+                        nullable: true
+                      full_cut_count:
+                        type: integer
+                        example: 1
+                        nullable: true
+                      period_cut_count:
+                        type: integer
+                        example: 0
+                        nullable: true
+                      late_count:
+                        type: integer
+                        example: 2
+                        nullable: true
+                      early_leave_count:
+                        type: integer
+                        example: 1
+                        nullable: true
+    patch:
+      tags:
+        - Louis-Vuitton
+      summary: Patch applicant diligence grade
+      description: 지원자 출결/봉사 성적 수정(입력)
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                volunteer_time:
+                  type: integer
+                  example: 55
+                  nullable: true
+                full_cut_count:
+                  type: integer
+                  example: 1
+                  nullable: true
+                period_cut_count:
+                  type: integer
+                  example: 1
+                  nullable: true
+                late_count:
+                  type: integer
+                  example: 1
+                  nullable: true
+                early_leave_count:
+                    type: integer
+                    example: 0
+                    nullable: true
+      responses:
+        200:
+          description: ""
+        400:
+          description: Invalid diligence grade value
+
+  /applicant/{email}/ged-score:
+    parameters:
+    - name: email
+      in: path
+      description: applicant email
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+        - Louis-Vuitton
+      summary: Get ged applicant grade
+      description: 검정고시 성적
+      security:
+        - RootAdmin: []
+        - Admin: []
+      responses:
+        200:
+          description: Query success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      ged_average_score:
+                        type: number
+                        example: 80.8
+                        nullable: true
+    patch:
+      tags:
+        - Louis-Vuitton
+      summary: Patch ged applicant grade
+      description: 검정고시 성적 수정(입력)
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                  ged_average_score:
+                    type: number
+                    example: 99.9
+                    nullable: true
+      responses:
+        200:
+          description: ""
+        400:
+          description: Invalid ged grade value
+
+  /applicant/{email}/academic-score:
+    parameters:
+    - name: email
+      in: path
+      description: applicant email
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+        - Louis-Vuitton
+      summary: Get applicant academic grade
+      description: 지원자 학교과목 성적
+      security:
+        - RootAdmin: []
+        - Admin: []
+      responses:
+        200:
+          description: Query success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      subject_scores:
+                        type: array
+                        items:
+                          properties:
+                            semester:
+                              type: integer
+                              example: 1
+                            subject:
+                              type: string
+                              example: korean
+                            score:
+                              type: string
+                              example: A
+    patch:
+      tags:
+        - Louis-Vuitton
+      summary: Patch applicant academic grade
+      description: 지원자 학교과목 성적 수정(입력)
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                subject_scores:
+                  type: array
+                  items:
+                    properties:
+                        semester:
+                          type: integer
+                          example: 5
+                        subject:
+                          type: string
+                          example: math
+                        score:
+                          type: string
+                          example: C
+      responses:
+        200:
+          description: ""
+        400:
+          description: Invalid academic grade value
+    
   /stats/competition:
     get:
       tags:
