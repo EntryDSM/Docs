@@ -1030,22 +1030,6 @@ paths:
         '409':
           description: Conflict
   /applicant/signup/verify:
-    get:
-      tags:
-        - Chanel
-      summary: Verify user
-      description: Verify user by verification code that sent with e-mail
-      parameters:
-        - name: code
-          in: query
-          description: validate code
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Account has been verified
-        '401':
-          description: Incorrect verification code
     post:
       tags:
         - Chanel
@@ -1074,6 +1058,30 @@ paths:
           description: sent a email successfuly
         '400':
           description: bad request
+  '/applicant/signup/verify/{email}/{verify_code}':
+    get:
+      tags:
+        - Chanel
+      summary: Verify user to use a verify_code
+      description: 'Verify user by verification code that sent with e-mail. (e.g. "/applicant/signup/verify/{email}/{verify_code}")'
+      parameters:
+        - name: email
+          in: path
+          description: user email
+          required: true
+          schema:
+            type: string
+        - name: verify_code
+          in: path
+          description: verify_code in sent email
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Account has been verified
+        '401':
+          description: Incorrect verification code
   /applicant/login:
     post:
       tags:
