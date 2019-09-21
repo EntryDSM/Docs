@@ -1257,41 +1257,21 @@ paths:
         '403':
           description: Incorrect refresh token
   /applicant/password/reset:
-    get:
-      tags:
-        - Chanel
-      summary: check the verify code's exists
-      description: check the verify code
-      parameters:
-        - name: verify
-          in: query
-          example: d2_2dc
-          description: 6-digit verification code
-          schema:
-            type: string
-      responses:
-        '200':
-          description: code has verified
-        '404':
-          description: code isn't exist.
     put:
       tags:
         - Chanel
       summary: Reset my applicant password
       description: Reset my applicant info
-      parameters:
-        - name: verify
-          in: query
-          example: 0cfc54
-          description: 6-digit verification code
-          schema:
-            type: string
       requestBody:
         content:
           application/json:
             schema:
               type: object
               properties:
+                email:
+                  type: string
+                  example: entry@entrydsm.hs.kr
+                  description: email
                 password:
                   type: string
                   example: p@ssword
@@ -1306,18 +1286,45 @@ paths:
         - Chanel
       summary: Send password reset verification email
       description: Send password reset verification email
-      parameters:
-        - name: email
-          in: query
-          example: entry@entrydsm.hs.kr
-          description: email that registered in entrydsm
-          schema:
-            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: entry@entrydsm.hs.kr
+                  description: applicant's email who want to change the password
       responses:
         '202':
           description: Email sent
         '404':
           description: Applicant not found
+  '/applicant/password/reset/{email}/{verify_code}':
+    get:
+      tags:
+        - Chanel
+      summary: check the verify code's exists
+      description: check the verify code
+      parameters:
+        - name: email
+          in: path
+          description: user email
+          required: true
+          schema:
+            type: string
+        - name: verify_code
+          in: path
+          description: verify_code in sent email
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: code has verified
+        '404':
+          description: code isn't exist.
   '/applicant/{email}/classification':
     parameters:
       - name: email
