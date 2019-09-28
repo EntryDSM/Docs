@@ -65,7 +65,7 @@
       }
     },
     "/self/application/ged": {
-      "post": {
+      "put": {
         "tags": [
           "원서 제출"
         ],
@@ -112,7 +112,7 @@
       }
     },
     "/self/application/graduated": {
-      "post": {
+      "put": {
         "tags": [
           "원서 제출"
         ],
@@ -159,7 +159,7 @@
       }
     },
     "/self/application/ungraduated": {
-      "post": {
+      "put": {
         "tags": [
           "원서 제출"
         ],
