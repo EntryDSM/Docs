@@ -20,6 +20,161 @@ servers:
   - url: "https://api.entrydsm.hs.kr/api/v1"
 
 paths:
+  /signup:
+    post:
+      tags:
+        - 회원가입
+      summary: 회원가입 요청
+      requestBody:
+        content:
+          application/json:
+            schema:    
+              type: object
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+                  format: password
+      responses:
+        204:
+          description: Verification code and link sent to your email.
+        400:
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvalidSignupInfo"
+        409:
+          description: Conflict exceeded
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: "#/components/schemas/UserAlreadyExists"
+                  - $ref: "#/components/schemas/SignupAlreadyRequested"
+  
+  /signup/verify:
+    get:
+      tags:
+        - 회원가입
+      summary: 회원가입 인증
+      parameters:
+        - name: key
+          in: query
+          schema:
+            type: string
+      responses:
+        204:
+          description: Verification success
+        400:
+          description: Invalid or expired key
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvalidVerificationKey"
+  
+  /auth:
+    post:
+      tags:
+        - 인증
+      summary: 로그인
+      requestBody:
+        content:
+          application/json:
+            schema:    
+              type: object
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+                  format: password
+      responses:
+        201:
+          description: Login succeed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  access:
+                    type: string
+                    example: "ThIsIs.TrUlY.AcCeSsToKeN"
+                  refresh:
+                    type: string
+                    example: "ThIsIs.TrUlY.ReFrEsHtOkEn"
+    patch:
+      tags:
+        - 인증
+      summary: 리프레쉬
+      security: [
+        {RefreshJSONWebTokenAuthentication: []}
+      ]
+      responses:
+        201:
+          description: Refresh succeed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  access:
+                    type: string
+                    example: "ThIsIs.TrUlY.AcCeSsToKeN"
+    delete:
+      tags:
+        - 인증
+      summary: 로그아웃
+      security: [
+        {RefreshJSONWebTokenAuthentication: []}
+      ]
+      responses:
+        204:
+          description: Logout succeed
+
+  /self/status:
+    get:
+      tags:
+        - 마이페이지
+      summary: 진행상황 등 내 정보
+      security: [
+        {JSONWebTokenAuthentication: []}
+      ]
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApplicationStatus"
+
+  /self/photo:
+    put:
+      tags:
+        - 사진
+      summary: 사진 업로드
+      requestBody:
+        content:
+          image/png:
+            schema:
+              type: string
+              format: binary
+              description: image
+      responses:
+        204:
+          description: Image upload success
+        400:
+          description: Invalid type of image
+
   /self/application:
     get:
       tags:
@@ -68,7 +223,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/InvalidRequest"
+                $ref: "#/components/schemas/InvalidApplicationPatch"
         409:
           description: Already final submitted
           content:
@@ -98,7 +253,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/InvalidRequest"
+                $ref: "#/components/schemas/InvalidApplicationPatch"
         409:
           description: Already final submitted
           content:
@@ -128,13 +283,38 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/InvalidRequest"
+                $ref: "#/components/schemas/InvalidApplicationPatch"
         409:
           description: Already final submitted
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/AlreadyFinalSubmitted"  
+  
+  /self/application/final-submit:
+    patch:
+      tags:
+        - 최종제출
+      summary: 최종제출
+      description: 되돌릴 수 없음
+      security: [
+        {JSONWebTokenAuthentication: []}
+      ]
+      responses:
+        204:
+          description: Final submit succeed
+        400:
+          description: Invalid application
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvalidApplicationFinalSubmit"
+        409:
+          description: Already final submitted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AlreadyFinalSubmitted"
 
 components:
   securitySchemes:
@@ -142,6 +322,10 @@ components:
       type: apiKey
       in: header
       name: Authorization
+    RefreshJSONWebTokenAuthentication:
+      type: apiKey
+      in: header
+      name: X-Refresh-Token
 
   schemas:
     Classification:
@@ -352,13 +536,47 @@ components:
           $ref: "#/components/schemas/UngraduatedSchoolGrade"
         self_introduction_and_study_plan:
           $ref: "#/components/schemas/SelfIntroductionAndStudyPlan"
-
-    InvalidRequest:
+    
+    ApplicationStatus:
+      type: object
+      properties:
+        is_paid:
+          type: boolean
+          example: false
+        is_passed_first_apply:
+          type: boolean
+          example: false
+        is_printed_application_arrived:
+          type: boolean
+          example: false
+        is_final_submit:
+          type: boolean
+          example: false
+        receipt_code:
+          type: integer
+          example: 1
+        exam_code:
+          type: string
+          example: 124533
+          nullable: true        
+    
+    # Error Schemas
+    InvalidApplicationPatch:
       type: object
       properties:
         description: 
           type: string
           example: Invalid application submitted.
+        error_code:
+          type: string
+          example: 1100
+    
+    InvalidApplicationFinalSubmit:
+      type: object
+      properties:
+        description: 
+          type: string
+          example: Please fill out all column before final submit.
         error_code:
           type: string
           example: 1100
@@ -382,3 +600,43 @@ components:
         error_code:
           type: string
           example: 1102
+    
+    InvalidSignupInfo:
+      type: object
+      properties:
+        description: 
+          type: string
+          example: Invalid signup request
+        error_code:
+          type: string
+          example: 1300
+
+    UserAlreadyExists:
+      type: object
+      properties:
+        description: 
+          type: string
+          example: User already exists
+        error_code:
+          type: string
+          example: 1300
+
+    SignupAlreadyRequested:
+      type: object
+      properties:
+        description: 
+          type: string
+          example: Signup verification email already sent
+        error_code:
+          type: string
+          example: 1302
+
+    InvalidVerificationKey:
+      type: object
+      properties:
+        description: 
+          type: string
+          example: Invalid or expired verification key
+        error_code:
+          type: string
+          example: 1303
