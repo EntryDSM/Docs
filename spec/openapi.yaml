@@ -47,7 +47,7 @@ paths:
                 $ref: "#/components/schemas/ApplicationNotFound"
 
   /self/application/ged:
-    post:
+    put:
       tags:
         - 원서 제출
       summary: 검정고시 원서 제출
@@ -77,7 +77,7 @@ paths:
                 $ref: "#/components/schemas/AlreadyFinalSubmitted"                
 
   /self/application/graduated:
-    post:
+    put:
       tags:
         - 원서 제출
       summary: 졸업자 원서 제출
@@ -107,7 +107,7 @@ paths:
                 $ref: "#/components/schemas/AlreadyFinalSubmitted"  
 
   /self/application/ungraduated:
-    post:
+    put:
       tags:
         - 원서 제출
       summary: 졸업 예정자 원서 제출
