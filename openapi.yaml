@@ -12,3037 +12,351 @@ info:
     [![Build Status](https://travis-ci.org/EntryDSM/Docs.svg?branch=master)](https://travis-ci.org/EntryDSM/Docs)
 
     This is EntryDSM API docs! You can develop services&frontend by reading this :)
-tags:
-  - name: Hermes
-    description: 'Handles all EntryDSM user(admin, applicant) related functions on the EntryDSM platform'
-  - name: Louis-Vuitton
-    description: LV is in charge of process of entrance application
-  - name: Chanel
-    description: EntryDSM auth service
-  - name: Gucci
-    description: EntryDSM QnA service
-  - name: Rolex
-    description: EntryDSM admin service
-  - name: Yves-Saint-Laurent
-    description: EntryDSM interview service
 servers:
   - url: 'https://api.entrydsm.hs.kr/api/v1'
 paths:
-  /admin:
+  /self/application:
+    get:
+      tags:
+        - 원서 가져오기
+      summary: 원서 가져오기
+      security:
+        - JSONWebTokenAuthentication: []
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/GEDApplication'
+                  - $ref: '#/components/schemas/GraduatedApplication'
+                  - $ref: '#/components/schemas/UngraduatedApplication'
+        '404':
+          description: Any application submitted yet
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationNotFound'
+  /self/application/ged:
     post:
       tags:
-        - Hermes
-      summary: Create new admin
-      description: Create new admin
+        - 원서 제출
+      summary: 검정고시 원서 제출
       security:
-        - RootAdmin: []
+        - JSONWebTokenAuthentication: []
       requestBody:
         content:
           application/json:
             schema:
-              type: object
-              required:
-                - admin_id
-                - admin_email
-                - admin_name
-                - admin_password
-                - admin_type
-              properties:
-                admin_id:
-                  type: string
-                  example: entry2019root
-                  description: admin id
-                admin_email:
-                  type: string
-                  example: entry@entrydsm.hs.kr
-                  description: admin email
-                admin_name:
-                  type: string
-                  example: 연준모
-                  description: admin name
-                admin_password:
-                  type: string
-                  example: p@assword
-                  description: admin password
-                admin_type:
-                  type: string
-                  example: admin type
-                  description: 'admin type, one of `ROOT`, `ADMINISTRATION`, `INTERVIEW`'
+              $ref: '#/components/schemas/GEDApplication'
       responses:
-        '201':
-          description: Admin created
+        '204':
+          description: Success
         '400':
-          description: 'Bad request, check your payload'
-        '401':
-          description: Authentication failed
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvalidRequest'
         '409':
-          description: Admin with requested admin_id is already exists
-  /admin/batch:
-    get:
-      tags:
-        - Hermes
-      summary: Get multiple admins
-      description: Get multiple admins
-      security:
-        - RootAdmin: []
-      parameters:
-        - name: admin_id
-          in: query
-          description: admin id
-          schema:
-            type: string
-        - name: admin_email
-          in: query
-          description: admin email
-          schema:
-            type: string
-        - name: admin_name
-          in: query
-          description: admin name
-          schema:
-            type: string
-        - name: admin_type
-          in: query
-          description: 'admin type, one of `ROOT`, `ADMINISTRATION`, `INTERVIEW`'
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Query succeess
+          description: Already final submitted
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    admin_id:
-                      type: string
-                      example: entry2019root
-                      nullable: true
-                    admin_email:
-                      type: string
-                      example: entry@entrydsm.hs.kr
-                      nullable: true
-                    admin_name:
-                      type: string
-                      example: 연준모
-                      nullable: true
-                    admin_type:
-                      type: string
-                      example: ROOT
-                      description: 'one of `ROOT`, `ADMINISTRATION`, `INTERVIEW`'
-                      nullable: true
-        '401':
-          description: Authentication failed
-  '/admin/{admin_id}':
-    parameters:
-      - name: admin_id
-        in: path
-        description: admin id
-        required: true
-        schema:
-          type: string
-    get:
-      tags:
-        - Hermes
-      summary: Get one admin
-      description: Get one admin
-      security:
-        - RootAdmin: []
-      responses:
-        '200':
-          description: Query success
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  admin_id:
-                    type: string
-                    example: entry2019root
-                  admin_email:
-                    type: string
-                    example: entry@entrydsm.hs.kr
-                  admin_name:
-                    type: string
-                    example: 연준모
-                  admin_type:
-                    type: string
-                    example: ROOT
-                    description: 'one of `ROOT`, `ADMINISTRATION`,`INTERVIEW`'
-        '401':
-          description: Authentication failed
-        '404':
-          description: Admin not found
-    patch:
-      tags:
-        - Hermes
-      summary: Patch one admin
-      description: Patch one admin
-      security:
-        - RootAdmin: []
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                admin_email:
-                  type: string
-                  example: entry@entrydsm.hs.kr
-                  description: admin email
-                  nullable: true
-                admin_name:
-                  type: string
-                  example: 연준모
-                  description: admin name
-                  nullable: true
-                admin_password:
-                  type: string
-                  example: p@assword
-                  description: admin password
-                  nullable: true
-                admin_type:
-                  type: string
-                  example: admin type
-                  description: 'admin type, one of `ROOT`, `ADMINISTRATION`, `INTERVIEW`'
-                  nullable: true
-      responses:
-        '200':
-          description: Patch success
-        '401':
-          description: Authentication failed
-        '404':
-          description: Admin not found
-    delete:
-      tags:
-        - Hermes
-      summary: Delete one admin
-      description: Delete one admin
-      security:
-        - RootAdmin: []
-      responses:
-        '200':
-          description: Delete success
-        '401':
-          description: Authentication failed
-        '404':
-          description: Admin not found
-  '/admin/{admin_id}/authorization':
-    parameters:
-      - name: admin_id
-        in: path
-        description: admin id
-        required: true
-        schema:
-          type: string
+                $ref: '#/components/schemas/AlreadyFinalSubmitted'
+  /self/application/graduated:
     post:
       tags:
-        - Hermes
-      description: Get authorty of admin login
-      summary: Get authority of admin login
+        - 원서 제출
+      summary: 졸업자 원서 제출
+      security:
+        - JSONWebTokenAuthentication: []
       requestBody:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                password:
-                  type: string
+              $ref: '#/components/schemas/GraduatedApplication'
       responses:
-        '200':
-          description: Authorized
+        '204':
+          description: Success
         '400':
-          description: Bad request
-        '403':
-          description: Authorization failed
-  /admin/me:
-    get:
-      tags:
-        - Hermes
-      summary: Get my admin info - GATEWAY ONLY
-      description: 'Get my admin info, Gateway trnas-request this to `/admin{admin_id}` with given JWT credential'
-      security:
-        - Admin: []
-      responses:
-        '200':
-          description: Query success
+          description: Invalid request
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  admin_id:
-                    type: string
-                    example: entry2019root
-                  admin_email:
-                    type: string
-                    example: entry@entrydsm.hs.kr
-                  admin_name:
-                    type: string
-                    example: 연준모
-                  admin_type:
-                    type: string
-                    example: ROOT
-                    description: 'one of `ROOT`, `ADMINISTRATION`,`INTERVIEW`'
-        '401':
-          description: Authentication failed
-        '404':
-          description: Admin not found
-  /applicant:
-    post:
-      tags:
-        - Hermes
-      summary: Create new applicant
-      description: create new applicant that verified by `Chanel` service
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - email
-                - password
-              properties:
-                email:
-                  type: string
-                  example: seonghyeon@entrydsm.hs.kr
-                  description: applicant's email
-                password:
-                  type: string
-                  example: p@ssword!
-                  description: applicant's password
-      responses:
-        '201':
-          description: Applicant created
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  email:
-                    type: string
-                    example: entry@entrydsm.hs.kr
-                  applicant_name:
-                    type: string
-                    example: null
-                  sex:
-                    type: string
-                    example: null
-                  birth_date:
-                    type: string
-                    example: null
-                  parent_name:
-                    type: string
-                    example: null
-                  parent_tel:
-                    type: string
-                    example: null
-                  applicant_tel:
-                    type: string
-                    example: null
-                  address:
-                    type: string
-                    example: null
-                  post_code:
-                    type: string
-                    example: null
-                  image_path:
-                    type: string
-                    example: null
-                  status:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        is_paid:
-                          type: boolean
-                          example: false
-                        is_passed_first_apply:
-                          type: boolean
-                          example: false
-                        is_printed_application_arrived:
-                          type: boolean
-                          example: false
-                        is_final_submit:
-                          type: boolean
-                          example: false
-                        receipt_code:
-                          type: integer
-                          example: 1
-                        exam_code:
-                          type: string
-                          example: null
-        '401':
-          description: Authentication failed
+                $ref: '#/components/schemas/InvalidRequest'
         '409':
-          description: Applicant already exists
-  /applicant/batch:
-    get:
-      tags:
-        - Hermes
-      summary: Get multiple applicants
-      description: Get multiple applicants
-      security:
-        - Admin: []
-        - RootAdmin: []
-      parameters:
-        - name: email
-          in: query
-          description: applicant email
-          schema:
-            type: string
-        - name: applicant_name
-          in: query
-          description: applicant name
-          schema:
-            type: string
-        - name: sex
-          in: query
-          description: 'applicant sex, must be one of `MALE` and `FEMALE`'
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Query succeess
+          description: Already final submitted
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    email:
-                      type: string
-                      example: entry@entrydsm.hs.kr
-                    applicant_name:
-                      type: string
-                      example: 홍길동
-                      nullable: true
-                    sex:
-                      type: string
-                      example: MALE
-                      description: one of `MALE` and `FEMALE`
-                      nullable: true
-                    birth_date:
-                      type: string
-                      example: 2019-06-08T00:00:00.000Z
-                      description: birth date
-                      nullable: true
-                    parent_name:
-                      type: string
-                      example: 홍판서
-                      description: applicnat's parent name
-                      nullable: true
-                    parent_tel:
-                      type: string
-                      example: 010-1234-5678
-                      description: parent tel
-                      nullable: true
-                    applicant_tel:
-                      type: string
-                      example: 010-1234-5678
-                      description: applicant tel
-                      nullable: true
-                    address:
-                      type: string
-                      example: 경기도 용인시 기흥구 구성 3로 65
-                      description: address
-                      nullable: true
-                    post_code:
-                      type: string
-                      example: 17002
-                      description: post code
-                      nullable: true
-                    image_path:
-                      type: string
-                      example: eee824f7ff5f48d7b1bef0de68627726
-                      description: 'request like this, "cdn.entrydsm.hs.kr" + {image_path}'
-                      nullable: true
-        '401':
-          description: Authentication failed
-  '/applicant/{email}':
-    parameters:
-      - name: email
-        in: path
-        description: applicant email
-        required: true
-        schema:
-          type: string
-    get:
-      tags:
-        - Hermes
-      summary: Get one applicant
-      description: Get one applicant
-      security:
-        - Admin: []
-        - RootAdmin: []
-      responses:
-        '200':
-          description: Query succeess
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  email:
-                    type: string
-                    example: entry@entrydsm.hs.kr
-                    description: email
-                  applicant_name:
-                    type: string
-                    example: 홍길동
-                    description: name
-                    nullable: true
-                  sex:
-                    type: string
-                    example: MALE
-                    description: one of `MALE` and `FEMALE`
-                    nullable: true
-                  birth_date:
-                    type: string
-                    example: 2019-06-08T00:00:00.000Z
-                    description: birth date
-                    nullable: true
-                  parent_name:
-                    type: string
-                    example: 홍판서
-                    description: applicnat's parent name
-                    nullable: true
-                  parent_tel:
-                    type: string
-                    example: 010-1234-5678
-                    description: parent tel
-                    nullable: true
-                  applicant_tel:
-                    type: string
-                    example: 010-1234-5678
-                    description: applicant tel
-                    nullable: true
-                  address:
-                    type: string
-                    example: 경기도 용인시 기흥구 구성 3로 65
-                    description: address
-                    nullable: true
-                  post_code:
-                    type: string
-                    example: 17002
-                    description: post code
-                    nullable: true
-                  image_path:
-                    type: string
-                    example: eee824f7ff5f48d7b1bef0de68627726
-                    description: 'request like this, "cdn.entrydsm.hs.kr" + {image_path}'
-                    nullable: true
-        '401':
-          description: Authentication failed
-        '404':
-          description: Applicant does not exists
-    patch:
-      tags:
-        - Hermes
-      summary: Patch one applicant
-      description: Patch one applicant
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                password:
-                  type: string
-                  example: p@ssword
-                  description: password will changed
-                  nullable: true
-                applicant_name:
-                  type: string
-                  example: 홍길동
-                  description: name
-                  nullable: true
-                sex:
-                  type: string
-                  example: MALE
-                  description: one of `MALE` and `FEMALE`
-                  nullable: true
-                birth_date:
-                  type: string
-                  example: 2019-06-08T00:00:00.000Z
-                  description: birth date
-                  nullable: true
-                parent_name:
-                  type: string
-                  example: 홍판서
-                  description: applicnat's parent name
-                  nullable: true
-                parent_tel:
-                  type: string
-                  example: 010-1234-5678
-                  description: parent tel
-                  nullable: true
-                applicant_tel:
-                  type: string
-                  example: 010-1234-5678
-                  description: applicant tel
-                  nullable: true
-                address:
-                  type: string
-                  example: 경기도 용인시 기흥구 구성 3로 65
-                  description: address
-                  nullable: true
-                post_code:
-                  type: string
-                  example: 17002
-                  description: post code
-                  nullable: true
-                image_path:
-                  type: string
-                  example: eee824f7ff5f48d7b1bef0de68627726
-                  description: 'request like this, "cdn.entrydsm.hs.kr" + {image_path}'
-                  nullable: true
-      responses:
-        '200':
-          description: Patch success
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  email:
-                    type: string
-                    example: entry@entrydsm.hs.kr
-                    description: email
-                  applicant_name:
-                    type: string
-                    example: 홍길동
-                    description: name
-                    nullable: true
-                  sex:
-                    type: string
-                    example: MALE
-                    description: one of `MALE` and `FEMALE`
-                    nullable: true
-                  birth_date:
-                    type: string
-                    example: 2019-06-08T00:00:00.000Z
-                    description: birth date
-                    nullable: true
-                  parent_name:
-                    type: string
-                    example: 홍판서
-                    description: applicnat's parent name
-                    nullable: true
-                  parent_tel:
-                    type: string
-                    example: 010-1234-5678
-                    description: parent tel
-                    nullable: true
-                  applicant_tel:
-                    type: string
-                    example: 010-1234-5678
-                    description: applicant tel
-                    nullable: true
-                  address:
-                    type: string
-                    example: 경기도 용인시 기흥구 구성 3로 65
-                    description: address
-                    nullable: true
-                  post_code:
-                    type: string
-                    example: 17002
-                    description: post code
-                    nullable: true
-                  image_path:
-                    type: string
-                    example: eee824f7ff5f48d7b1bef0de68627726
-                    description: 'request like this, "cdn.entrydsm.hs.kr" +   {image_path}'
-                    nullable: true
-        '400':
-          description: Wrong data type
-        '401':
-          description: Authentication failed
-        '404':
-          description: Applicant not found
-    delete:
-      tags:
-        - Hermes
-      summary: Delete one applicant
-      description: Delete one applicant
-      security:
-        - Admin: []
-        - RootAdmin: []
-      responses:
-        '200':
-          description: Delete success
-        '401':
-          description: Authentication failed
-        '404':
-          description: Applicant not found
-  '/applicant/{email}/status':
-    parameters:
-      - name: email
-        in: path
-        description: applicant email
-        required: true
-        schema:
-          type: string
-    get:
-      tags:
-        - Hermes
-      summary: Get one applicant's status
-      description: Get one applicant's status
-      security:
-        - Admin: []
-        - RootAdmin: []
-      responses:
-        '200':
-          description: Query succeess
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  is_paid:
-                    type: boolean
-                    example: false
-                  is_passed_first_apply:
-                    type: boolean
-                    example: false
-                  is_printed_application_arrived:
-                    type: boolean
-                    example: false
-                  is_final_submit:
-                    type: boolean
-                    example: false
-                  receipt_code:
-                    type: integer
-                    example: 1
-                  exam_code:
-                    type: string
-                    example: 124533
-                    nullable: true
-        '401':
-          description: Authentication failed
-        '404':
-          description: Applicant not found
-    patch:
-      tags:
-        - Hermes
-      summary: Patch one applicant's status
-      description: Patch one applicant's status
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                is_paid:
-                  type: boolean
-                  example: false
-                  nullable: true
-                is_passed_first_apply:
-                  type: boolean
-                  example: false
-                  nullable: true
-                is_printed_application_arrived:
-                  type: boolean
-                  example: false
-                  nullable: true
-                is_final_submit:
-                  type: boolean
-                  example: false
-                  nullable: true
-                exam_code:
-                  type: string
-                  example: 124533
-                  nullable: true
-      responses:
-        '200':
-          description: Patch success
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  is_paid:
-                    type: boolean
-                    example: false
-                  is_passed_first_apply:
-                    type: boolean
-                    example: false
-                  is_printed_application_arrived:
-                    type: boolean
-                    example: false
-                  is_final_submit:
-                    type: boolean
-                    example: false
-                  receipt_code:
-                    type: integer
-                    example: 1
-                  exam_code:
-                    type: string
-                    example: 124533
-                    nullable: true
-        '400':
-          description: Wrong data type
-        '401':
-          description: Authentication failed
-        '404':
-          description: Applicant not found
-  '/applicant/{email}/authorization':
-    parameters:
-      - name: email
-        in: path
-        description: applicant email
-        required: true
-        schema:
-          type: string
+                $ref: '#/components/schemas/AlreadyFinalSubmitted'
+  /self/application/ungraduated:
     post:
       tags:
-        - Hermes
-      description: Get authorty of applicant login
-      summary: Get authority of applicant login
+        - 원서 제출
+      summary: 졸업 예정자 원서 제출
+      security:
+        - JSONWebTokenAuthentication: []
       requestBody:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                password:
-                  type: string
+              $ref: '#/components/schemas/UngraduatedApplication'
       responses:
-        '200':
-          description: Authorized
+        '204':
+          description: Success
         '400':
-          description: Bad request
-        '403':
-          description: Authorization failed
-  /applicant/me:
-    get:
-      tags:
-        - Hermes
-      summary: Get my applicant info - GATEWAY ONLY
-      description: 'Get my applicant info, Gateway trnas-request this to `GET /applicant/{email}` with given JWT credential'
-      security:
-        - Applicant: []
-      responses:
-        '200':
-          description: Query succeess
+          description: Invalid request
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  email:
-                    type: string
-                    example: entry@entrydsm.hs.kr
-                    description: email
-                  applicant_name:
-                    type: string
-                    example: 홍길동
-                    description: name
-                    nullable: true
-                  sex:
-                    type: string
-                    example: MALE
-                    description: one of `MALE` and `FEMALE`
-                    nullable: true
-                  birth_date:
-                    type: string
-                    example: 2019-06-08T00:00:00.000Z
-                    description: birth date
-                    nullable: true
-                  parent_name:
-                    type: string
-                    example: 홍판서
-                    description: applicnat's parent name
-                    nullable: true
-                  parent_tel:
-                    type: string
-                    example: 010-1234-5678
-                    description: parent tel
-                    nullable: true
-                  applicant_tel:
-                    type: string
-                    example: 010-1234-5678
-                    description: applicant tel
-                    nullable: true
-                  address:
-                    type: string
-                    example: 경기도 용인시 기흥구 구성 3로 65
-                    description: address
-                    nullable: true
-                  post_code:
-                    type: string
-                    example: 17002
-                    description: post code
-                    nullable: true
-                  image_path:
-                    type: string
-                    example: eee824f7ff5f48d7b1bef0de68627726
-                    description: 'request like this, "cdn.entrydsm.hs.kr" + {image_path}'
-                    nullable: true
-        '401':
-          description: Authentication failed
-    patch:
-      tags:
-        - Hermes
-      summary: Patch my applicant info - GATEWAY ONLY
-      description: 'Patch my applicant info, Gateway trnas-request this to `PATCH /applicant/{email}` with given JWT credential'
-      security:
-        - Applicant: []
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                applicant_name:
-                  type: string
-                  example: 홍길동
-                  description: name
-                  nullable: true
-                sex:
-                  type: string
-                  example: MALE
-                  description: one of `MALE` and `FEMALE`
-                  nullable: true
-                birth_date:
-                  type: string
-                  example: 2019-06-08T00:00:00.000Z
-                  description: birth date
-                  nullable: true
-                parent_name:
-                  type: string
-                  example: 홍판서
-                  description: applicnat's parent name
-                  nullable: true
-                parent_tel:
-                  type: string
-                  example: 010-1234-5678
-                  description: parent tel
-                  nullable: true
-                applicant_tel:
-                  type: string
-                  example: 010-1234-5678
-                  description: applicant tel
-                  nullable: true
-                address:
-                  type: string
-                  example: 경기도 용인시 기흥구 구성 3로 65
-                  description: address
-                  nullable: true
-                post_code:
-                  type: string
-                  example: 17002
-                  description: post code
-                  nullable: true
-      responses:
-        '200':
-          description: Patch success
-        '401':
-          description: Authentication failed
-  /applicant/me/status:
-    get:
-      tags:
-        - Hermes
-      summary: Get my applicant's status - GATEWAY ONLY
-      description: 'Get my applicant''s status. Gateway trnas-request this to `GET /applicant/{email}` with given JWT credential'
-      security:
-        - Applicant: []
-      responses:
-        '200':
-          description: Query succeess
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  is_paid:
-                    type: boolean
-                    example: false
-                  is_passed_first_apply:
-                    type: boolean
-                    example: false
-                  is_printed_application_arrived:
-                    type: boolean
-                    example: false
-                  is_final_submit:
-                    type: boolean
-                    example: false
-                  receipt_code:
-                    type: integer
-                    example: 1
-                  exam_code:
-                    type: string
-                    example: 124533
-                    nullable: true
-        '401':
-          description: Authentication failed
-  /applicant/me/photo:
-    put:
-      tags:
-        - Hermes
-      summary: Change my applicnat photo - GATEWAY ONLY
-      description: 'Change my applicnat photo, this uploads your photo to cdn and save image patho with `PATCH`/applicant/{email}'
-      security:
-        - Applicant: []
-      requestBody:
-        content:
-          image/png:
-            schema:
-              type: string
-              format: binary
-              description: image
-      responses:
-        '200':
-          description: File upload success
-        '401':
-          description: Authentication failed
-  /applicant/signup:
-    post:
-      tags:
-        - Chanel
-      summary: Sign up
-      description: 'Create a temporary user and `verification_code`, and send email the link with that code.'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - email
-                - password
-              properties:
-                email:
-                  type: string
-                  example: by09115@jaehoon.kim
-                  description: user email
-                password:
-                  type: string
-                  example: thisIsP@ssword
-                  description: user password
-      responses:
-        '202':
-          description: 'E-mail sent, temp user created'
-        '400':
-          description: Bad request
+                $ref: '#/components/schemas/InvalidRequest'
         '409':
-          description: Conflict
-  /applicant/signup/verify:
-    post:
-      tags:
-        - Chanel
-      summary: send email to verify user
-      description: send email(with verification code) to verify user
-      parameters:
-        - name: resend
-          in: query
-          description: '재전송 여부(재전송일 경우 "true", 아니면 붙이지 않음.)'
-          schema:
-            type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - email
-              properties:
-                email:
-                  type: string
-                  example: example@entrydsm.hs.kr
-                  description: applicant email
-      responses:
-        '201':
-          description: sent a email successfuly
-        '400':
-          description: bad request
-  '/applicant/signup/verify/{email}/{verify_code}':
-    get:
-      tags:
-        - Chanel
-      summary: Verify user to use a verify_code
-      description: 'Verify user by verification code that sent with e-mail. (e.g. "/applicant/signup/verify/{email}/{verify_code}")'
-      parameters:
-        - name: email
-          in: path
-          description: user email
-          required: true
-          schema:
-            type: string
-        - name: verify_code
-          in: path
-          description: verify_code in sent email
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Account has been verified
-        '401':
-          description: Incorrect verification code
-  /applicant/login:
-    post:
-      tags:
-        - Chanel
-      summary: Create applicant's JWT credential
-      description: Get applicant's JWT credential by check applicant info
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - email
-                - password
-              properties:
-                email:
-                  type: string
-                  example: by09115@jaehoon.kim
-                  description: applicant email
-                password:
-                  type: string
-                  example: thisIsP@ssword
-                  description: applicant password
-      responses:
-        '201':
-          description: Login successed
+          description: Already final submitted
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  access:
-                    type: string
-                    example: ThIsIs.TrUlY.AcCeSsToKeN
-                  refresh:
-                    type: string
-                    example: ThIsIs.TrUlY.ReFrEsHtOkEn
-        '400':
-          description: Bad Request
-        '403':
-          description: Can not find match applicant info
-  /applicant/refresh:
-    patch:
-      tags:
-        - Chanel
-      summary: Refresh applicant JWT credential
-      description: Refresh applicant JWT credential
-      parameters:
-        - name: X-Refresh-Token
-          in: header
-          description: '(e.g. "Bearer {token}")'
-          schema:
-            type: string
-      responses:
-        '201':
-          description: Successfuly refreshed
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  access:
-                    type: string
-                    example: '{{ access token }}'
-        '400':
-          description: Missing header
-        '403':
-          description: Incorrect refresh token
-  /applicant/logout:
-    delete:
-      tags:
-        - Chanel
-      summary: Destroy applicant JWT credential
-      description: Destroy applicant JWT credential
-      parameters:
-        - name: X-Refresh-Token
-          in: header
-          description: '(e.g. "Bearer {token}")'
-          schema:
-            type: string
-      responses:
-        '202':
-          description: Accepted
-        '400':
-          description: Missing authorization header
-        '403':
-          description: Incorrect refresh token
-  /admin/login:
-    post:
-      tags:
-        - Chanel
-      summary: Create admin's JWT credential
-      description: Get admin's JWT credential by check admin info
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - admin_id
-                - password
-              properties:
-                admin_id:
-                  type: string
-                  example: by09115
-                  description: admin id
-                password:
-                  type: string
-                  example: thisIsP@ssword
-                  description: admin password
-      responses:
-        '201':
-          description: Login successed
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  access:
-                    type: string
-                    example: ThIsIs.TrUlY.AcCeSsToKeN
-                  refresh:
-                    type: string
-                    example: ThIsIs.TrUlY.ReFrEsHtOkEn
-        '400':
-          description: Bad Request
-        '403':
-          description: Can not find match admin info
-  /admin/refresh:
-    patch:
-      tags:
-        - Chanel
-      summary: Refresh admin's JWT credential
-      description: Refresh admin's JWT credential
-      parameters:
-        - name: X-Refresh-Token
-          in: header
-          description: '(e.g. "Bearer {token}")'
-          schema:
-            type: string
-      responses:
-        '201':
-          description: Successfuly refreshed
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  access:
-                    type: string
-                    example: '{{ access token }}'
-        '400':
-          description: Missing header
-        '403':
-          description: Incorrect refresh token
-  /admin/logout:
-    delete:
-      tags:
-        - Chanel
-      summary: Destroy admin's JWT credential
-      description: Destroy admin's JWT credential
-      parameters:
-        - name: X-Refresh-Token
-          in: header
-          description: '(e.g. "Bearer {token}")'
-          schema:
-            type: string
-      responses:
-        '202':
-          description: Accepted
-        '400':
-          description: Missing authorization header
-        '403':
-          description: Incorrect refresh token
-  /applicant/password/reset:
-    put:
-      tags:
-        - Chanel
-      summary: Reset my applicant password
-      description: Reset my applicant info
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                email:
-                  type: string
-                  example: entry@entrydsm.hs.kr
-                  description: email
-                password:
-                  type: string
-                  example: p@ssword
-                  description: password to be changed
-      responses:
-        '200':
-          description: Reset success
-        '401':
-          description: Authentication failed
-    post:
-      tags:
-        - Chanel
-      summary: Send password reset verification email
-      description: Send password reset verification email
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                email:
-                  type: string
-                  example: entry@entrydsm.hs.kr
-                  description: applicant's email who want to change the password
-      responses:
-        '202':
-          description: Email sent
-        '404':
-          description: Applicant not found
-  '/applicant/password/reset/{email}/{verify_code}':
-    get:
-      tags:
-        - Chanel
-      summary: check the verify code's exists
-      description: check the verify code
-      parameters:
-        - name: email
-          in: path
-          description: user email
-          required: true
-          schema:
-            type: string
-        - name: verify_code
-          in: path
-          description: verify_code in sent email
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: code has verified
-        '404':
-          description: code isn't exist.
-  '/applicant/{email}/classification':
-    parameters:
-      - name: email
-        in: path
-        description: applicant email
-        required: true
-        schema:
-          type: string
-    get:
-      tags:
-        - Louis-Vuitton
-      summary: Get applicant classification info
-      description: Get applicant classification info
-      security:
-        - Admin: []
-        - RootAdmin: []
-      responses:
-        '200':
-          description: Query success
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  data:
-                    type: object
-                    properties:
-                      is_ged:
-                        type: boolean
-                        nullable: false
-                      apply_type:
-                        type: string
-                        nullable: false
-                      social_detail_type:
-                        type: string
-                        nullable: true
-                      is_daejeon:
-                        type: boolean
-                        nullable: false
-                      is_graduated:
-                        type: boolean
-                        nullable: true
-                      graduated_year:
-                        type: string
-                        nullable: true
-                      additional_type:
-                        type: boolean
-                        nullable: true
-    patch:
-      tags:
-        - Louis-Vuitton
-      summary: Patch applicant classification info
-      description: Patch applicant classification info
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                is_ged:
-                  type: boolean
-                  nullable: false
-                apply_type:
-                  type: string
-                  nullable: false
-                social_detail_type:
-                  type: string
-                  nullable: true
-                is_daejeon:
-                  type: boolean
-                  nullable: false
-                is_graduated:
-                  type: boolean
-                  nullable: true
-                graduated_year:
-                  type: string
-                  nullable: true
-                additional_type:
-                  type: string
-                  nullable: true
-      responses:
-        '200':
-          description: Patch success
-        '400':
-          description: Bad request
-  /applicant/me/classification:
-    get:
-      tags:
-        - Louis-Vuitton
-      summary: Get my classification info - GATEWAY ONLY
-      description: Get my classification info
-      security:
-        - Applicant: []
-      responses:
-        '200':
-          description: Query success
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  data:
-                    type: object
-                    properties:
-                      is_ged:
-                        type: boolean
-                        nullable: false
-                      apply_type:
-                        type: string
-                        nullable: false
-                      social_detail_type:
-                        type: string
-                        nullable: true
-                      is_daejeon:
-                        type: boolean
-                        nullable: false
-                      is_graduated:
-                        type: boolean
-                        nullable: true
-                      graduated_year:
-                        type: string
-                        nullable: true
-                      additional_type:
-                        type: boolean
-                        nullable: true
-    patch:
-      tags:
-        - Louis-Vuitton
-      summary: Patch my classification info - GATEWAY ONLY
-      description: Patch my classification info
-      security:
-        - Applicant: []
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                is_ged:
-                  type: boolean
-                  nullable: false
-                apply_type:
-                  type: string
-                  nullable: false
-                social_detail_type:
-                  type: string
-                  nullable: true
-                is_daejeon:
-                  type: boolean
-                  nullable: false
-                is_graduated:
-                  type: boolean
-                  nullable: true
-                graduated_year:
-                  type: string
-                  nullable: true
-                additional_type:
-                  type: string
-                  nullable: true
-      responses:
-        '200':
-          description: Patch success
-        '400':
-          description: Bad request
-  '/applicant/{email}/document':
-    parameters:
-      - name: email
-        in: path
-        description: applicant email
-        required: true
-        schema:
-          type: string
-    get:
-      tags:
-        - Louis-Vuitton
-      summary: Get applicant document
-      description: Get applicant document
-      security:
-        - RootAdmin: []
-        - Admin: []
-      responses:
-        '200':
-          description: Query success
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  data:
-                    type: object
-                    properties:
-                      self_introduction_text:
-                        type: string
-                        nullable: true
-                      study_plan_text:
-                        type: string
-                        nullable: true
-    patch:
-      tags:
-        - Louis-Vuitton
-      summary: Patch applicant document
-      description: Patch applicant document
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                self_introduction_text:
-                  type: string
-                  nullable: true
-                study_plan_text:
-                  type: string
-                  nullable: true
-      responses:
-        '200':
-          description: Patch success
-        '400':
-          description: Bad request
-  /applicant/me/document:
-    get:
-      tags:
-        - Louis-Vuitton
-      summary: Get my document - GATEWAY ONLY
-      description: Get my document
-      security:
-        - Applicant: []
-      responses:
-        '200':
-          description: Query success
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  data:
-                    type: object
-                    properties:
-                      self_introduction_text:
-                        type: string
-                        nullable: true
-                      study_plan_text:
-                        type: string
-                        nullable: true
-    patch:
-      tags:
-        - Louis-Vuitton
-      summary: Patch my document - GATEWAY ONLY
-      description: Patch my document
-      security:
-        - Applicant: []
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                self_introduction_text:
-                  type: string
-                  nullable: true
-                study_plan_text:
-                  type: string
-                  nullable: true
-      responses:
-        '200':
-          description: Patch success
-        '400':
-          description: Bad request
-  '/applicant/{email}/diligence':
-    parameters:
-      - name: email
-        in: path
-        description: applicant email
-        required: true
-        schema:
-          type: string
-    get:
-      tags:
-        - Louis-Vuitton
-      summary: Get applicant diligence grade
-      description: 지원자 출결/봉사 성적
-      security:
-        - RootAdmin: []
-        - Admin: []
-      responses:
-        '200':
-          description: Query success
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  data:
-                    type: object
-                    properties:
-                      volunteer_time:
-                        type: integer
-                        example: 60
-                        nullable: true
-                      full_cut_count:
-                        type: integer
-                        example: 1
-                        nullable: true
-                      period_cut_count:
-                        type: integer
-                        example: 0
-                        nullable: true
-                      late_count:
-                        type: integer
-                        example: 2
-                        nullable: true
-                      early_leave_count:
-                        type: integer
-                        example: 1
-                        nullable: true
-    patch:
-      tags:
-        - Louis-Vuitton
-      summary: Patch applicant diligence grade
-      description: 지원자 출결/봉사 성적 수정(입력)
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                volunteer_time:
-                  type: integer
-                  example: 55
-                  nullable: true
-                full_cut_count:
-                  type: integer
-                  example: 1
-                  nullable: true
-                period_cut_count:
-                  type: integer
-                  example: 1
-                  nullable: true
-                late_count:
-                  type: integer
-                  example: 1
-                  nullable: true
-                early_leave_count:
-                  type: integer
-                  example: 0
-                  nullable: true
-      responses:
-        '200':
-          description: ''
-        '400':
-          description: Invalid diligence grade value
-  '/applicant/{email}/ged-score':
-    parameters:
-      - name: email
-        in: path
-        description: applicant email
-        required: true
-        schema:
-          type: string
-    get:
-      tags:
-        - Louis-Vuitton
-      summary: Get ged applicant grade
-      description: 검정고시 성적
-      security:
-        - RootAdmin: []
-        - Admin: []
-      responses:
-        '200':
-          description: Query success
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  data:
-                    type: object
-                    properties:
-                      ged_average_score:
-                        type: number
-                        example: 80.8
-                        nullable: true
-    patch:
-      tags:
-        - Louis-Vuitton
-      summary: Patch ged applicant grade
-      description: 검정고시 성적 수정(입력)
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                ged_average_score:
-                  type: number
-                  example: 99.9
-                  nullable: true
-      responses:
-        '200':
-          description: ''
-        '400':
-          description: Invalid ged grade value
-  '/applicant/{email}/academic-score':
-    parameters:
-      - name: email
-        in: path
-        description: applicant email
-        required: true
-        schema:
-          type: string
-    get:
-      tags:
-        - Louis-Vuitton
-      summary: Get applicant academic grade
-      description: 지원자 학교과목 성적
-      security:
-        - RootAdmin: []
-        - Admin: []
-      responses:
-        '200':
-          description: Query success
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  data:
-                    type: object
-                    properties:
-                      subject_scores:
-                        type: array
-                        items:
-                          properties:
-                            semester:
-                              type: integer
-                              example: 1
-                            subject:
-                              type: string
-                              example: korean
-                            score:
-                              type: string
-                              example: A
-    patch:
-      tags:
-        - Louis-Vuitton
-      summary: Patch applicant academic grade
-      description: 지원자 학교과목 성적 수정(입력)
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                subject_scores:
-                  type: array
-                  items:
-                    properties:
-                      semester:
-                        type: integer
-                        example: 5
-                      subject:
-                        type: string
-                        example: math
-                      score:
-                        type: string
-                        example: C
-      responses:
-        '200':
-          description: ''
-        '400':
-          description: Invalid academic grade value
-  /stats/competition:
-    get:
-      tags:
-        - Rolex
-      summary: Get competition rate of region(daejeon or nation)
-      description: Get competition rate of region(daejeon or nation). get region by query.
-      security:
-        - Admin: []
-        - RootAdmin: []
-      parameters:
-        - name: region
-          in: query
-          example: daejeon
-          description: daejeon or region
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Query succeess
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  rate:
-                    type: number
-                    example: 187
-        '401':
-          description: Authentication failed
-  /stats/applicant:
-    get:
-      tags:
-        - Rolex
-      summary: Get Receipt status table information of applicant
-      description: Get Receipt status table information of applicant
-      security:
-        - Admin: []
-        - RootAdmin: []
-      responses:
-        '200':
-          description: Query Success
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  daejeon:
-                    properties:
-                      meister:
-                        type: number
-                        example: 10
-                      social:
-                        type: number
-                        example: 11
-                      common:
-                        type: number
-                        example: 53
-                  nation:
-                    properties:
-                      meister:
-                        type: number
-                        example: 25
-                      social:
-                        type: number
-                        example: 17
-                      common:
-                        type: number
-                        example: 104
-                  total:
-                    properties:
-                      daejeon:
-                        type: number
-                        example: 74
-                      nation:
-                        type: number
-                        example: 146
-  /stats/rate:
-    get:
-      tags:
-        - Rolex
-      summary: Get Receipt status table information of rate
-      description: Get Receipt status table information of rate
-      security:
-        - Admin: []
-        - RootAdmin: []
-      responses:
-        '200':
-          description: Query Success
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  daejeon:
-                    properties:
-                      meister:
-                        type: string
-                        example: '1:1'
-                      social:
-                        type: string
-                        example: '2.8:1'
-                      common:
-                        type: string
-                        example: '2.9:1'
-                  nation:
-                    properties:
-                      meister:
-                        type: string
-                        example: '1.8:1'
-                      social:
-                        type: string
-                        example: '4:1'
-                      common:
-                        type: string
-                        example: '4.9:1'
-                  total:
-                    properties:
-                      daejeon:
-                        type: string
-                        example: '2.3:1'
-                      nation:
-                        type: string
-                        example: '3:1'
-                      all:
-                        type: string
-                        example: '2.75:1'
-  /student:
-    get:
-      tags:
-        - Rolex
-      summary: Get multiple applicants
-      description: Get mutiple applicants information for make list of student. Set search option by querystring
-      security:
-        - Admin: []
-        - RootAdmin: []
-      parameters:
-        - name: name
-          in: query
-          description: applicant name
-          schema:
-            type: string
-        - name: region
-          in: query
-          description: 'applicant region, must be one of `daejeon` and `nation`'
-          schema:
-            type: string
-        - name: type
-          in: query
-          description: 'applicant type, must be one of `common` and `meister` and `social`'
-          schema:
-            type: string
-        - name: status
-          in: query
-          description: 'applicant status (bitflag), `11` - 원서 결제 ok, `10` - 원서 ok, `01` - 결제 ok'
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Query Success
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    code:
-                      type: string
-                      example: '1234'
-                    name:
-                      type: string
-                      example: 홍길동
-                    region:
-                      type: string
-                      example: nation
-                    type:
-                      type: string
-                      example: social
-                    arrive:
-                      type: number
-                      example: 1
-                    paid:
-                      type: number
-                      example: 1
-                    submit:
-                      type: number
-                      example: 1
-        '401':
-          description: Authentication failed
-  '/student/{email}':
-    get:
-      tags:
-        - Rolex
-      summary: Get Information of one student
-      description: Get Detail Information of one student by applicant email
-      security:
-        - Admin: []
-        - RootAdmin: []
-      parameters:
-        - name: email
-          in: path
-          description: applicant email
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Query Success
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  info:
-                    properties:
-                      name:
-                        type: string
-                        example: 홍길동
-                      image_path:
-                        type: string
-                        example: eee824f7ff5f48d7b1bef0de68627726
-                      email:
-                        type: string
-                        example: entry@entrydsm.hs.kr
-                      sex:
-                        type: string
-                        example: male
-                      birth_date:
-                        type: object
-                        example: {}
-                      parent_tel:
-                        type: string
-                        example: 010-1234-5678
-                      academic_tel:
-                        type: string
-                        example: 070-123-456
-                  score:
-                    properties:
-                      volunteer_time:
-                        type: number
-                        example: 60
-                      full:
-                        type: number
-                        example: 0
-                      period:
-                        type: number
-                        example: 0
-                      late:
-                        type: number
-                        example: 0
-                      leave:
-                        type: number
-                        example: 0
-                  status:
-                    properties:
-                      arrive:
-                        type: number
-                        example: 1
-                      paid:
-                        type: number
-                        example: 0
-        '401':
-          description: Authentication failed
-  '/student/{email}/document':
-    get:
-      tags:
-        - Rolex
-      summary: Get Document of one student
-      description: Get Detail Information of one student by applicant email
-      security:
-        - Admin: []
-        - RootAdmin: []
-      parameters:
-        - name: email
-          in: path
-          description: applicant email
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Query Success
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  intro:
-                    type: string
-                    example: 저는 000 입니다. 제가 이 학교 ~
-                  plan:
-                    type: string
-                    example: 저는 이 학교에서 000을 공부하고 ~
-  '/student/{email}/submit':
-    patch:
-      tags:
-        - Rolex
-      summary: Cancel sumbit application
-      description: Cancel sumbit application
-      security:
-        - Admin: []
-        - RootAdmin: []
-      parameters:
-        - name: email
-          required: true
-          in: path
-          description: applicant email
-          schema:
-            type: string
-      responses:
-        '201':
-          description: sumbit cancel success
-        '401':
-          description: Authentication failed
-  /agency/cheak:
-    get:
-      tags:
-        - Yves-Saint-Laurent
-      summary: Check agency code
-      description: Check agency code
-      parameters:
-        - name: code
-          in: query
-          example: ENTRY19
-          description: agency code
-          schema:
-            type: string
-      responses:
-        '200':
-          description: check agency succese
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  agency_name:
-                    type: string
-                    example: ENTRYDSM
-                  agnecy_explanation:
-                    type: string
-                    example: 학교입학전형을 만드는 엔트리 개발팀입니다.
-        '400':
-          description: unseen agency
-  '/admin/{agency_code}/interviewer/accept':
-    post:
-      tags:
-        - Yves-Saint-Laurent
-      summary: accept interviewer
-      description: acceptance of interviewer
-      parameters:
-        - name: agency_code
-          in: path
-          description: agency_code
-          required: true
-          schema:
-            type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                user_email:
-                  type: string
-                  example: eunjuoi0515@gmail.com
-      responses:
-        '201':
-          description: Successful interviewer accept
-        '400':
-          description: Check json format
-  '/admin/{agency_code}/interviewer/reject':
-    post:
-      tags:
-        - Yves-Saint-Laurent
-      summary: reject interviewer
-      description: be rejected by the agency
-      parameters:
-        - name: agency_code
-          in: path
-          description: agency_code
-          required: true
-          schema:
-            type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                user_email:
-                  type: string
-                  example: eunjuoi0515@gmail.com
-      responses:
-        '201':
-          description: Successful interviewer reject
-        '400':
-          description: Check json format
-  '/admin/{agency_code}/interviewer':
-    get:
-      tags:
-        - Yves-Saint-Laurent
-      summary: an applicant interviewer
-      description: an applicant interviewer list
-      parameters:
-        - name: agency_code
-          in: path
-          description: agency_code
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: applicant interviewer list
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  interviewer:
-                    type: array
-                    items:
-                      properties:
-                        interviewer_name:
-                          type: string
-                          example: 이채은
-        '400':
-          description: None Resources
-  '/admin/agency/{agency_code}':
-    delete:
-      tags:
-        - Yves-Saint-Laurent
-      summary: delete agency
-      description: delete agency
-      parameters:
-        - name: agency_code
-          in: path
-          description: agency_code
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: successful agency delete
-        '400':
-          description: None Resources
-    get:
-      tags:
-        - Yves-Saint-Laurent
-      summary: get agency information
-      description: get agency information
-      parameters:
-        - name: agency_code
-          in: path
-          description: agency_code
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: get agency information
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  agency_name:
-                    type: string
-                    example: DSM
-                  agency_kind:
-                    type: string
-                    example: 학교/특수목적고등학교
-                  agency_code:
-                    type: string
-                    example: 1EDOLW
-        '400':
-          description: None Resources
-    patch:
-      tags:
-        - Yves-Saint-Laurent
-      summary: change agency explanation
-      description: change agency explanation
-      parameters:
-        - name: agency_code
-          in: path
-          description: agency_code
-          required: true
-          schema:
-            type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                explanation:
-                  type: string
-                  example: 저희 엔트리는 입학전형~
-      responses:
-        '201':
-          description: Successful change agency explanation
-        '400':
-          description: Check json format
-  /agency:
-    get:
-      tags:
-        - Yves-Saint-Laurent
-      summary: interviewer belonged agency
-      description: View the agency the interviewer subscribes to
-      responses:
-        '200':
-          description: get interviewer belonged agency
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  agency:
-                    type: array
-                    items:
-                      properties:
-                        agency_name:
-                          type: string
-                          example: Entry
-        '400':
-          description: None Resources
-  '/{agency_code}':
-    get:
-      tags:
-        - Yves-Saint-Laurent
-      summary: get an ongoing interview with an agency
-      description: get an ongoing interview with an agency
-      parameters:
-        - name: agency_code
-          in: path
-          description: agency_code
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: get ongoing interview
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  interview:
-                    type: array
-                    items:
-                      properties:
-                        interview_name:
-                          type: string
-                          example: 대전일반전형면접
-                        interivew_explanation:
-                          type: string
-                          example: 대전 일반 전형에 대한 면접입니다.
-        '400':
-          description: None Resources
-  '/admin/{agency_code}/ready/interview':
-    get:
-      tags:
-        - Yves-Saint-Laurent
-      summary: get an ready interview list
-      description: get an ready interview list with an agency
-      parameters:
-        - name: agency_code
-          in: path
-          description: agency_code
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: get ready interview
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  interview:
-                    type: array
-                    items:
-                      properties:
-                        interview_name:
-                          type: string
-                          example: 대전일반전형면접
-                        interivew_explanation:
-                          type: string
-                          example: 대전 일반 전형에 대한 면접입니다.
-        '400':
-          description: None Resources
-  '/{agency_code}/{interview_id}/{question_num}':
-    get:
-      tags:
-        - Yves-Saint-Laurent
-      summary: get interview question
-      description: get interview question
-      parameters:
-        - name: agency_code
-          in: path
-          description: agency_code
-          required: true
-          schema:
-            type: string
-        - name: interview_id
-          in: path
-          description: interivew_id
-          required: true
-          schema:
-            type: integer
-        - name: question_num
-          in: path
-          description: question_num
-          required: true
-          schema:
-            type: integer
-      responses:
-        '200':
-          description: get interivew question
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  question:
-                    type: string
-                    example: 간단하게 자기소개를 해주세요.
-        '400':
-          description: None Resources
-  '/{agency_code}/{interview_id}/{question_num}/{student_code}':
-    post:
-      tags:
-        - Yves-Saint-Laurent
-      summary: answer to interview question
-      description: answer to interview question
-      parameters:
-        - name: agency_code
-          in: path
-          description: agency_code
-          required: true
-          schema:
-            type: string
-        - name: interview_id
-          in: path
-          description: interivew_id
-          required: true
-          schema:
-            type: integer
-        - name: question_num
-          in: path
-          description: question_num
-          required: true
-          schema:
-            type: integer
-        - name: student_code
-          in: path
-          description: student_code
-          required: true
-          schema:
-            type: integer
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                answer:
-                  type: string
-                  example: 저는 부산에서자라~
-      responses:
-        '201':
-          description: Successful answer
-        '400':
-          description: Check json format
-  '/{agency_code}/{interview_id}':
-    get:
-      tags:
-        - Yves-Saint-Laurent
-      summary: search interviewee
-      description: search interviewee
-      parameters:
-        - name: agency_code
-          in: path
-          description: agency_code
-          required: true
-          schema:
-            type: string
-        - name: interview_id
-          in: path
-          description: interivew_id
-          required: true
-          schema:
-            type: integer
-        - name: interviewee
-          in: query
-          description: interviewee
-          required: true
-          schema:
-            type: integer
-      responses:
-        '200':
-          description: find interviewee
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  interviewee_name:
-                    type: string
-                    example: 오경태
-        '400':
-          description: an interviewee without
-  '/admin/{agency_code}/done/interview':
-    get:
-      tags:
-        - Yves-Saint-Laurent
-      summary: get an done interview list
-      description: get an done interview list with an agency
-      parameters:
-        - name: agency_code
-          in: path
-          description: agency_code
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: get done interview
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  interview:
-                    type: array
-                    items:
-                      properties:
-                        interview_name:
-                          type: string
-                          example: 대전일반전형면접
-                        interivew_explanation:
-                          type: string
-                          example: 대전 일반 전형에 대한 면접입니다.
-        '400':
-          description: None Resources
-  '/admin/{agency_code}/interview':
-    post:
-      tags:
-        - Yves-Saint-Laurent
-      summary: create interview
-      description: create interview
-      parameters:
-        - name: agency_code
-          in: path
-          description: agency_code
-          required: true
-          schema:
-            type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                name:
-                  type: string
-                  example: 대전 일반전형 면접1실
-                start_date:
-                  type: string
-                  example: '2019-07-23'
-                end_date:
-                  type: string
-                  example: '2019-08-30'
-      responses:
-        '201':
-          description: Successful create interview
-        '400':
-          description: Check json format
-  '/admin/{agency_code}/{interview_id}/question':
-    post:
-      tags:
-        - Yves-Saint-Laurent
-      summary: create interview qeustion
-      description: create interview qeustion
-      parameters:
-        - name: agency_code
-          in: path
-          description: agency_code
-          required: true
-          schema:
-            type: string
-        - name: interview_id
-          in: path
-          description: interview_code
-          required: true
-          schema:
-            type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                question_num:
-                  type: integer
-                  example: 1
-                content:
-                  type: string
-                  example: 자기소개해주세요
-                type:
-                  type: integer
-                  example: 2
-      responses:
-        '201':
-          description: Successful create interview question
-        '400':
-          description: Cheak json format
-  '/admin/{agency_code}/{interview_id}':
-    get:
-      tags:
-        - Yves-Saint-Laurent
-      summary: get interview qeustion
-      description: get interview qeustion
-      parameters:
-        - name: agency_code
-          in: path
-          description: agency_code
-          required: true
-          schema:
-            type: string
-        - name: interview_id
-          in: path
-          description: interview_code
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: get interview quesiton list
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  interview_question:
-                    type: array
-                    items:
-                      properties:
-                        question_num:
-                          type: integer
-                          example: 1
-                        content:
-                          type: string
-                          example: 자기소개를해주세요.
-        '400':
-          description: None Resources
-  '/admin/{agency_code}/{interview_id}/{question_num}':
-    put:
-      tags:
-        - Yves-Saint-Laurent
-      summary: modified interview qeustion
-      description: modified interview qeustion
-      parameters:
-        - name: agency_code
-          in: path
-          description: agency_code
-          required: true
-          schema:
-            type: string
-        - name: interview_id
-          in: path
-          description: interview_id
-          required: true
-          schema:
-            type: string
-        - name: question_num
-          in: path
-          description: quesion_num
-          required: true
-          schema:
-            type: integer
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                question_num:
-                  type: integer
-                  example: 1
-                content:
-                  type: string
-                  example: 자기소개좀 해주세요.
-                type:
-                  type: integer
-                  example: 3
-      responses:
-        '201':
-          description: Successful change question
-        '400':
-          description: Cheak json format
-    delete:
-      tags:
-        - Yves-Saint-Laurent
-      summary: modified interview qeustion
-      description: modified interview qeustion
-      parameters:
-        - name: agency_code
-          in: path
-          description: agency_code
-          required: true
-          schema:
-            type: string
-        - name: interview_id
-          in: path
-          description: interview_id
-          required: true
-          schema:
-            type: string
-        - name: question_num
-          in: path
-          description: quesion_num
-          required: true
-          schema:
-            type: integer
-      responses:
-        '200':
-          description: Successful delete question
-        '400':
-          description: Cheak json format
-  '/admin/{agency_code}/{interview_id}/evaluation':
-    get:
-      tags:
-        - Yves-Saint-Laurent
-      summary: search the Evaluated Interviewer
-      description: search the Evaluated Interviewer
-      parameters:
-        - name: agency_code
-          in: path
-          description: agency_code
-          required: true
-          schema:
-            type: string
-        - name: interview_id
-          in: path
-          description: interivew_id
-          required: true
-          schema:
-            type: integer
-        - name: interviewee
-          in: query
-          description: interviewee
-          required: true
-          schema:
-            type: integer
-      responses:
-        '200':
-          description: find interviewee
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  interviewee_name:
-                    type: string
-                    example: 이채은
-        '400':
-          description: an interviewee without
-  '/admin/{agency_code}/{interview_id}/evaluation/{interviewee_code}/interviewer':
-    get:
-      tags:
-        - Yves-Saint-Laurent
-      summary: get interviewee evaluation interviewer list
-      description: get interviewee evaluation interviewer list
-      parameters:
-        - name: agency_code
-          in: path
-          description: agency_code
-          required: true
-          schema:
-            type: string
-        - name: interview_id
-          in: path
-          description: interivew_id
-          required: true
-          schema:
-            type: integer
-        - name: interviewee_code
-          in: path
-          description: interviewee
-          required: true
-          schema:
-            type: integer
-      responses:
-        '200':
-          description: get interviewee evaluation interviewer list
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  interviewer:
-                    type: array
-                    items:
-                      properties:
-                        interviewer_id:
-                          type: string
-                          example: eunjuoi0515@gmail.com
-                        interviwer_name:
-                          type: string
-                          example: 신은주
-        '400':
-          description: None Resources
-  '/admin/{agency_code}/{interview_id}/evaluation/{interviewee_code}/interviewer/{interviewer_id}':
-    get:
-      tags:
-        - Yves-Saint-Laurent
-      summary: get interviewee evaluation interviewer list
-      description: get interviewee evaluation interviewer list
-      parameters:
-        - name: agency_code
-          in: path
-          description: agency_code
-          required: true
-          schema:
-            type: string
-        - name: interview_id
-          in: path
-          description: interivew_id
-          required: true
-          schema:
-            type: integer
-        - name: interviewee_code
-          in: path
-          description: interviewee
-          required: true
-          schema:
-            type: integer
-        - name: interviewer_id
-          in: path
-          description: interviewer_id
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: get interviewee evaluation interviewer result
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  evaluation:
-                    type: array
-                    items:
-                      properties:
-                        qeustion_num:
-                          type: integer
-                          example: 1
-                        qeustion_content:
-                          type: string
-                          example: 자기소개해주세요
-                        answer:
-                          type: string
-                          example: 당차고 당당한 자세가 마음에 듦
-                        interviewee_name:
-                          type: string
-                          example: 이채은
-                        interviewee_code:
-                          type: integer
-                          example: 3098
-        '400':
-          description: None Resources
-  /agency/join:
-    post:
-      tags:
-        - Yves-Saint-Laurent
-      summary: To apply to an agency
-      description: To apply to an agency
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                agency_code:
-                  type: string
-                  example: EXEGS23
-      responses:
-        '201':
-          description: Successful change question
-        '400':
-          description: It's agency that doesn't exist.
-  /interviewer/signup:
-    post:
-      tags:
-        - Yves-Saint-Laurent
-      summary: signup to interviewer
-      description: signup to interviewer
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                name:
-                  type: string
-                  example: 이채은
-                eamil:
-                  type: string
-                  example: entry@dsm.hs.kr
-                password:
-                  type: string
-                  example: 1234qwer
-      responses:
-        '201':
-          description: Successful signup to interviwer
-        '400':
-          description: Check json format
-        '409':
-          description: This email has already been signed up.
-  /admin/signup:
-    post:
-      tags:
-        - Yves-Saint-Laurent
-      summary: signup to admin
-      description: signup to admin
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                agency_name:
-                  type: string
-                  example: ENTRY
-                agency_kind:
-                  type: string
-                  example: 고등학교
-                eamil:
-                  type: string
-                  example: entry@dsm.hs.kr
-                password:
-                  type: string
-                  example: 1234qwer
-                agency_explanation:
-                  type: string
-                  example: 즐겁고 행복한 입학전형팀
-      responses:
-        '201':
-          description: Successful signup to admin
-        '400':
-          description: Check json format
-        '409':
-          description: This email has already been signed up.
-  /agency_admin/login:
-    post:
-      tags:
-        - Yves-Saint-Laurent
-      summary: login to admin
-      description: login to admin
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                eamil:
-                  type: string
-                  example: entry@dsm.hs.kr
-                password:
-                  type: string
-                  example: 1234qwer
-      responses:
-        '200':
-          description: Successful login to admin
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  access_token:
-                    type: string
-                    example: 3924802pedlefsdnkfsnlndlk
-                  refresh_token:
-                    type: string
-                    example: 304923j92030498920394830984
-        '400':
-          description: Cheak eamil and password
-  /interviewer/login:
-    post:
-      tags:
-        - Yves-Saint-Laurent
-      summary: login to interviwer
-      description: login to interviewer
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                eamil:
-                  type: string
-                  example: entry@dsm.hs.kr
-                password:
-                  type: string
-                  example: 1234qwer
-      responses:
-        '200':
-          description: Successful login to interviewer
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  access_token:
-                    type: string
-                    example: 3924802pedlefsdnkfsnlndlk
-                  refresh_token:
-                    type: string
-                    example: 304923j92030498920394830984
-        '400':
-          description: Cheak eamil and password
+                $ref: '#/components/schemas/AlreadyFinalSubmitted'
 components:
   securitySchemes:
-    Public:
+    JSONWebTokenAuthentication:
       type: apiKey
       in: header
       name: Authorization
-      description: 'If endpoint makred as this, it can be accessed by anyone'
-    Applicant:
-      type: apiKey
-      in: header
-      name: Authorization
-      description: 'If endpoint marked as this, it can be accessed with applicant authority'
-    Admin:
-      type: apiKey
-      in: header
-      name: Authorization
-      description: 'If endpoint marked as this, it can be accessed with normal admin authority'
-    Interviewer:
-      type: apiKey
-      in: header
-      name: Authorization
-      description: 'If endpoint marked as this, it can be accessed with interview admin authority'
-    RootAdmin:
-      type: apiKey
-      in: header
-      name: Authorization
-      description: 'If endpoint marked as this, it can be accessed with root admin authority'
+  schemas:
+    Classification:
+      type: object
+      properties:
+        apply_type:
+          type: string
+          example: COMMON
+          enum:
+            - COMMON
+            - MEISTER
+            - SOCIAL_ONE_PARENT
+            - SOCIAL_FROM_NORTH
+            - SOCIAL_MULTICULTURAL
+            - SOCIAL_BASIC_LIVING
+            - SOCIAL_LOWEST_INCOME
+            - SOCIAL_TEEN_HOUSEHOLDER`
+        additional_type:
+          type: string
+          example: NOT_APPLICABLE
+          enum:
+            - NATIONAL_MERIT
+            - PRIVILEGED_ADMISSION
+            - NOT_APPLICABLE`
+        is_daejeon:
+          type: boolean
+          example: false
+    PersonalInformation:
+      type: object
+      properties:
+        name:
+          type: string
+          example: 홍길동
+        sex:
+          type: string
+          enum:
+            - MALE
+            - FEMALE
+        birth_date:
+          type: string
+          format: date
+        parent_name:
+          type: string
+          example: 홍판서
+        parent_tel:
+          type: string
+          pattern: '^01\d{8,9}$'
+          example: 01011110987
+        applicant_tel:
+          type: string
+          pattern: '^01\d{8,9}$'
+          example: 01011110987
+        address:
+          type: string
+          example: 경기도 용인시 기흥구 동백평촌로 11
+        post_code:
+          type: string
+          pattern: '^\d{5}$'
+          example: 55555
+    PersonalInformationWithSchoolInfo:
+      allOf:
+        - $ref: '#/components/schemas/PersonalInformation'
+        - type: object
+          properties:
+            student_number:
+              type: string
+              pattern: '^\d{5}$'
+              example: 30202
+            school_name:
+              type: string
+            school_tel:
+              type: string
+              pattern: '^01\d{8,9}$'
+              example: 01011110987
+    GEDGrade:
+      type: object
+      properties:
+        ged_average_score:
+          type: number
+    DiligenceGrade:
+      type: object
+      properties:
+        volunteer_time:
+          type: integer
+        full_cut_count:
+          type: integer
+        period_cut_count:
+          type: integer
+        late_count:
+          type: integer
+        early_leave_count:
+          type: integer
+    ScoreWith5Semister:
+      type: array
+      items:
+        type: string
+        enum:
+          - A
+          - B
+          - C
+          - D
+          - E
+          - X
+      maxLength: 5
+      minLength: 5
+      example:
+        - A
+        - A
+        - A
+        - A
+        - A
+    UngraduatedSchoolGrade:
+      type: object
+      properties:
+        korean:
+          $ref: '#/components/schemas/ScoreWith5Semister'
+        social:
+          $ref: '#/components/schemas/ScoreWith5Semister'
+        history:
+          $ref: '#/components/schemas/ScoreWith5Semister'
+        math:
+          $ref: '#/components/schemas/ScoreWith5Semister'
+        science:
+          $ref: '#/components/schemas/ScoreWith5Semister'
+        tech_and_home:
+          $ref: '#/components/schemas/ScoreWith5Semister'
+        english:
+          $ref: '#/components/schemas/ScoreWith5Semister'
+    ScoreWith6Semister:
+      type: array
+      items:
+        type: string
+        enum:
+          - A
+          - B
+          - C
+          - D
+          - E
+          - X
+      maxLength: 6
+      minLength: 6
+      example:
+        - A
+        - A
+        - A
+        - A
+        - A
+        - A
+    GraduatedSchoolGrade:
+      type: object
+      properties:
+        korean:
+          $ref: '#/components/schemas/ScoreWith6Semister'
+        social:
+          $ref: '#/components/schemas/ScoreWith6Semister'
+        history:
+          $ref: '#/components/schemas/ScoreWith6Semister'
+        math:
+          $ref: '#/components/schemas/ScoreWith6Semister'
+        science:
+          $ref: '#/components/schemas/ScoreWith6Semister'
+        tech_and_home:
+          $ref: '#/components/schemas/ScoreWith6Semister'
+        english:
+          $ref: '#/components/schemas/ScoreWith6Semister'
+    SelfIntroductionAndStudyPlan:
+      type: object
+      properties:
+        self_introduction:
+          type: string
+        study_plan:
+          type: string
+    GEDApplication:
+      type: object
+      properties:
+        classification:
+          $ref: '#/components/schemas/Classification'
+        personal_information:
+          $ref: '#/components/schemas/PersonalInformation'
+        ged_grade:
+          $ref: '#/components/schemas/GEDGrade'
+        self_introduction_and_study_plan:
+          $ref: '#/components/schemas/SelfIntroductionAndStudyPlan'
+    GraduatedApplication:
+      type: object
+      properties:
+        classification:
+          $ref: '#/components/schemas/Classification'
+        personal_information:
+          $ref: '#/components/schemas/PersonalInformationWithSchoolInfo'
+        diligence_grade:
+          $ref: '#/components/schemas/DiligenceGrade'
+        school_grade:
+          $ref: '#/components/schemas/GraduatedSchoolGrade'
+        self_introduction_and_study_plan:
+          $ref: '#/components/schemas/SelfIntroductionAndStudyPlan'
+    UngraduatedApplication:
+      type: object
+      properties:
+        classification:
+          $ref: '#/components/schemas/Classification'
+        personal_information:
+          $ref: '#/components/schemas/PersonalInformationWithSchoolInfo'
+        diligence_grade:
+          $ref: '#/components/schemas/DiligenceGrade'
+        school_grade:
+          $ref: '#/components/schemas/UngraduatedSchoolGrade'
+        self_introduction_and_study_plan:
+          $ref: '#/components/schemas/SelfIntroductionAndStudyPlan'
+    InvalidRequest:
+      type: object
+      properties:
+        description:
+          type: string
+          example: Invalid application submitted.
+        error_code:
+          type: string
+          example: 1100
+    AlreadyFinalSubmitted:
+      type: object
+      properties:
+        description:
+          type: string
+          example: Final submitted application can't be edited.
+        error_code:
+          type: string
+          example: 1101
+    ApplicationNotFound:
+      type: object
+      properties:
+        description:
+          type: string
+          example: Any application submitted yet.
+        error_code:
+          type: string
+          example: 1102
