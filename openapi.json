@@ -518,7 +518,7 @@
               "SOCIAL_MULTICULTURAL",
               "SOCIAL_BASIC_LIVING",
               "SOCIAL_LOWEST_INCOME",
-              "SOCIAL_TEEN_HOUSEHOLDER`"
+              "SOCIAL_TEEN_HOUSEHOLDER"
             ]
           },
           "additional_type": {
@@ -527,7 +527,7 @@
             "enum": [
               "NATIONAL_MERIT",
               "PRIVILEGED_ADMISSION",
-              "NOT_APPLICABLE`"
+              "NOT_APPLICABLE"
             ]
           },
           "is_daejeon": {
