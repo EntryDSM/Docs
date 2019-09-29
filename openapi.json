@@ -236,6 +236,16 @@
                 }
               }
             }
+          },
+          "403": {
+            "description": "Login information is incorrect",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserNotFound"
+                }
+              }
+            }
           }
         }
       },
@@ -262,6 +272,23 @@
                       "example": "ThIsIs.TrUlY.AcCeSsToKeN"
                     }
                   }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/TokenError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/TokenExpired"
+                    }
+                  ]
                 }
               }
             }
@@ -357,8 +384,8 @@
               }
             }
           },
-          "400": {
-            "description": "Invalid type of image"
+          "404": {
+            "description": "Image not found"
           }
         }
       }
@@ -996,6 +1023,45 @@
           "error_code": {
             "type": "string",
             "example": 1102
+          }
+        }
+      },
+      "UserNotFound": {
+        "type": "object",
+        "properties": {
+          "description": {
+            "type": "string",
+            "example": "Login information is incorrect."
+          },
+          "error_code": {
+            "type": "string",
+            "example": 1200
+          }
+        }
+      },
+      "TokenExpired": {
+        "type": "object",
+        "properties": {
+          "description": {
+            "type": "string",
+            "example": "Please login again."
+          },
+          "error_code": {
+            "type": "string",
+            "example": 1201
+          }
+        }
+      },
+      "TokenError": {
+        "type": "object",
+        "properties": {
+          "description": {
+            "type": "string",
+            "example": "Please login again."
+          },
+          "error_code": {
+            "type": "string",
+            "example": 1202
           }
         }
       },
