@@ -546,6 +546,9 @@ components:
         is_passed_first_apply:
           type: boolean
           example: false
+        is_passed_interview:
+          type: boolean
+          example: false
         is_printed_application_arrived:
           type: boolean
           example: false
