@@ -164,11 +164,13 @@ paths:
       summary: 사진 업로드
       requestBody:
         content:
-          image/png:
+          multipart/form-data:
             schema:
-              type: string
-              format: binary
-              description: image
+              type: object
+              properties:
+                image:
+                  type: string
+                  format: binary
       responses:
         204:
           description: Image upload success
