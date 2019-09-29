@@ -161,6 +161,12 @@ paths:
                   refresh:
                     type: string
                     example: "ThIsIs.TrUlY.ReFrEsHtOkEn"
+        403:
+          description: Login information is incorrect
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserNotFound"
     patch:
       tags:
         - 인증
@@ -179,6 +185,15 @@ paths:
                   access:
                     type: string
                     example: "ThIsIs.TrUlY.AcCeSsToKeN"
+        401:
+          description: Invalid token
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: "#/components/schemas/TokenError"     
+                  - $ref: "#/components/schemas/TokenExpired"                    
+
     delete:
       tags:
         - 인증
@@ -238,8 +253,8 @@ paths:
               schema:
                 type: string
                 format: binary
-        400:
-          description: Invalid type of image
+        404:
+          description: Image not found
 
   /self/application:
     get:
@@ -682,6 +697,36 @@ components:
           type: string
           example: 1102
     
+    UserNotFound:
+      type: object
+      properties:
+        description: 
+          type: string
+          example: Login information is incorrect.
+        error_code:
+          type: string
+          example: 1200
+
+    TokenExpired:
+      type: object
+      properties:
+        description: 
+          type: string
+          example: Please login again.
+        error_code:
+          type: string
+          example: 1201
+
+    TokenError:
+      type: object
+      properties:
+        description: 
+          type: string
+          example: Please login again.
+        error_code:
+          type: string
+          example: 1202
+
     InvalidSignupInfo:
       type: object
       properties:
