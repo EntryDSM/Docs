@@ -14,6 +14,53 @@ info:
     This is EntryDSM API docs! You can develop services&frontend by reading this :)
 servers:
   - url: 'https://api.entrydsm.hs.kr/api/v1'
+tags:
+  - name: 회원가입
+    description: 회원가입 요청과 인증
+  - name: 인증
+    description: '로그인, 리프레쉬, 로그아웃'
+  - name: 마이페이지
+    description: 전형 상태
+  - name: 사진
+    description: 사진 제출
+  - name: 원서 가져오기
+    description: 원서 데이터 가져오기
+  - name: 원서 제출
+    description: 원서 제출하기
+  - name: 최종제출
+    description: 최종제출.
+  - name: ged_model
+    x-displayName: The GED Application Model
+    description: |
+      <SchemaDefinition schemaRef="#/components/schemas/GEDApplication" />
+  - name: graduated_model
+    x-displayName: The Graduated Application Model
+    description: |
+      <SchemaDefinition schemaRef="#/components/schemas/GraduatedApplication" />
+  - name: ungraduated_model
+    x-displayName: The Ungraduated Application Model
+    description: |
+      <SchemaDefinition schemaRef="#/components/schemas/UngraduatedApplication" />
+  - name: general_error_model
+    x-displayName: The General Error Model
+    description: |
+      <SchemaDefinition schemaRef="#/components/schemas/GeneralError" />
+x-tagGroups:
+  - name: Avengers
+    tags:
+      - 회원가입
+      - 인증
+      - 마이페이지
+      - 사진
+      - 원서 가져오기
+      - 원서 제출
+      - 최종제출
+  - name: Schemas
+    tags:
+      - ged_model
+      - graduated_model
+      - ungraduated_model
+      - general_error_model
 paths:
   /signup:
     post:
@@ -162,6 +209,20 @@ paths:
       responses:
         '204':
           description: Image upload success
+        '400':
+          description: Invalid type of image
+    get:
+      tags:
+        - 사진
+      summary: 사진 받아오기
+      responses:
+        '200':
+          description: Success
+          content:
+            'image/png, image/jpeg':
+              schema:
+                type: string
+                format: binary
         '400':
           description: Invalid type of image
   /self/application:
@@ -534,6 +595,17 @@ components:
           type: string
           example: 124533
           nullable: true
+    GeneralError:
+      type: object
+      properties:
+        error_code:
+          type: integer
+          description: Error codes to help BE devs. it describes detailed error
+          example: 9999
+        description:
+          type: string
+          description: Text to show users what happened
+          example: Our service is currently unavailable. Please try again later.
     InvalidApplicationPatch:
       type: object
       properties:
