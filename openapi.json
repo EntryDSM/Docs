@@ -333,6 +333,23 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Invalid token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/TokenError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/TokenExpired"
+                    }
+                  ]
+                }
+              }
+            }
           }
         }
       }
@@ -364,6 +381,23 @@
           },
           "400": {
             "description": "Invalid type of image"
+          },
+          "401": {
+            "description": "Invalid token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/TokenError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/TokenExpired"
+                    }
+                  ]
+                }
+              }
+            }
           }
         }
       },
@@ -380,6 +414,23 @@
                 "schema": {
                   "type": "string",
                   "format": "binary"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/TokenError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/TokenExpired"
+                    }
+                  ]
                 }
               }
             }
@@ -416,6 +467,23 @@
                     },
                     {
                       "$ref": "#/components/schemas/UngraduatedApplication"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/TokenError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/TokenExpired"
                     }
                   ]
                 }
@@ -469,6 +537,23 @@
               }
             }
           },
+          "401": {
+            "description": "Invalid token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/TokenError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/TokenExpired"
+                    }
+                  ]
+                }
+              }
+            }
+          },
           "409": {
             "description": "Already final submitted",
             "content": {
@@ -512,6 +597,23 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/InvalidApplicationPatch"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/TokenError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/TokenExpired"
+                    }
+                  ]
                 }
               }
             }
@@ -563,6 +665,23 @@
               }
             }
           },
+          "401": {
+            "description": "Invalid token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/TokenError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/TokenExpired"
+                    }
+                  ]
+                }
+              }
+            }
+          },
           "409": {
             "description": "Already final submitted",
             "content": {
@@ -598,6 +717,23 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/InvalidApplicationFinalSubmit"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/TokenError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/TokenExpired"
+                    }
+                  ]
                 }
               }
             }
