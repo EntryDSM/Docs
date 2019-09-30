@@ -257,6 +257,14 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApplicationStatus"
+        401:
+          description: Invalid token
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: "#/components/schemas/TokenError"     
+                  - $ref: "#/components/schemas/TokenExpired" 
 
   /self/photo:
     put:
@@ -277,6 +285,14 @@ paths:
           description: Image upload success
         400:
           description: Invalid type of image
+        401:
+          description: Invalid token
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: "#/components/schemas/TokenError"     
+                  - $ref: "#/components/schemas/TokenExpired" 
 
     get:
       tags:
@@ -292,6 +308,14 @@ paths:
                 format: binary
         404:
           description: Image not found
+        401:
+          description: Invalid token
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: "#/components/schemas/TokenError"     
+                  - $ref: "#/components/schemas/TokenExpired" 
 
   /self/application:
     get:
@@ -318,6 +342,14 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApplicationNotFound"
+        401:
+          description: Invalid token
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: "#/components/schemas/TokenError"     
+                  - $ref: "#/components/schemas/TokenExpired" 
 
   /self/application/ged:
     put:
@@ -347,7 +379,15 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/AlreadyFinalSubmitted"                
+                $ref: "#/components/schemas/AlreadyFinalSubmitted"    
+        401:
+          description: Invalid token
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: "#/components/schemas/TokenError"     
+                  - $ref: "#/components/schemas/TokenExpired" 
 
   /self/application/graduated:
     put:
@@ -378,6 +418,14 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/AlreadyFinalSubmitted"  
+        401:
+          description: Invalid token
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: "#/components/schemas/TokenError"     
+                  - $ref: "#/components/schemas/TokenExpired" 
 
   /self/application/ungraduated:
     put:
@@ -408,6 +456,14 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/AlreadyFinalSubmitted"  
+        401:
+          description: Invalid token
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: "#/components/schemas/TokenError"     
+                  - $ref: "#/components/schemas/TokenExpired" 
   
   /self/application/final-submit:
     patch:
@@ -433,6 +489,14 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/AlreadyFinalSubmitted"
+        401:
+          description: Invalid token
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: "#/components/schemas/TokenError"     
+                  - $ref: "#/components/schemas/TokenExpired" 
 
 components:
   securitySchemes:
