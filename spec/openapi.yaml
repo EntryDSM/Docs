@@ -87,6 +87,8 @@ tags:
     x-displayName: The General Error Model
     description: |
       <SchemaDefinition schemaRef="#/components/schemas/GeneralError" />
+  - name: Yves-Saint-Laurent
+    description: EntryDSM interview service
       
 x-tagGroups:
   - name: Avengers
