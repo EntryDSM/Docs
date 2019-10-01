@@ -20,38 +20,38 @@ info:
 
     # Error Codes
     ## general error
-    |||
+    |description|code|
     |-|-|
-    | unknown_internal_server_error | 9999 |
+    | unknown internal server error | 9999 |
 
 
     ## 10xx server error
-    |||
+    |description|code|
     |-|-|
-    | redis_error | 1002 |
-    | mysql_error | 1003 |
+    | redis error | 1002 |
+    | mysql error | 1003 |
 
     ## 11xx application validation error
-    |||
+    |description|code|
     |-|-|
-    | validation_error | 1100 | 
-    | already_final_submitted | 1101 |
-    | any_application_submitted_yet | 1102 |
+    | validation error | 1100 | 
+    | already final submitted | 1101 |
+    | any application submitted yet | 1102 |
 
     ## 12xx auth error
-    |||
+    |description|code|
     |-|-|
-     |user_not_found  | 1200 |
-     |token_expired  | 1201 |
-     |invalid_token  | 1202 |
+     |user not found  | 1200 |
+     |token expired  | 1201 |
+     |invalid token  | 1202 |
 
     ## 13xx signup error
-    |||
+    |description|code|
     |-|-|
-    | invalid_signup_info | 1300 | 
-    | user_already_exists | 1301 | 
-    | signup_already_requested | 1302 | 
-    | invalid_verification_key | 1303 | 
+    | invalid signup info | 1300 | 
+    | user already exists | 1301 | 
+    | signup already requested | 1302 | 
+    | invalid verification key | 1303 | 
 
 servers:
   - url: "https://api.entrydsm.hs.kr/api/v1"
@@ -106,6 +106,9 @@ x-tagGroups:
       - graduated_model
       - ungraduated_model
       - general_error_model
+  - name: Interview
+    tags: 
+      - Yves-Saint-Laurent
 
 paths:
   /signup:
@@ -1506,9 +1509,9 @@ components:
         post_code:
           type: string
           pattern: '^\d{5}$'
-          example: 55555
+          example: "55555"
 
-    PersonalInformationWithSchoolInfo:
+    PersonalInformationWithCurrentSchoolInfo:
       allOf:
         - $ref: "#/components/schemas/PersonalInformation"
         - type: object
@@ -1516,13 +1519,23 @@ components:
             student_number:
               type: string
               pattern: '^\d{5}$'
-              example: 30202
+              example: "30202"
             school_name:
               type: string
             school_tel:
               type: string
               pattern: '^01\d{8,9}$'
               example: "01011110987"
+
+    PersonalInformationWithGraduatedSchoolInfo:
+      allOf:
+        - $ref: "#/components/schemas/PersonalInformationWithCurrentSchoolInfo"
+        - type: object
+          properties:
+            graduated_year:
+              type: string
+              pattern: '^\d{4}$'
+              example: "2019"
 
     GEDGrade:
       type: object
@@ -1636,7 +1649,7 @@ components:
         classification:
           $ref: "#/components/schemas/Classification"
         personal_information:
-          $ref: "#/components/schemas/PersonalInformationWithSchoolInfo"
+          $ref: "#/components/schemas/PersonalInformationWithGraduatedSchoolInfo"
         diligence_grade:
           $ref: "#/components/schemas/DiligenceGrade"
         school_grade:
@@ -1650,7 +1663,7 @@ components:
         classification:
           $ref: "#/components/schemas/Classification"
         personal_information:
-          $ref: "#/components/schemas/PersonalInformationWithSchoolInfo"
+          $ref: "#/components/schemas/PersonalInformationWithCurrentSchoolInfo"
         diligence_grade:
           $ref: "#/components/schemas/DiligenceGrade"
         school_grade:
@@ -1681,7 +1694,7 @@ components:
           example: 1
         exam_code:
           type: string
-          example: 124533
+          example: "124533"
           nullable: true        
     
     # Error Schemas
