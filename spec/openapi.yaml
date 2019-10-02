@@ -109,6 +109,13 @@ x-tagGroups:
       - graduated_model
       - ungraduated_model
       - general_error_model
+  - name: Rolex
+    tags:
+      - 어드민 인증
+      - 경쟁률 
+      - 지원자 리스트
+      - 특정 지원자 정보 가져오기
+      - 원서접수 취소
   - name: Interview
     tags: 
       - Yves-Saint-Laurent
@@ -1470,6 +1477,49 @@ paths:
         400:
           description: Cheak eamil and password
 
+  /auth/login:
+    post:
+      tags:
+        - 어드민 인증
+      servers:
+        - url: "https://rolex.entrydsm.hs.kr/api/v1"
+      summary: 로그인
+      requestBody:
+        content:
+          application/json:
+            schema:    
+              type: object
+              required:
+                - id
+                - password
+              properties:
+                id:
+                  type: string
+                  format: id
+                password:
+                  type: string
+                  format: password
+      responses:
+        201:
+          description: Login succeed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  access:
+                    type: string
+                    example: "ThIsIs.TrUlY.AcCeSsToKeN"
+                  refresh:
+                    type: string
+                    example: "ThIsIs.TrUlY.ReFrEsHtOkEn"
+        403:
+          description: Login information is incorrect
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserNotFound"
+          
 components:
   securitySchemes:
     JSONWebTokenAuthentication:
@@ -1726,7 +1776,7 @@ components:
           type: string
           example: "124533"
           nullable: true        
-    
+
     # Error Schemas
     GeneralError:
       type: object
