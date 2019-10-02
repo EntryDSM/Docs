@@ -66,6 +66,8 @@ tags:
     description: 원서 제출하기
   - name: 최종제출
     description: 최종제출.
+  - name: 학교검색
+    description: 학교검색
   - name: ged_model
     x-displayName: The GED Application Model
     description: |
@@ -94,6 +96,7 @@ x-tagGroups:
       - 원서 가져오기
       - 원서 제출
       - 최종제출
+      - 학교검색
   - name: Schemas
     tags:
       - ged_model
@@ -479,6 +482,31 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AlreadyFinalSubmitted'
+  /school/search:
+    get:
+      tags:
+        - 학교검색
+      summary: 학교를 검색
+      description: 학교검색 API
+      security:
+        - JSONWebTokenAuthentication: []
+      parameters:
+        - name: query
+          in: query
+          schema:
+            type: string
+            example: 청덕중학
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+                  example: 청덕중학교
+                  description: empty
   /agency/cheak:
     get:
       tags:
