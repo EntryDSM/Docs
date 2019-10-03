@@ -495,7 +495,8 @@ paths:
           in: query
           schema:
             type: string
-            example: 청덕중학
+            example: 서울특별시교육청 서울특별시동부교육지원청 휘경중학
+            description: 교육청을 포함하여 검색 (중학교명은 일부만 있어도 검색 가능)
       responses:
         '200':
           description: Success
@@ -504,9 +505,7 @@ paths:
               schema:
                 type: array
                 items:
-                  type: string
-                  example: 청덕중학교
-                  description: empty
+                  example: 서울특별시교육청 서울특별시동부교육지원청 휘경중학교
   /agency/cheak:
     get:
       tags:
