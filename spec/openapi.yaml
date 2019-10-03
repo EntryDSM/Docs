@@ -527,8 +527,8 @@ paths:
           in: query
           schema:
             type: string
-            example: 서울특별시교육청 서울특별시동부교육지원청 휘경중학
-            description: 교육청을 포함하여 검색 (중학교명은 일부만 있어도 검색 가능)
+            example: 휘경중학
+            description: 학교 이름만으로 검색하면 풀네임 반환
       responses:
         200:
           description: Success
