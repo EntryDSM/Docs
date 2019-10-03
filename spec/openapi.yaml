@@ -109,7 +109,7 @@ x-tagGroups:
       - 지원 통계 
       - 지원자 리스트
       - 특정 지원자 정보
-      - 원서 접수 취소
+      - 원서접수 취소
   - name: Schemas
     tags: 
       - ged_model
@@ -1710,29 +1710,10 @@ paths:
         - 지원자 리스트 
       servers:
       - url: "https://rolex.entrydsm.hs.kr/api/v1"
-      summary: 지원자 리스트 가져오기 (검색 옵션)
+      summary: 지원자 리스트 가져오기
       security: [
         {JSONWebTokenAuthentication: []}
       ]
-      parameters:
-      - name: region 
-        in: query
-        description: region (daejeon / nation)
-        schema:
-          type: string
-          example: daejeon
-      - name: type
-        in: query
-        description: type (common / meister / social)
-        schema:
-          type: string
-          example: common
-      - name: status
-        in: query
-        description: status (0:not_paid, 1:not_arrived)
-        schema:
-          type: string
-          example: 0
       responses:
         200:
           description: Success
@@ -1780,7 +1761,7 @@ paths:
       ]
       parameters:
         - name: email
-          in: path
+          in: query
           example: docs@naver.com
           description: applicant email same as user email.
           schema:
@@ -1809,27 +1790,6 @@ paths:
                 oneOf:
                   - $ref: "#/components/schemas/TokenError"     
                   - $ref: "#/components/schemas/TokenExpired"
-
-  /submit:
-    delete:
-      tags:
-        - 원서 접수 취소
-      servers:
-        - url: "https://rolex.entrydsm.hs.kr/api/v1"
-      summary: 원서 최종 제출 취소
-      security: [
-        {JSONWebTokenAuthentication: []}
-      ]
-      parameters:
-      - name: email
-        in: query
-        description: 지원자 email
-        schema:
-          type: string
-          example: docs@naver.com
-      responses:
-        204:
-          description: Final Submit Cancel succeed.
 
 components:
   securitySchemes:
