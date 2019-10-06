@@ -1813,7 +1813,7 @@ paths:
                     example: "MALE"
                   birth_date:
                     type: string
-                    exmaple: "2019-10-02T15:00:00.000Z"
+                    example: "2019-10-02T15:00:00.000Z"
                   parent_name:
                     type: string
                     example: "홍판서"
@@ -1834,7 +1834,7 @@ paths:
                     example: "30203"
                   graduated_year:
                     type: string
-                    exmaple: "2019"
+                    example: "2019"
                   school_name: 
                     type: string
                   school_tel:
