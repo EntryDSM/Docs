@@ -109,7 +109,7 @@ x-tagGroups:
       - 지원 통계 
       - 지원자 리스트
       - 특정 지원자 정보
-      - 원서접수 취소
+      - 원서 접수 취소
   - name: Schemas
     tags: 
       - ged_model
@@ -1714,6 +1714,25 @@ paths:
       security: [
         {JSONWebTokenAuthentication: []}
       ]
+      parameters:
+      - name: region 
+        in: query
+        description: region (daejeon / nation)
+        schema:
+          type: string
+          example: daejeon
+      - name: type
+        in: query
+        description: type (common / meister / social)
+        schema:
+          type: string
+          example: common
+      - name: status
+        in: query
+        description: status (0:not_paid, 1:not_arrived)
+        schema:
+          type: string
+          example: 0
       responses:
         200:
           description: Success
@@ -1772,10 +1791,81 @@ paths:
           content:
             application/json:
               schema:
-                oneOf:
-                - $ref: "#/components/schemas/GEDApplication"
-                - $ref: "#/components/schemas/GraduatedApplication"
-                - $ref: "#/components/schemas/UngraduatedApplication"
+                type: object
+                properties:
+                  user_email: 
+                    type: string
+                    example: kim@seonghyeon.dev
+                  apply_time: 
+                    type: string
+                    example: "COMMON"
+                  additinal_type: 
+                    type: string
+                    example: "NOT_APPLICABLE"
+                  is_daejeon:
+                    type: boolean
+                    example: false
+                  name:
+                    type: string
+                    example: "홍길동"
+                  sex:
+                    type: string
+                    example: "MALE"
+                  birth_date:
+                    type: string
+                    exmaple: "2019-10-02T15:00:00.000Z"
+                  parent_name:
+                    type: string
+                    example: "홍판서"
+                  parent_tel:
+                    type: string
+                    example: "01011110987"
+                  applicant_tel:
+                    type: string
+                    example: "01011110987"
+                  address:
+                    type: string
+                    example: "경기도 용인시 기흥구 동백평촌로 11"
+                  post_code:
+                    type: string
+                    example: "55555"
+                  student_number:
+                    type: string
+                    example: "30203"
+                  graduated_year:
+                    type: string
+                    exmaple: "2019"
+                  school_name: 
+                    type: string
+                  school_tel:
+                    type: string
+                    example: "01011110987"
+                  korean:
+                    type: string
+                    example: "AAAAAA"
+                  social:
+                    type: string
+                    example: "AAAAAA"
+                  history:
+                    type: string
+                    example: "AAAAAA"
+                  math:
+                    type: string
+                    example: "AAAAAA"
+                  science:
+                    type: string
+                    example: "AAAAAA"
+                  tech_and_home:
+                    type: string
+                    example: "AAAAAA"
+                  english:
+                    type: string
+                    example: "AAAAAA"
+                  self_introduction: 
+                    type: string
+                  study_plan:
+                    type: string
+                  
         404:
           description: Any application submitted yet
           content:
@@ -1790,6 +1880,24 @@ paths:
                 oneOf:
                   - $ref: "#/components/schemas/TokenError"     
                   - $ref: "#/components/schemas/TokenExpired"
+  /submit:
+    delete:
+      tags:
+        - 원서 접수 취소
+      summary: 원서 최종 제출 취소
+      security: [
+        {JSONWebTokenAuthentication: []}
+      ]
+      parameters:
+      - name: email
+        in: query
+        description: 지원자 email
+        schema:
+          type: string
+          example: docs@naver.com
+      responses:
+        204:
+          description: Final Submit Cancel succeed.    
 
 components:
   securitySchemes:
