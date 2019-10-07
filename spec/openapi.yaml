@@ -855,12 +855,6 @@ paths:
         required: true
         schema:
           type: integer
-      - name: question_num
-        in: path
-        description: question_num
-        required: true
-        schema:
-          type: integer
       responses:
         200:
           description: get interivew question
@@ -955,7 +949,7 @@ paths:
           schema:
             type: integer
         - name: question_num
-          in: path
+          in: query
           description: question_num
           required: true
           schema:
@@ -1015,7 +1009,7 @@ paths:
           schema:
             type: integer
         - name: question_num
-          in: path
+          in: query
           description: question_num
           required: true
           schema:
@@ -1067,7 +1061,7 @@ paths:
         schema:
           type: integer
       - name: question_num
-        in: path
+        in: query
         description: question_num
         required: true
         schema:
@@ -1216,7 +1210,7 @@ paths:
       tags:
           - Yves-Saint-Laurent
       summary: 면접 질문 가져오기
-      description: get interview qeustion
+      description: get interview question
       parameters:
       - name: agency_code
         in: path
@@ -1226,10 +1220,10 @@ paths:
           type: string
       - name: interview_id
         in: path
-        description: interview_code
+        description: interview_id
         required: true
         schema:
-          type: string
+          type: integer
       responses:
         200:
           description: get interview quesiton list
@@ -1275,7 +1269,7 @@ paths:
         description: interview_id
         required: true
         schema:
-          type: string
+          type: integer
       - name: question_num
         in: path
         description: quesion_num
@@ -1974,7 +1968,7 @@ paths:
           example: 0
       responses:
         201:
-          description: status change success 
+          description: status change success
 
 components:
   securitySchemes:
