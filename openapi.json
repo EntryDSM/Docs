@@ -2899,6 +2899,44 @@
           }
         }
       }
+    },
+    "/info/status": {
+      "patch": {
+        "tags": [
+          "특정 지원자 정보"
+        ],
+        "summary": "미납, 원서 미도착 상태 수정",
+        "security": [
+          {
+            "JSONWebTokenAuthentication": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "email",
+            "in": "query",
+            "description": "지원자 email",
+            "schema": {
+              "type": "string",
+              "example": "huewilliams@naver.com"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "0-미납 수정,1-원서 미도착 수정, 원래 상태의 반대로 변경됨.",
+            "schema": {
+              "type": "string",
+              "example": 0
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "status change success"
+          }
+        }
+      }
     }
   },
   "components": {
