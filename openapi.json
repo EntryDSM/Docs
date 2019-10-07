@@ -2739,102 +2739,116 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "user_email": {
-                      "type": "string",
-                      "example": "kim@seonghyeon.dev"
+                    "application": {
+                      "type": "object",
+                      "properties": {
+                        "user_email": {
+                          "type": "string",
+                          "example": "kim@seonghyeon.dev"
+                        },
+                        "apply_time": {
+                          "type": "string",
+                          "example": "COMMON"
+                        },
+                        "additinal_type": {
+                          "type": "string",
+                          "example": "NOT_APPLICABLE"
+                        },
+                        "is_daejeon": {
+                          "type": "boolean",
+                          "example": false
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "홍길동"
+                        },
+                        "sex": {
+                          "type": "string",
+                          "example": "MALE"
+                        },
+                        "birth_date": {
+                          "type": "string",
+                          "example": "2019-10-02T15:00:00.000Z"
+                        },
+                        "parent_name": {
+                          "type": "string",
+                          "example": "홍판서"
+                        },
+                        "parent_tel": {
+                          "type": "string",
+                          "example": "01011110987"
+                        },
+                        "applicant_tel": {
+                          "type": "string",
+                          "example": "01011110987"
+                        },
+                        "address": {
+                          "type": "string",
+                          "example": "경기도 용인시 기흥구 동백평촌로 11"
+                        },
+                        "post_code": {
+                          "type": "string",
+                          "example": "55555"
+                        },
+                        "student_number": {
+                          "type": "string",
+                          "example": "30203"
+                        },
+                        "graduated_year": {
+                          "type": "string",
+                          "example": "2019"
+                        },
+                        "school_name": {
+                          "type": "string"
+                        },
+                        "school_tel": {
+                          "type": "string",
+                          "example": "01011110987"
+                        },
+                        "korean": {
+                          "type": "string",
+                          "example": "AAAAAA"
+                        },
+                        "social": {
+                          "type": "string",
+                          "example": "AAAAAA"
+                        },
+                        "history": {
+                          "type": "string",
+                          "example": "AAAAAA"
+                        },
+                        "math": {
+                          "type": "string",
+                          "example": "AAAAAA"
+                        },
+                        "science": {
+                          "type": "string",
+                          "example": "AAAAAA"
+                        },
+                        "tech_and_home": {
+                          "type": "string",
+                          "example": "AAAAAA"
+                        },
+                        "english": {
+                          "type": "string",
+                          "example": "AAAAAA"
+                        },
+                        "self_introduction": {
+                          "type": "string"
+                        },
+                        "study_plan": {
+                          "type": "string"
+                        }
+                      }
                     },
-                    "apply_time": {
-                      "type": "string",
-                      "example": "COMMON"
-                    },
-                    "additinal_type": {
-                      "type": "string",
-                      "example": "NOT_APPLICABLE"
-                    },
-                    "is_daejeon": {
-                      "type": "boolean",
-                      "example": false
-                    },
-                    "name": {
-                      "type": "string",
-                      "example": "홍길동"
-                    },
-                    "sex": {
-                      "type": "string",
-                      "example": "MALE"
-                    },
-                    "birth_date": {
-                      "type": "string",
-                      "example": "2019-10-02T15:00:00.000Z"
-                    },
-                    "parent_name": {
-                      "type": "string",
-                      "example": "홍판서"
-                    },
-                    "parent_tel": {
-                      "type": "string",
-                      "example": "01011110987"
-                    },
-                    "applicant_tel": {
-                      "type": "string",
-                      "example": "01011110987"
-                    },
-                    "address": {
-                      "type": "string",
-                      "example": "경기도 용인시 기흥구 동백평촌로 11"
-                    },
-                    "post_code": {
-                      "type": "string",
-                      "example": "55555"
-                    },
-                    "student_number": {
-                      "type": "string",
-                      "example": "30203"
-                    },
-                    "graduated_year": {
-                      "type": "string",
-                      "example": "2019"
-                    },
-                    "school_name": {
-                      "type": "string"
-                    },
-                    "school_tel": {
-                      "type": "string",
-                      "example": "01011110987"
-                    },
-                    "korean": {
-                      "type": "string",
-                      "example": "AAAAAA"
-                    },
-                    "social": {
-                      "type": "string",
-                      "example": "AAAAAA"
-                    },
-                    "history": {
-                      "type": "string",
-                      "example": "AAAAAA"
-                    },
-                    "math": {
-                      "type": "string",
-                      "example": "AAAAAA"
-                    },
-                    "science": {
-                      "type": "string",
-                      "example": "AAAAAA"
-                    },
-                    "tech_and_home": {
-                      "type": "string",
-                      "example": "AAAAAA"
-                    },
-                    "english": {
-                      "type": "string",
-                      "example": "AAAAAA"
-                    },
-                    "self_introduction": {
-                      "type": "string"
-                    },
-                    "study_plan": {
-                      "type": "string"
+                    "score": {
+                      "type": "object",
+                      "properties": {
+                        "final_score": {
+                          "type": "string",
+                          "example": "103.85000"
+                        }
+                      }
                     }
                   }
                 }
