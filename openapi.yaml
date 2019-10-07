@@ -513,7 +513,7 @@ paths:
     get:
       tags:
         - Yves-Saint-Laurent
-      summary: Check agency code
+      summary: 기관 코드 확인
       description: Check agency code
       parameters:
         - name: code
@@ -542,7 +542,7 @@ paths:
     post:
       tags:
         - Yves-Saint-Laurent
-      summary: accept interviewer
+      summary: 면접관 기관 신청 수락
       description: acceptance of interviewer
       parameters:
         - name: agency_code
@@ -569,7 +569,7 @@ paths:
     post:
       tags:
         - Yves-Saint-Laurent
-      summary: reject interviewer
+      summary: 면접관 기관 신청 거절
       description: be rejected by the agency
       parameters:
         - name: agency_code
@@ -596,7 +596,7 @@ paths:
     get:
       tags:
         - Yves-Saint-Laurent
-      summary: an applicant interviewer
+      summary: 기관에 가입 신청한 면접관 리스트 보기
       description: an applicant interviewer list
       parameters:
         - name: agency_code
@@ -626,7 +626,7 @@ paths:
     delete:
       tags:
         - Yves-Saint-Laurent
-      summary: delete agency
+      summary: 기관 삭제
       description: delete agency
       parameters:
         - name: agency_code
@@ -643,7 +643,7 @@ paths:
     get:
       tags:
         - Yves-Saint-Laurent
-      summary: get agency information
+      summary: 기관 정보 보기
       description: get agency information
       parameters:
         - name: agency_code
@@ -674,7 +674,7 @@ paths:
     patch:
       tags:
         - Yves-Saint-Laurent
-      summary: change agency explanation
+      summary: 기관 설명 수정하기
       description: change agency explanation
       parameters:
         - name: agency_code
@@ -701,7 +701,7 @@ paths:
     get:
       tags:
         - Yves-Saint-Laurent
-      summary: interviewer belonged agency
+      summary: 면접관이 가입되어있는 기관 보기
       description: View the agency the interviewer subscribes to
       responses:
         '200':
@@ -718,13 +718,16 @@ paths:
                         agency_name:
                           type: string
                           example: Entry
+                        agency_code:
+                          type: string
+                          example: '29382'
         '400':
           description: None Resources
   '/{agency_code}':
     get:
       tags:
         - Yves-Saint-Laurent
-      summary: get an ongoing interview with an agency
+      summary: 현재 진행중인 면접 리스트
       description: get an ongoing interview with an agency
       parameters:
         - name: agency_code
@@ -751,13 +754,16 @@ paths:
                         interivew_explanation:
                           type: string
                           example: 대전 일반 전형에 대한 면접입니다.
+                        interview_id:
+                          type: string
+                          example: integer
         '400':
           description: None Resources
   '/admin/{agency_code}/ready/interview':
     get:
       tags:
         - Yves-Saint-Laurent
-      summary: get an ready interview list
+      summary: 준비중인 면접 리스트 보기
       description: get an ready interview list with an agency
       parameters:
         - name: agency_code
@@ -784,13 +790,16 @@ paths:
                         interivew_explanation:
                           type: string
                           example: 대전 일반 전형에 대한 면접입니다.
+                        interview_id:
+                          type: string
+                          example: integer
         '400':
           description: None Resources
-  '/{agency_code}/{interview_id}/{question_num}':
+  '/{agency_code}/{interview_id}/question':
     get:
       tags:
         - Yves-Saint-Laurent
-      summary: get interview question
+      summary: 면접 질문 리스트
       description: get interview question
       parameters:
         - name: agency_code
@@ -805,12 +814,6 @@ paths:
           required: true
           schema:
             type: integer
-        - name: question_num
-          in: path
-          description: question_num
-          required: true
-          schema:
-            type: integer
       responses:
         '200':
           description: get interivew question
@@ -819,16 +822,74 @@ paths:
               schema:
                 type: object
                 properties:
-                  question:
-                    type: string
-                    example: 간단하게 자기소개를 해주세요.
+                  questions:
+                    type: array
+                    items:
+                      properties:
+                        question_content:
+                          type: string
+                          example: 간단하게 자기소개를 해주세요.
+                        questino_id:
+                          type: integer
+                          example: 3234
+                        quesiton_type:
+                          type: integer
+                          example: 1
+                        question_num:
+                          type: integer
+                          example: 2
         '400':
           description: None Resources
-  '/{agency_code}/{interview_id}/{question_num}/{student_code}':
     post:
       tags:
         - Yves-Saint-Laurent
-      summary: answer to interview question
+      summary: 면접 질문 생성
+      description: create intervew question
+      parameters:
+        - name: agency_code
+          in: path
+          description: agency_code
+          required: true
+          schema:
+            type: string
+        - name: interview_id
+          in: path
+          description: interivew_id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                questions:
+                  type: array
+                  items:
+                    properties:
+                      question_content:
+                        type: string
+                        example: 간단하게 자기소개를 해주세요.
+                      questino_id:
+                        type: integer
+                        example: 3234
+                      quesiton_type:
+                        type: integer
+                        example: 1
+                      question_num:
+                        type: integer
+                        example: 2
+      responses:
+        '201':
+          description: Successful answer
+        '400':
+          description: Check json format
+  '/{agency_code}/{interview_id}/{student_code}':
+    get:
+      tags:
+        - Yves-Saint-Laurent
+      summary: 면접관이 면접자 평가한 것 가져오기
       description: answer to interview question
       parameters:
         - name: agency_code
@@ -844,7 +905,66 @@ paths:
           schema:
             type: integer
         - name: question_num
+          in: query
+          description: question_num
+          required: true
+          schema:
+            type: integer
+        - name: student_code
           in: path
+          description: student_code
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: 평가 가져오기
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  questions:
+                    type: array
+                    items:
+                      properties:
+                        question_content:
+                          type: string
+                          example: 간단하게 자기소개를 해주세요.
+                        questino_id:
+                          type: integer
+                          example: 3234
+                        quesiton_type:
+                          type: integer
+                          example: 1
+                        question_num:
+                          type: integer
+                          example: 2
+                        evaluation:
+                          type: string
+                          example: A
+        '400':
+          description: check json format
+    patch:
+      tags:
+        - Yves-Saint-Laurent
+      summary: 면접관이 면접자 평가수정
+      description: answer to interview question
+      parameters:
+        - name: agency_code
+          in: path
+          description: agency_code
+          required: true
+          schema:
+            type: string
+        - name: interview_id
+          in: path
+          description: interivew_id
+          required: true
+          schema:
+            type: integer
+        - name: question_num
+          in: query
           description: question_num
           required: true
           schema:
@@ -861,19 +981,77 @@ paths:
             schema:
               type: object
               properties:
-                answer:
-                  type: string
-                  example: 저는 부산에서자라~
+                evaluation:
+                  type: array
+                  items:
+                    properties:
+                      questino_id:
+                        type: integer
+                        example: 3234
+                      evaluation:
+                        type: string
+                        example: A
       responses:
         '201':
-          description: Successful answer
+          description: Successful evaluation change
+        '400':
+          description: Check json format
+    post:
+      tags:
+        - Yves-Saint-Laurent
+      summary: 면접관이 면접자 평가하기
+      description: answer to interview question
+      parameters:
+        - name: agency_code
+          in: path
+          description: agency_code
+          required: true
+          schema:
+            type: string
+        - name: interview_id
+          in: path
+          description: interivew_id
+          required: true
+          schema:
+            type: integer
+        - name: question_num
+          in: query
+          description: question_num
+          required: true
+          schema:
+            type: integer
+        - name: student_code
+          in: path
+          description: student_code
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                evaluation:
+                  type: array
+                  items:
+                    properties:
+                      questino_id:
+                        type: integer
+                        example: 3234
+                      evaluation:
+                        type: string
+                        example: A
+      responses:
+        '201':
+          description: Successful evaluation
         '400':
           description: Check json format
   '/{agency_code}/{interview_id}':
     get:
       tags:
         - Yves-Saint-Laurent
-      summary: search interviewee
+      summary: 면접자 검색
       description: search interviewee
       parameters:
         - name: agency_code
@@ -905,13 +1083,16 @@ paths:
                   interviewee_name:
                     type: string
                     example: 오경태
+                  student_code:
+                    type: integer
+                    example: 2832
         '400':
           description: an interviewee without
   '/admin/{agency_code}/done/interview':
     get:
       tags:
         - Yves-Saint-Laurent
-      summary: get an done interview list
+      summary: 끝난 면접 리스트
       description: get an done interview list with an agency
       parameters:
         - name: agency_code
@@ -944,7 +1125,7 @@ paths:
     post:
       tags:
         - Yves-Saint-Laurent
-      summary: create interview
+      summary: 면접 생성
       description: create interview
       parameters:
         - name: agency_code
@@ -974,50 +1155,11 @@ paths:
         '400':
           description: Check json format
   '/admin/{agency_code}/{interview_id}/question':
-    post:
-      tags:
-        - Yves-Saint-Laurent
-      summary: create interview qeustion
-      description: create interview qeustion
-      parameters:
-        - name: agency_code
-          in: path
-          description: agency_code
-          required: true
-          schema:
-            type: string
-        - name: interview_id
-          in: path
-          description: interview_code
-          required: true
-          schema:
-            type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                question_num:
-                  type: integer
-                  example: 1
-                content:
-                  type: string
-                  example: 자기소개해주세요
-                type:
-                  type: integer
-                  example: 2
-      responses:
-        '201':
-          description: Successful create interview question
-        '400':
-          description: Cheak json format
-  '/admin/{agency_code}/{interview_id}':
     get:
       tags:
         - Yves-Saint-Laurent
-      summary: get interview qeustion
-      description: get interview qeustion
+      summary: 면접 질문 가져오기
+      description: get interview question
       parameters:
         - name: agency_code
           in: path
@@ -1027,10 +1169,10 @@ paths:
             type: string
         - name: interview_id
           in: path
-          description: interview_code
+          description: interview_id
           required: true
           schema:
-            type: string
+            type: integer
       responses:
         '200':
           description: get interview quesiton list
@@ -1043,19 +1185,25 @@ paths:
                     type: array
                     items:
                       properties:
-                        question_num:
+                        question_content:
+                          type: string
+                          example: 간단하게 자기소개를 해주세요.
+                        questino_id:
+                          type: integer
+                          example: 3234
+                        quesiton_type:
                           type: integer
                           example: 1
-                        content:
-                          type: string
-                          example: 자기소개를해주세요.
+                        question_num:
+                          type: integer
+                          example: 2
         '400':
           description: None Resources
   '/admin/{agency_code}/{interview_id}/{question_num}':
     put:
       tags:
         - Yves-Saint-Laurent
-      summary: modified interview qeustion
+      summary: 면접 정보 수정
       description: modified interview qeustion
       parameters:
         - name: agency_code
@@ -1069,7 +1217,7 @@ paths:
           description: interview_id
           required: true
           schema:
-            type: string
+            type: integer
         - name: question_num
           in: path
           description: quesion_num
@@ -1082,15 +1230,15 @@ paths:
             schema:
               type: object
               properties:
-                question_num:
+                question_content:
+                  type: string
+                  example: 간단하게 자기소개를 해주세요.
+                quesiton_type:
                   type: integer
                   example: 1
-                content:
-                  type: string
-                  example: 자기소개좀 해주세요.
-                type:
+                question_num:
                   type: integer
-                  example: 3
+                  example: 2
       responses:
         '201':
           description: Successful change question
@@ -1099,8 +1247,8 @@ paths:
     delete:
       tags:
         - Yves-Saint-Laurent
-      summary: modified interview qeustion
-      description: modified interview qeustion
+      summary: 질문 삭제
+      description: delete interview qeustion
       parameters:
         - name: agency_code
           in: path
@@ -1125,154 +1273,11 @@ paths:
           description: Successful delete question
         '400':
           description: Cheak json format
-  '/admin/{agency_code}/{interview_id}/evaluation':
-    get:
-      tags:
-        - Yves-Saint-Laurent
-      summary: search the Evaluated Interviewer
-      description: search the Evaluated Interviewer
-      parameters:
-        - name: agency_code
-          in: path
-          description: agency_code
-          required: true
-          schema:
-            type: string
-        - name: interview_id
-          in: path
-          description: interivew_id
-          required: true
-          schema:
-            type: integer
-        - name: interviewee
-          in: query
-          description: interviewee
-          required: true
-          schema:
-            type: integer
-      responses:
-        '200':
-          description: find interviewee
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  interviewee_name:
-                    type: string
-                    example: 이채은
-        '400':
-          description: an interviewee without
-  '/admin/{agency_code}/{interview_id}/evaluation/{interviewee_code}/interviewer':
-    get:
-      tags:
-        - Yves-Saint-Laurent
-      summary: get interviewee evaluation interviewer list
-      description: get interviewee evaluation interviewer list
-      parameters:
-        - name: agency_code
-          in: path
-          description: agency_code
-          required: true
-          schema:
-            type: string
-        - name: interview_id
-          in: path
-          description: interivew_id
-          required: true
-          schema:
-            type: integer
-        - name: interviewee_code
-          in: path
-          description: interviewee
-          required: true
-          schema:
-            type: integer
-      responses:
-        '200':
-          description: get interviewee evaluation interviewer list
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  interviewer:
-                    type: array
-                    items:
-                      properties:
-                        interviewer_id:
-                          type: string
-                          example: eunjuoi0515@gmail.com
-                        interviwer_name:
-                          type: string
-                          example: 신은주
-        '400':
-          description: None Resources
-  '/admin/{agency_code}/{interview_id}/evaluation/{interviewee_code}/interviewer/{interviewer_id}':
-    get:
-      tags:
-        - Yves-Saint-Laurent
-      summary: get interviewee evaluation interviewer list
-      description: get interviewee evaluation interviewer list
-      parameters:
-        - name: agency_code
-          in: path
-          description: agency_code
-          required: true
-          schema:
-            type: string
-        - name: interview_id
-          in: path
-          description: interivew_id
-          required: true
-          schema:
-            type: integer
-        - name: interviewee_code
-          in: path
-          description: interviewee
-          required: true
-          schema:
-            type: integer
-        - name: interviewer_id
-          in: path
-          description: interviewer_id
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: get interviewee evaluation interviewer result
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  evaluation:
-                    type: array
-                    items:
-                      properties:
-                        qeustion_num:
-                          type: integer
-                          example: 1
-                        qeustion_content:
-                          type: string
-                          example: 자기소개해주세요
-                        answer:
-                          type: string
-                          example: 당차고 당당한 자세가 마음에 듦
-                        interviewee_name:
-                          type: string
-                          example: 이채은
-                        interviewee_code:
-                          type: integer
-                          example: 3098
-        '400':
-          description: None Resources
   /agency/join:
     post:
       tags:
         - Yves-Saint-Laurent
-      summary: To apply to an agency
+      summary: 기관에 가입 신청하기
       description: To apply to an agency
       requestBody:
         content:
@@ -1292,7 +1297,7 @@ paths:
     post:
       tags:
         - Yves-Saint-Laurent
-      summary: signup to interviewer
+      summary: 면접관 가입
       description: signup to interviewer
       requestBody:
         content:
@@ -1309,6 +1314,9 @@ paths:
                 password:
                   type: string
                   example: 1234qwer
+                agency:
+                  type: integer
+                  example: 20392
       responses:
         '201':
           description: Successful signup to interviwer
@@ -1320,7 +1328,7 @@ paths:
     post:
       tags:
         - Yves-Saint-Laurent
-      summary: signup to admin
+      summary: 어드민 회원가입
       description: signup to admin
       requestBody:
         content:
@@ -1354,7 +1362,7 @@ paths:
     post:
       tags:
         - Yves-Saint-Laurent
-      summary: login to admin
+      summary: 어드민 로그인
       description: login to admin
       requestBody:
         content:
@@ -1388,7 +1396,7 @@ paths:
     post:
       tags:
         - Yves-Saint-Laurent
-      summary: login to interviwer
+      summary: 면접관 로그인
       description: login to interviewer
       requestBody:
         content:
@@ -1418,6 +1426,35 @@ paths:
                     example: 304923j92030498920394830984
         '400':
           description: Cheak eamil and password
+  '/admin/{agency_code}/done/{interview_id}/download':
+    get:
+      tags:
+        - Yves-Saint-Laurent
+      summary: 면접 결과 엑셀로 다운로드
+      description: download to done intervew
+      parameters:
+        - name: agency_code
+          in: path
+          description: agency_code
+          required: true
+          schema:
+            type: string
+        - name: interview_id
+          in: path
+          description: interview_id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: 면접 결과 엑셀 파일
+          content:
+            excel/xlsx:
+              schema:
+                type: string
+                format: binary
+        '400':
+          description: Cannot download
   /auth/login:
     post:
       tags:
