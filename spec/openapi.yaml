@@ -1515,6 +1515,110 @@ paths:
         400:
           description: Cannot download
 
+  /admin/{agency_code}/{interview_id}/access:
+    get:
+      tags:
+        - Yves-Saint-Laurent
+      summary: 면접에 접근할 수 있는 면접관 리스트보기
+      description: 면접에 접근할 수 있는 면접관 리스트보기
+      parameters:
+        - name: agency_code
+          in: path
+          description: agency_code
+          required: true
+          schema:
+            type: string
+        - name: interview_id
+          in: path
+          description: interview_id
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: 면접에 접근 할 수 있는 면접관 리스트
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  interviewer:
+                    type: array
+                    items:
+                      properties:
+                        interviewer_name:
+                          type: string
+                          example: "이채은"
+                        interviewer_email:
+                          type: string
+                          example: "eunjuoi@dsm.hs.kr"
+        400:
+          description: "None interviewer"
+
+    post:
+      tags:
+        - Yves-Saint-Laurent
+      summary: 면접에 접근할 수 있는 면접관 리스트보기
+      description: 면접에 접근할 수 있는 면접관 리스트보기
+      parameters:
+        - name: agency_code
+          in: path
+          description: agency_code
+          required: true
+          schema:
+            type: string
+        - name: interview_id
+          in: path
+          description: interview_id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                interviewer_email:
+                  type: string
+                  example: "eiowdnks@dsm.hs.kr"
+      responses:
+        200:
+          description: "Successful interviewer access"
+
+    delete:
+      tags:
+        - Yves-Saint-Laurent
+      summary: 면접에 접근할 수 있는 면접관 리스트보기
+      description: 면접에 접근할 수 있는 면접관 리스트보기
+      parameters:
+        - name: agency_code
+          in: path
+          description: agency_code
+          required: true
+          schema:
+            type: string
+        - name: interview_id
+          in: path
+          description: interview_id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                interviewer_email:
+                  type: string
+                  example: "eiowdnks@dsm.hs.kr"
+      responses:
+        200:
+          description: "Successful delete access interviewer"
+        400:
+          description: "None interviewer"
+
   /auth/login:
     post:
       tags:
