@@ -900,67 +900,22 @@ paths:
                         question_content:
                           type: string
                           example: "간단하게 자기소개를 해주세요."
-                        questino_id:
-                          type: integer
-                          example: 3234
                         quesiton_type:
                           type: integer
                           example: 1
                         question_num:
                           type: integer
                           example: 2
+                        question_id:
+                          type: integer
+                          example: 5
+                        check_list:
+                          type: array
+                          items:
+                            type: string
+                            example: "친절한가?"
         400:
           description: None Resources
-
-    post:
-      tags:
-        - Yves-Saint-Laurent
-      summary: 면접 질문 생성
-      description: create intervew question
-      security: [
-      {JSONWebTokenAuthentication: []}
-      ]
-      parameters:
-      - name: agency_code
-        in: path
-        description: agency_code
-        required: true
-        schema:
-          type: string
-      - name: interview_id
-        in: path
-        description: interivew_id
-        required: true
-        schema:
-          type: integer
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                questions:
-                  type: array
-                  items:
-                    properties:
-                      question_content:
-                        type: string
-                        example: "간단하게 자기소개를 해주세요."
-                      questino_id:
-                        type: integer
-                        example: 3234
-                      quesiton_type:
-                        type: integer
-                        example: 1
-                      question_num:
-                        type: integer
-                        example: 2
-      responses:
-        201:
-          description: Successful answer
-        400:
-          description: Check json format
-
 
   /{agency_code}/{interview_id}/{student_code}:
     get:
@@ -1257,6 +1212,58 @@ paths:
           description: Check json format
 
   /admin/{agency_code}/{interview_id}/question:
+    post:
+      tags:
+        - Yves-Saint-Laurent
+      summary: 면접 질문 생
+      description: create interview qeustion
+      security: [
+      {JSONWebTokenAuthentication: []}
+      ]
+      parameters:
+        - name: agency_code
+          in: path
+          description: agency_code
+          required: true
+          schema:
+            type: string
+        - name: interview_id
+          in: path
+          description: interview_id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                questions:
+                  type: array
+                  items:
+                    properties:
+                      question_content:
+                        type: string
+                        example: "간단하게 자기소개를 해주세요."
+                      quesiton_type:
+                        type: integer
+                        example: 1
+                      question_num:
+                        type: integer
+                        example: 2
+                      check_list:
+                        type: array
+                        items:
+                          type: string
+                          example: "친절한가?"
+      responses:
+        201:
+          description: Successful change question
+        400:
+          description: Cheak json format
+
+
     get:
       tags:
           - Yves-Saint-Laurent
@@ -1283,29 +1290,33 @@ paths:
           description: get interview quesiton list
           content:
             application/json:
-                schema:
-                  type: object
-                  properties:
-                    interview_question:
-                      type: array
-                      items:
-                        properties:
-                          question_content:
+              schema:
+                type: object
+                properties:
+                  questions:
+                    type: array
+                    items:
+                      properties:
+                        question_content:
+                          type: string
+                          example: "간단하게 자기소개를 해주세요."
+                        quesiton_type:
+                          type: integer
+                          example: 1
+                        question_num:
+                          type: integer
+                          example: 2
+                        question_id:
+                          type: integer
+                          example: 5
+                        check_list:
+                          type: array
+                          items:
                             type: string
-                            example: "간단하게 자기소개를 해주세요."
-                          questino_id:
-                            type: integer
-                            example: 3234
-                          quesiton_type:
-                            type: integer
-                            example: 1
-                          question_num:
-                            type: integer
-                            example: 2
+                            example: "친절한가?"
         400:
           description: None Resources
 
-  /admin/{agency_code}/{interview_id}/{question_num}:
     put:
       tags:
             - Yves-Saint-Laurent
@@ -1327,33 +1338,37 @@ paths:
         required: true
         schema:
           type: integer
-      - name: question_num
-        in: path
-        description: quesion_num
-        required: true
-        schema:
-          type: integer
       requestBody:
-          content:
-            application/json:
-               schema:
-                 type: object
-                 properties:
-                   question_content:
-                     type: string
-                     example: "간단하게 자기소개를 해주세요."
-                   quesiton_type:
-                     type: integer
-                     example: 1
-                   question_num:
-                     type: integer
-                     example: 2
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                questions:
+                  type: array
+                  items:
+                    properties:
+                      question_content:
+                        type: string
+                        example: "간단하게 자기소개를 해주세요."
+                      quesiton_type:
+                        type: integer
+                        example: 1
+                      question_num:
+                        type: integer
+                        example: 2
+                      check_list:
+                        type: array
+                        items:
+                          type: string
+                          example: "친절한가?"
       responses:
         201:
           description: Successful change question
         400:
           description: Cheak json format
 
+  /admin/{agency_code}/{interview_id}/{question_id}:
     delete:
       tags:
             - Yves-Saint-Laurent
@@ -1375,9 +1390,9 @@ paths:
         required: true
         schema:
           type: string
-      - name: question_num
+      - name: question_id
         in: path
-        description: quesion_num
+        description: quesion_id
         required: true
         schema:
           type: integer
