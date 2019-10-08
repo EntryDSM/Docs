@@ -3646,7 +3646,7 @@
                 "example": "01011110987"
               },
               "school_code": {
-                "type": "integer",
+                "type": "string",
                 "example": 7011092
               }
             }
