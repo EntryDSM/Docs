@@ -990,7 +990,7 @@ paths:
         400:
           description: check json format
 
-    patch:
+    put:
       tags:
         - Yves-Saint-Laurent
       summary: 면접관이 면접자 평가수정
@@ -1327,7 +1327,7 @@ paths:
         400:
           description: Cheak json format
 
-  /agency/join:
+  /agency/apply:
     post:
       tags:
           - Yves-Saint-Laurent
