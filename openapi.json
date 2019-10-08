@@ -3124,7 +3124,7 @@
                   "items": {
                     "type": "object",
                     "properties": {
-                      "examcode": {
+                      "receipt_code": {
                         "type": "string",
                         "example": "1234"
                       },
@@ -3207,7 +3207,7 @@
                           "type": "string",
                           "example": "kim@seonghyeon.dev"
                         },
-                        "apply_time": {
+                        "apply_type": {
                           "type": "string",
                           "example": "COMMON"
                         },
@@ -3265,6 +3265,26 @@
                         "school_tel": {
                           "type": "string",
                           "example": "01011110987"
+                        },
+                        "volunteer_time": {
+                          "type": "number",
+                          "example": 80
+                        },
+                        "full_cut_count": {
+                          "type": "number",
+                          "example": 0
+                        },
+                        "period_cut_count": {
+                          "type": "number",
+                          "example": 0
+                        },
+                        "late_count": {
+                          "type": "number",
+                          "example": 0
+                        },
+                        "early_leave_count": {
+                          "type": "number",
+                          "example": 0
                         },
                         "korean": {
                           "type": "string",
@@ -3409,6 +3429,107 @@
         "responses": {
           "201": {
             "description": "status change success"
+          }
+        }
+      }
+    },
+    "/stats/scores": {
+      "get": {
+        "tags": [
+          "지원 통계"
+        ],
+        "servers": [
+          {
+            "url": "https://rolex.entrydsm.hs.kr/api/v1"
+          }
+        ],
+        "summary": "지원자 성적 분포 가져오기",
+        "security": [
+          {
+            "JSONWebTokenAuthentication": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "region",
+            "in": "query",
+            "example": "daejeon",
+            "description": "region=daejeon or region=nation",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "example": "common",
+            "description": "지원자 전형 (common:일반, meister:마이스터, social:사회통합)",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "80": {
+                      "description": "70대 이하",
+                      "type": "number"
+                    },
+                    "90": {
+                      "description": "80~90대",
+                      "type": "number"
+                    },
+                    "100": {
+                      "description": "90~100대",
+                      "type": "number"
+                    },
+                    "110": {
+                      "description": "100~110대",
+                      "type": "number"
+                    },
+                    "120": {
+                      "description": "110~120대",
+                      "type": "number"
+                    },
+                    "130": {
+                      "description": "120~130대",
+                      "type": "number"
+                    },
+                    "140": {
+                      "description": "130~140대",
+                      "type": "number"
+                    },
+                    "150": {
+                      "description": "140~150대",
+                      "type": "number"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/TokenError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/TokenExpired"
+                    }
+                  ]
+                }
+              }
+            }
           }
         }
       }
