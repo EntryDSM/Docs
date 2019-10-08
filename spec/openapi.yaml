@@ -101,8 +101,9 @@ x-tagGroups:
       - 사진
       - 원서 가져오기
       - 원서 제출
-      - 최종제출
-      - 학교검색
+      - 최종 제출
+      - 계산된 성적 불러오기
+      - 학교 검색
   - name: Rolex
     tags:
       - 어드민 인증
@@ -504,6 +505,40 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/AlreadyFinalSubmitted"
+        401:
+          description: Invalid token
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: "#/components/schemas/TokenError"
+                  - $ref: "#/components/schemas/TokenExpired"
+
+  /self/application/caculated-score:
+    get:
+      tags:
+        - 계산된 성적 불러오기
+      summary: 계산된 성적 불러오기
+      security: [
+        {JSONWebTokenAuthentication: []}
+      ]
+
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - $ref: "#/components/schemas/CalculatedGEDScore"
+                - $ref: "#/components/schemas/CalculatedGraduatedScore"
+                - $ref: "#/components/schemas/CalculatedUngraduatedScore"
+        404:
+          description: Any application submitted yet
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApplicationNotFound"
         401:
           description: Invalid token
           content:
@@ -2276,6 +2311,56 @@ components:
       properties:
         ged_average_score:
           type: number
+
+    CalculatedGEDScore:
+      type: object
+      properties:
+        volunteer_score:
+          type: integer
+        attendance_score:
+          type: integer
+        conversion_score:
+          type: integer
+        final_score:
+          type: integer
+        ged_average_score:
+          type: integer
+
+    CalculatedGraduatedScore:
+      type: object
+      properties:
+        first_grade_score:
+          type: integer
+        second_grade_scores:
+          type: integer
+        third_grade_scores:
+          type: integer
+        conversion_score:
+          type: integer
+        attendance_score:
+          type: integer
+        volunteer_time:
+          type: integer
+        final_score:
+          type: integer
+
+    CalculatedUngraduatedScore:
+      type: object
+      properties:
+        first_grade_score:
+          type: integer
+        second_grade_scores:
+          type: integer
+        third_grade_scores:
+          type: integer
+        conversion_score:
+          type: integer
+        attendance_score:
+          type: integer
+        volunteer_time:
+          type: integer
+        final_score:
+          type: integer
 
     DiligenceGrade:
       type: object
