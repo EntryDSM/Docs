@@ -872,6 +872,11 @@
         ],
         "summary": "면접관 기관 신청 수락",
         "description": "acceptance of interviewer",
+        "security": [
+          {
+            "JSONWebTokenAuthentication": []
+          }
+        ],
         "parameters": [
           {
             "name": "agency_code",
@@ -915,6 +920,11 @@
         ],
         "summary": "면접관 기관 신청 거절",
         "description": "be rejected by the agency",
+        "security": [
+          {
+            "JSONWebTokenAuthentication": []
+          }
+        ],
         "parameters": [
           {
             "name": "agency_code",
@@ -958,6 +968,11 @@
         ],
         "summary": "기관에 가입 신청한 면접관 리스트 보기",
         "description": "an applicant interviewer list",
+        "security": [
+          {
+            "JSONWebTokenAuthentication": []
+          }
+        ],
         "parameters": [
           {
             "name": "agency_code",
@@ -1006,6 +1021,11 @@
         ],
         "summary": "기관 삭제",
         "description": "delete agency",
+        "security": [
+          {
+            "JSONWebTokenAuthentication": []
+          }
+        ],
         "parameters": [
           {
             "name": "agency_code",
@@ -1032,6 +1052,11 @@
         ],
         "summary": "기관 정보 보기",
         "description": "get agency information",
+        "security": [
+          {
+            "JSONWebTokenAuthentication": []
+          }
+        ],
         "parameters": [
           {
             "name": "agency_code",
@@ -1079,6 +1104,11 @@
         ],
         "summary": "기관 설명 수정하기",
         "description": "change agency explanation",
+        "security": [
+          {
+            "JSONWebTokenAuthentication": []
+          }
+        ],
         "parameters": [
           {
             "name": "agency_code",
@@ -1122,6 +1152,11 @@
         ],
         "summary": "면접관이 가입되어있는 기관 보기",
         "description": "View the agency the interviewer subscribes to",
+        "security": [
+          {
+            "JSONWebTokenAuthentication": []
+          }
+        ],
         "responses": {
           "200": {
             "description": "get interviewer belonged agency",
@@ -1163,6 +1198,11 @@
         ],
         "summary": "현재 진행중인 면접 리스트",
         "description": "get an ongoing interview with an agency",
+        "security": [
+          {
+            "JSONWebTokenAuthentication": []
+          }
+        ],
         "parameters": [
           {
             "name": "agency_code",
@@ -1219,6 +1259,11 @@
         ],
         "summary": "준비중인 면접 리스트 보기",
         "description": "get an ready interview list with an agency",
+        "security": [
+          {
+            "JSONWebTokenAuthentication": []
+          }
+        ],
         "parameters": [
           {
             "name": "agency_code",
@@ -1275,6 +1320,11 @@
         ],
         "summary": "면접 질문 리스트",
         "description": "get interview question",
+        "security": [
+          {
+            "JSONWebTokenAuthentication": []
+          }
+        ],
         "parameters": [
           {
             "name": "agency_code",
@@ -1342,6 +1392,11 @@
         ],
         "summary": "면접 질문 생성",
         "description": "create intervew question",
+        "security": [
+          {
+            "JSONWebTokenAuthentication": []
+          }
+        ],
         "parameters": [
           {
             "name": "agency_code",
@@ -1413,6 +1468,11 @@
         ],
         "summary": "면접관이 면접자 평가한 것 가져오기",
         "description": "answer to interview question",
+        "security": [
+          {
+            "JSONWebTokenAuthentication": []
+          }
+        ],
         "parameters": [
           {
             "name": "agency_code",
@@ -1502,6 +1562,11 @@
         ],
         "summary": "면접관이 면접자 평가수정",
         "description": "answer to interview question",
+        "security": [
+          {
+            "JSONWebTokenAuthentication": []
+          }
+        ],
         "parameters": [
           {
             "name": "agency_code",
@@ -1581,6 +1646,11 @@
         ],
         "summary": "면접관이 면접자 평가하기",
         "description": "answer to interview question",
+        "security": [
+          {
+            "JSONWebTokenAuthentication": []
+          }
+        ],
         "parameters": [
           {
             "name": "agency_code",
@@ -1662,6 +1732,11 @@
         ],
         "summary": "면접자 검색",
         "description": "search interviewee",
+        "security": [
+          {
+            "JSONWebTokenAuthentication": []
+          }
+        ],
         "parameters": [
           {
             "name": "agency_code",
@@ -1725,6 +1800,11 @@
         ],
         "summary": "끝난 면접 리스트",
         "description": "get an done interview list with an agency",
+        "security": [
+          {
+            "JSONWebTokenAuthentication": []
+          }
+        ],
         "parameters": [
           {
             "name": "agency_code",
@@ -1777,6 +1857,11 @@
         ],
         "summary": "면접 생성",
         "description": "create interview",
+        "security": [
+          {
+            "JSONWebTokenAuthentication": []
+          }
+        ],
         "parameters": [
           {
             "name": "agency_code",
@@ -1828,6 +1913,11 @@
         ],
         "summary": "면접 질문 가져오기",
         "description": "get interview question",
+        "security": [
+          {
+            "JSONWebTokenAuthentication": []
+          }
+        ],
         "parameters": [
           {
             "name": "agency_code",
@@ -1897,6 +1987,11 @@
         ],
         "summary": "면접 정보 수정",
         "description": "modified interview qeustion",
+        "security": [
+          {
+            "JSONWebTokenAuthentication": []
+          }
+        ],
         "parameters": [
           {
             "name": "agency_code",
@@ -1964,6 +2059,11 @@
         ],
         "summary": "질문 삭제",
         "description": "delete interview qeustion",
+        "security": [
+          {
+            "JSONWebTokenAuthentication": []
+          }
+        ],
         "parameters": [
           {
             "name": "agency_code",
@@ -2010,6 +2110,11 @@
         ],
         "summary": "기관에 가입 신청하기",
         "description": "To apply to an agency",
+        "security": [
+          {
+            "JSONWebTokenAuthentication": []
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -2246,6 +2351,11 @@
         ],
         "summary": "면접 결과 엑셀로 다운로드",
         "description": "download to done intervew",
+        "security": [
+          {
+            "JSONWebTokenAuthentication": []
+          }
+        ],
         "parameters": [
           {
             "name": "agency_code",
@@ -2291,6 +2401,11 @@
         ],
         "summary": "면접에 접근할 수 있는 면접관 리스트보기",
         "description": "면접에 접근할 수 있는 면접관 리스트보기",
+        "security": [
+          {
+            "JSONWebTokenAuthentication": []
+          }
+        ],
         "parameters": [
           {
             "name": "agency_code",
@@ -2348,8 +2463,13 @@
         "tags": [
           "Yves-Saint-Laurent"
         ],
-        "summary": "면접에 접근할 수 있는 면접관 리스트보기",
-        "description": "면접에 접근할 수 있는 면접관 리스트보기",
+        "summary": "면접에 접근 할 면접관 추가",
+        "description": "면접에 접근 할 면접관 추가",
+        "security": [
+          {
+            "JSONWebTokenAuthentication": []
+          }
+        ],
         "parameters": [
           {
             "name": "agency_code",
@@ -2395,8 +2515,13 @@
         "tags": [
           "Yves-Saint-Laurent"
         ],
-        "summary": "면접에 접근할 수 있는 면접관 리스트보기",
-        "description": "면접에 접근할 수 있는 면접관 리스트보기",
+        "summary": "면접에 접근하는 면접관 삭제",
+        "description": "면접에 접근하는 면접관 삭제",
+        "security": [
+          {
+            "JSONWebTokenAuthentication": []
+          }
+        ],
         "parameters": [
           {
             "name": "agency_code",
@@ -2438,6 +2563,42 @@
           },
           "400": {
             "description": "None interviewer"
+          }
+        }
+      }
+    },
+    "/refresh": {
+      "patch": {
+        "tags": [
+          "Yves-Saint-Laurent"
+        ],
+        "summary": "엑세스 토큰 재발급",
+        "description": "엑세스 토큰 재발급",
+        "security": [
+          {
+            "RefreshJSONWebTokenAuthentication": []
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Login succeed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "access": {
+                      "type": "string",
+                      "example": "DIDLKSNEIO"
+                    },
+                    "refresh": {
+                      "type": "string",
+                      "example": "DLWIENDSKLd"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
