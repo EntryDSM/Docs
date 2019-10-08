@@ -3644,6 +3644,10 @@
                 "type": "string",
                 "pattern": "^01\\d{8,9}$",
                 "example": "01011110987"
+              },
+              "school_code": {
+                "type": "integer",
+                "example": 7011092
               }
             }
           }
