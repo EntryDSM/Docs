@@ -1459,7 +1459,7 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "questions": {
+                    "evaluations": {
                       "type": "array",
                       "items": {
                         "properties": {
@@ -1546,7 +1546,7 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "evaluation": {
+                  "evaluations": {
                     "type": "array",
                     "items": {
                       "properties": {
@@ -1625,7 +1625,7 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "evaluation": {
+                  "evaluations": {
                     "type": "array",
                     "items": {
                       "properties": {
