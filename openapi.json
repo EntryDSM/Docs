@@ -1496,7 +1496,7 @@
           }
         }
       },
-      "patch": {
+      "put": {
         "tags": [
           "Yves-Saint-Laurent"
         ],
@@ -2003,7 +2003,7 @@
         }
       }
     },
-    "/agency/join": {
+    "/agency/apply": {
       "post": {
         "tags": [
           "Yves-Saint-Laurent"
