@@ -2,8 +2,8 @@ openapi: "3.0.0"
 info:
   version: "1.0.0"
 
-  title: api.entrydsm.hs.kr 
-  
+  title: api.entrydsm.hs.kr
+
   termsOfService: "https://entrydsm.hs.kr/terms/"
   contact:
     email: entrydsm@entrydsm.hs.kr
@@ -34,7 +34,7 @@ info:
     ## 11xx application validation error
     |description|code|
     |-|-|
-    | validation error | 1100 | 
+    | validation error | 1100 |
     | already final submitted | 1101 |
     | any application submitted yet | 1102 |
 
@@ -48,10 +48,10 @@ info:
     ## 13xx signup error
     |description|code|
     |-|-|
-    | invalid signup info | 1300 | 
-    | user already exists | 1301 | 
-    | signup already requested | 1302 | 
-    | invalid verification key | 1303 | 
+    | invalid signup info | 1300 |
+    | user already exists | 1301 |
+    | signup already requested | 1302 |
+    | invalid verification key | 1303 |
 
 servers:
   - url: "https://api.entrydsm.hs.kr/api/v1"
@@ -91,7 +91,7 @@ tags:
       <SchemaDefinition schemaRef="#/components/schemas/GeneralError" />
   - name: Yves-Saint-Laurent
     description: 엔트리 인터뷰 시스템
-      
+
 x-tagGroups:
   - name: Avengers
     tags:
@@ -106,18 +106,18 @@ x-tagGroups:
   - name: Rolex
     tags:
       - 어드민 인증
-      - 지원 통계 
+      - 지원 통계
       - 지원자 리스트
       - 특정 지원자 정보
       - 원서 접수 취소
   - name: Schemas
-    tags: 
+    tags:
       - ged_model
       - graduated_model
       - ungraduated_model
       - general_error_model
   - name: Interview
-    tags: 
+    tags:
       - Yves-Saint-Laurent
 
 paths:
@@ -129,7 +129,7 @@ paths:
       requestBody:
         content:
           application/json:
-            schema:    
+            schema:
               type: object
               required:
                 - email
@@ -158,7 +158,7 @@ paths:
                 oneOf:
                   - $ref: "#/components/schemas/UserAlreadyExists"
                   - $ref: "#/components/schemas/SignupAlreadyRequested"
-  
+
   /signup/verify:
     get:
       tags:
@@ -178,7 +178,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/InvalidVerificationKey"
-  
+
   /auth:
     post:
       tags:
@@ -187,7 +187,7 @@ paths:
       requestBody:
         content:
           application/json:
-            schema:    
+            schema:
               type: object
               required:
                 - email
@@ -243,8 +243,8 @@ paths:
             application/json:
               schema:
                 oneOf:
-                  - $ref: "#/components/schemas/TokenError"     
-                  - $ref: "#/components/schemas/TokenExpired"                    
+                  - $ref: "#/components/schemas/TokenError"
+                  - $ref: "#/components/schemas/TokenExpired"
 
     delete:
       tags:
@@ -278,8 +278,8 @@ paths:
             application/json:
               schema:
                 oneOf:
-                  - $ref: "#/components/schemas/TokenError"     
-                  - $ref: "#/components/schemas/TokenExpired" 
+                  - $ref: "#/components/schemas/TokenError"
+                  - $ref: "#/components/schemas/TokenExpired"
 
   /self/photo:
     put:
@@ -306,8 +306,8 @@ paths:
             application/json:
               schema:
                 oneOf:
-                  - $ref: "#/components/schemas/TokenError"     
-                  - $ref: "#/components/schemas/TokenExpired" 
+                  - $ref: "#/components/schemas/TokenError"
+                  - $ref: "#/components/schemas/TokenExpired"
 
     get:
       tags:
@@ -329,8 +329,8 @@ paths:
             application/json:
               schema:
                 oneOf:
-                  - $ref: "#/components/schemas/TokenError"     
-                  - $ref: "#/components/schemas/TokenExpired" 
+                  - $ref: "#/components/schemas/TokenError"
+                  - $ref: "#/components/schemas/TokenExpired"
 
   /self/application:
     get:
@@ -363,8 +363,8 @@ paths:
             application/json:
               schema:
                 oneOf:
-                  - $ref: "#/components/schemas/TokenError"     
-                  - $ref: "#/components/schemas/TokenExpired" 
+                  - $ref: "#/components/schemas/TokenError"
+                  - $ref: "#/components/schemas/TokenExpired"
 
   /self/application/ged:
     put:
@@ -394,15 +394,15 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/AlreadyFinalSubmitted"    
+                $ref: "#/components/schemas/AlreadyFinalSubmitted"
         401:
           description: Invalid token
           content:
             application/json:
               schema:
                 oneOf:
-                  - $ref: "#/components/schemas/TokenError"     
-                  - $ref: "#/components/schemas/TokenExpired" 
+                  - $ref: "#/components/schemas/TokenError"
+                  - $ref: "#/components/schemas/TokenExpired"
 
   /self/application/graduated:
     put:
@@ -432,15 +432,15 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/AlreadyFinalSubmitted"  
+                $ref: "#/components/schemas/AlreadyFinalSubmitted"
         401:
           description: Invalid token
           content:
             application/json:
               schema:
                 oneOf:
-                  - $ref: "#/components/schemas/TokenError"     
-                  - $ref: "#/components/schemas/TokenExpired" 
+                  - $ref: "#/components/schemas/TokenError"
+                  - $ref: "#/components/schemas/TokenExpired"
 
   /self/application/ungraduated:
     put:
@@ -470,16 +470,16 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/AlreadyFinalSubmitted"  
+                $ref: "#/components/schemas/AlreadyFinalSubmitted"
         401:
           description: Invalid token
           content:
             application/json:
               schema:
                 oneOf:
-                  - $ref: "#/components/schemas/TokenError"     
+                  - $ref: "#/components/schemas/TokenError"
                   - $ref: "#/components/schemas/TokenExpired"
-  
+
   /self/application/final-submit:
     patch:
       tags:
@@ -510,7 +510,7 @@ paths:
             application/json:
               schema:
                 oneOf:
-                  - $ref: "#/components/schemas/TokenError"     
+                  - $ref: "#/components/schemas/TokenError"
                   - $ref: "#/components/schemas/TokenExpired"
 
   /school/search:
@@ -528,7 +528,7 @@ paths:
           schema:
             type: string
             example: 휘경중학
-            description: 학교 이름만으로 검색하면 풀네임 반환
+            description: 학교 이름만으로 검색하면 풀네임과 학교 코드 반환
       responses:
         200:
           description: Success
@@ -538,7 +538,7 @@ paths:
                 type: array
                 items:
                   type: string
-                example: ["서울특별시교육청 서울특별시동부교육지원청 휘경중학교", "부산광역시교육청 부산광역동부교육지원청 휘경중학교"]
+                example: [{"name": "서울특별시교육청 서울특별시동부교육지원청 휘경중학교", "code": 7021150}, {"name": "부산광역시교육청 부산광역동부교육지원청 휘경중학교", "code": 0101010}]
 
   /agency/cheak:
     get:
@@ -1729,7 +1729,7 @@ paths:
       requestBody:
         content:
           application/json:
-            schema:    
+            schema:
               type: object
               required:
                 - id
@@ -1761,7 +1761,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/UserNotFound"
-  
+
   /auth/refresh:
     patch:
       tags:
@@ -1789,13 +1789,13 @@ paths:
             application/json:
               schema:
                 oneOf:
-                  - $ref: "#/components/schemas/TokenError"     
+                  - $ref: "#/components/schemas/TokenError"
                   - $ref: "#/components/schemas/TokenExpired"
 
   /stats/applicants:
     get:
       tags:
-        - 지원 통계 
+        - 지원 통계
       servers:
         - url: "https://rolex.entrydsm.hs.kr/api/v1"
       summary: 지역별 지원자 수 가져오기
@@ -1826,16 +1826,16 @@ paths:
             application/json:
               schema:
                 oneOf:
-                  - $ref: "#/components/schemas/TokenError"     
-                  - $ref: "#/components/schemas/TokenExpired" 
-    
+                  - $ref: "#/components/schemas/TokenError"
+                  - $ref: "#/components/schemas/TokenExpired"
+
   /stats/all:
     get:
       tags:
-        - 지원 통계 
+        - 지원 통계
       servers:
         - url: "https://rolex.entrydsm.hs.kr/api/v1"
-      summary: 전체 지원 통계 리스트 가져오기 
+      summary: 전체 지원 통계 리스트 가져오기
       security: [
         {JSONWebTokenAuthentication: []}
       ]
@@ -1860,7 +1860,7 @@ paths:
                         example: 53
                   nation:
                     properties:
-                      meister: 
+                      meister:
                         type: number
                         example: 25
                       social:
@@ -1869,7 +1869,7 @@ paths:
                       common:
                         type: number
                         example: 104
-                  total: 
+                  total:
                     properties:
                       daejeon:
                         type: number
@@ -1883,13 +1883,13 @@ paths:
             application/json:
               schema:
                 oneOf:
-                  - $ref: "#/components/schemas/TokenError"     
-                  - $ref: "#/components/schemas/TokenExpired"  
+                  - $ref: "#/components/schemas/TokenError"
+                  - $ref: "#/components/schemas/TokenExpired"
 
   /stats/competition:
     get:
       tags:
-        - 지원 통계 
+        - 지원 통계
       servers:
       - url: "https://rolex.entrydsm.hs.kr/api/v1"
       summary: 지원 경쟁률 가져오기
@@ -1917,7 +1917,7 @@ paths:
                         example: "2.9:1"
                   nation:
                     properties:
-                      meister: 
+                      meister:
                         type: string
                         example: "1.8:1"
                       social:
@@ -1926,7 +1926,7 @@ paths:
                       common:
                         type: string
                         example: "4.9:1"
-                  total: 
+                  total:
                     properties:
                       daejeon:
                         type: string
@@ -1936,20 +1936,20 @@ paths:
                         example: "3:1"
                       all:
                         type: string
-                        example: "2.75:1"  
+                        example: "2.75:1"
         401:
           description: Invalid token
           content:
             application/json:
               schema:
                 oneOf:
-                  - $ref: "#/components/schemas/TokenError"     
-                  - $ref: "#/components/schemas/TokenExpired"                  
+                  - $ref: "#/components/schemas/TokenError"
+                  - $ref: "#/components/schemas/TokenExpired"
 
   /list/applicants:
     get:
       tags:
-        - 지원자 리스트 
+        - 지원자 리스트
       servers:
       - url: "https://rolex.entrydsm.hs.kr/api/v1"
       summary: 지원자 리스트 가져오기
@@ -1957,7 +1957,7 @@ paths:
         {JSONWebTokenAuthentication: []}
       ]
       parameters:
-      - name: region 
+      - name: region
         in: query
         description: region (daejeon / nation)
         schema:
@@ -1978,7 +1978,7 @@ paths:
       responses:
         200:
           description: Success
-          content: 
+          content:
             application/json:
               schema:
                 type: array
@@ -2015,7 +2015,7 @@ paths:
       tags:
         - 특정 지원자 정보
       servers:
-      - url: "https://rolex.entrydsm.hs.kr/api/v1"  
+      - url: "https://rolex.entrydsm.hs.kr/api/v1"
       summary: 특정 지원자 원서 가져오기
       security: [
         {JSONWebTokenAuthentication: []}
@@ -2038,13 +2038,13 @@ paths:
                   application:
                     type: object
                     properties:
-                      user_email: 
+                      user_email:
                         type: string
                         example: kim@seonghyeon.dev
-                      apply_time: 
+                      apply_time:
                         type: string
                         example: "COMMON"
-                      additinal_type: 
+                      additinal_type:
                         type: string
                         example: "NOT_APPLICABLE"
                       is_daejeon:
@@ -2080,7 +2080,7 @@ paths:
                       graduated_year:
                         type: string
                         example: "2019"
-                      school_name: 
+                      school_name:
                         type: string
                       school_tel:
                         type: string
@@ -2106,7 +2106,7 @@ paths:
                       english:
                         type: string
                         example: "AAAAAA"
-                      self_introduction: 
+                      self_introduction:
                         type: string
                       study_plan:
                         type: string
@@ -2128,7 +2128,7 @@ paths:
             application/json:
               schema:
                 oneOf:
-                  - $ref: "#/components/schemas/TokenError"     
+                  - $ref: "#/components/schemas/TokenError"
                   - $ref: "#/components/schemas/TokenExpired"
   /submit:
     delete:
@@ -2147,8 +2147,8 @@ paths:
           example: docs@naver.com
       responses:
         204:
-          description: Final Submit Cancel succeed.    
-  
+          description: Final Submit Cancel succeed.
+
   /info/status:
     patch:
       tags:
@@ -2404,7 +2404,7 @@ components:
           $ref: "#/components/schemas/UngraduatedSchoolGrade"
         self_introduction_and_study_plan:
           $ref: "#/components/schemas/SelfIntroductionAndStudyPlan"
-    
+
     ApplicationStatus:
       type: object
       properties:
@@ -2429,7 +2429,7 @@ components:
         exam_code:
           type: string
           example: "124533"
-          nullable: true        
+          nullable: true
 
     # Error Schemas
     GeneralError:
@@ -2447,17 +2447,17 @@ components:
     InvalidApplicationPatch:
       type: object
       properties:
-        description: 
+        description:
           type: string
           example: Invalid application submitted.
         error_code:
           type: string
           example: 1100
-    
+
     InvalidApplicationFinalSubmit:
       type: object
       properties:
-        description: 
+        description:
           type: string
           example: Please fill out all column before final submit.
         error_code:
@@ -2467,7 +2467,7 @@ components:
     AlreadyFinalSubmitted:
       type: object
       properties:
-        description: 
+        description:
           type: string
           example: Final submitted application can't be edited.
         error_code:
@@ -2477,17 +2477,17 @@ components:
     ApplicationNotFound:
       type: object
       properties:
-        description: 
+        description:
           type: string
           example: Any application submitted yet.
         error_code:
           type: string
           example: 1102
-    
+
     UserNotFound:
       type: object
       properties:
-        description: 
+        description:
           type: string
           example: Login information is incorrect.
         error_code:
@@ -2497,7 +2497,7 @@ components:
     TokenExpired:
       type: object
       properties:
-        description: 
+        description:
           type: string
           example: Please login again.
         error_code:
@@ -2507,7 +2507,7 @@ components:
     TokenError:
       type: object
       properties:
-        description: 
+        description:
           type: string
           example: Please login again.
         error_code:
@@ -2517,7 +2517,7 @@ components:
     InvalidSignupInfo:
       type: object
       properties:
-        description: 
+        description:
           type: string
           example: Invalid signup request
         error_code:
@@ -2527,7 +2527,7 @@ components:
     UserAlreadyExists:
       type: object
       properties:
-        description: 
+        description:
           type: string
           example: User already exists
         error_code:
@@ -2537,7 +2537,7 @@ components:
     SignupAlreadyRequested:
       type: object
       properties:
-        description: 
+        description:
           type: string
           example: Signup verification email already sent
         error_code:
@@ -2547,7 +2547,7 @@ components:
     InvalidVerificationKey:
       type: object
       properties:
-        description: 
+        description:
           type: string
           example: Invalid or expired verification key
         error_code:
