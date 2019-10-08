@@ -968,7 +968,7 @@ paths:
               schema:
                 type: object
                 properties:
-                  questions:
+                  evaluations:
                     type: array
                     items:
                        properties:
@@ -1026,7 +1026,7 @@ paths:
             schema:
               type: object
               properties:
-                evaluation:
+                evaluations:
                   type: array
                   items:
                     properties:
@@ -1078,7 +1078,7 @@ paths:
             schema:
               type: object
               properties:
-                evaluation:
+                evaluations:
                   type: array
                   items:
                     properties:
