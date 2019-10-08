@@ -484,8 +484,8 @@ paths:
   /self/application/final-submit:
     patch:
       tags:
-        - 최종제출
-      summary: 최종제출
+        - 최종 제출
+      summary: 최종 제출
       description: 되돌릴 수 없음
       security: [
         {JSONWebTokenAuthentication: []}
@@ -551,7 +551,7 @@ paths:
   /school/search:
     get:
       tags:
-        - 학교검색
+        - 학교 검색
       summary: 학교를 검색
       description: 학교검색 API
       security: [
