@@ -2389,7 +2389,7 @@ components:
               pattern: '^01\d{8,9}$'
               example: "01011110987"
             school_code:
-              type: integer
+              type: string
               example: 7011092
 
     PersonalInformationWithGraduatedSchoolInfo:
