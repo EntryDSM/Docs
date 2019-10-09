@@ -514,7 +514,7 @@ paths:
                   - $ref: "#/components/schemas/TokenError"
                   - $ref: "#/components/schemas/TokenExpired"
 
-  /self/application/caculated-score:
+  /self/application/calculated-score:
     get:
       tags:
         - 계산된 성적 불러오기
