@@ -483,7 +483,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AlreadyFinalSubmitted'
-  /self/application/caculated-score:
+  /self/application/calculated-score:
     get:
       tags:
         - 계산된 성적 불러오기
