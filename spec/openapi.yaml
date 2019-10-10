@@ -101,8 +101,9 @@ x-tagGroups:
       - 사진
       - 원서 가져오기
       - 원서 제출
-      - 최종제출
-      - 학교검색
+      - 최종 제출
+      - 계산된 성적 불러오기
+      - 학교 검색
   - name: Rolex
     tags:
       - 어드민 인증
@@ -483,8 +484,8 @@ paths:
   /self/application/final-submit:
     patch:
       tags:
-        - 최종제출
-      summary: 최종제출
+        - 최종 제출
+      summary: 최종 제출
       description: 되돌릴 수 없음
       security: [
         {JSONWebTokenAuthentication: []}
@@ -513,10 +514,44 @@ paths:
                   - $ref: "#/components/schemas/TokenError"
                   - $ref: "#/components/schemas/TokenExpired"
 
+  /self/application/calculated-score:
+    get:
+      tags:
+        - 계산된 성적 불러오기
+      summary: 계산된 성적 불러오기
+      security: [
+        {JSONWebTokenAuthentication: []}
+      ]
+
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - $ref: "#/components/schemas/CalculatedGEDScore"
+                - $ref: "#/components/schemas/CalculatedGraduatedScore"
+                - $ref: "#/components/schemas/CalculatedUngraduatedScore"
+        404:
+          description: Any application submitted yet
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApplicationNotFound"
+        401:
+          description: Invalid token
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: "#/components/schemas/TokenError"
+                  - $ref: "#/components/schemas/TokenExpired"
+
   /school/search:
     get:
       tags:
-        - 학교검색
+        - 학교 검색
       summary: 학교를 검색
       description: 학교검색 API
       security: [
@@ -2037,7 +2072,7 @@ paths:
                 items:
                   type: object
                   properties:
-                    examcode:
+                    receipt_code:
                       type: string
                       example: "1234"
                     name:
@@ -2093,7 +2128,7 @@ paths:
                       user_email:
                         type: string
                         example: kim@seonghyeon.dev
-                      apply_time:
+                      apply_type:
                         type: string
                         example: "COMMON"
                       additinal_type:
@@ -2137,6 +2172,21 @@ paths:
                       school_tel:
                         type: string
                         example: "01011110987"
+                      volunteer_time:
+                        type: number
+                        example: 80
+                      full_cut_count:
+                        type: number
+                        example: 0
+                      period_cut_count:
+                        type: number
+                        example: 0
+                      late_count:
+                        type: number
+                        example: 0
+                      early_leave_count:
+                        type: number
+                        example: 0
                       korean:
                         type: string
                         example: "AAAAAA"
@@ -2226,6 +2276,69 @@ paths:
         201:
           description: status change success
 
+  /stats/scores:
+    get:
+      tags:
+        - 지원 통계
+      servers:
+        - url: "https://rolex.entrydsm.hs.kr/api/v1"
+      summary: 지원자 성적 분포 가져오기
+      security: [
+        {JSONWebTokenAuthentication: []}
+      ]
+      parameters:
+        - name: region
+          in: query
+          example: daejeon
+          description: region=daejeon or region=nation
+          schema:
+            type: string
+        - name: type
+          in: query
+          example: common
+          description: 지원자 전형 (common:일반, meister:마이스터, social:사회통합)
+          schema:
+            type: string
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  150:
+                    description: 140~150대
+                    type: number
+                  140:
+                    description: 130~140대
+                    type: number
+                  130:
+                    description: 120~130대
+                    type: number
+                  120:
+                    description: 110~120대
+                    type: number
+                  110:
+                    description: 100~110대
+                    type: number
+                  100:
+                    description: 90~100대
+                    type: number
+                  90:
+                    description: 80~90대
+                    type: number
+                  80:
+                    description: 70대 이하
+                    type: number
+        401:
+          description: Invalid token
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: "#/components/schemas/TokenError"
+                  - $ref: "#/components/schemas/TokenExpired"
 components:
   securitySchemes:
     JSONWebTokenAuthentication:
@@ -2312,6 +2425,9 @@ components:
               type: string
               pattern: '^01\d{8,9}$'
               example: "01011110987"
+            school_code:
+              type: string
+              example: 7011092
 
     PersonalInformationWithGraduatedSchoolInfo:
       allOf:
@@ -2328,6 +2444,56 @@ components:
       properties:
         ged_average_score:
           type: number
+
+    CalculatedGEDScore:
+      type: object
+      properties:
+        volunteer_score:
+          type: integer
+        attendance_score:
+          type: integer
+        conversion_score:
+          type: integer
+        final_score:
+          type: integer
+        ged_average_score:
+          type: integer
+
+    CalculatedGraduatedScore:
+      type: object
+      properties:
+        first_grade_score:
+          type: integer
+        second_grade_scores:
+          type: integer
+        third_grade_scores:
+          type: integer
+        conversion_score:
+          type: integer
+        attendance_score:
+          type: integer
+        volunteer_time:
+          type: integer
+        final_score:
+          type: integer
+
+    CalculatedUngraduatedScore:
+      type: object
+      properties:
+        first_grade_score:
+          type: integer
+        second_grade_scores:
+          type: integer
+        third_grade_scores:
+          type: integer
+        conversion_score:
+          type: integer
+        attendance_score:
+          type: integer
+        volunteer_time:
+          type: integer
+        final_score:
+          type: integer
 
     DiligenceGrade:
       type: object
