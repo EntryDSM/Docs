@@ -1626,7 +1626,7 @@ paths:
               schema:
                 type: object
                 properties:
-                  interviewer:
+                  interviewers:
                     type: array
                     items:
                       properties:
@@ -1732,6 +1732,43 @@ paths:
                   refresh:
                     type: string
                     example: "DLWIENDSKLd"
+
+  /admin/{agency_code}/join/interviewer:
+    get:
+      tags:
+        - Yves-Saint-Laurent
+      summary: 기관에 소속된 면접관 리스트보기
+      description: 기관에 소속된 면접관 리스트보기
+      security: [
+      {JSONWebTokenAuthentication: []}
+      ]
+      parameters:
+        - name: agency_code
+          in: path
+          description: agency_code
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: 기관에 소속된 면접관 리스트
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  interviewers:
+                    type: array
+                    items:
+                      properties:
+                        interviewer_name:
+                          type: string
+                          example: "이채은"
+                        interviewer_email:
+                          type: string
+                          example: "eunjuoi@dsm.hs.kr"
+        400:
+          description: "None interviewer"
 
 
   /auth/login:
