@@ -1992,6 +1992,12 @@ paths:
                     is_final_submit:
                       type: boolean
                       example: false
+                    school_name:
+                      type: string
+                      example: 국악 학교
+                    application_tel:
+                      type: string
+                      example: 010-1234-5678
   /info/application:
     get:
       tags:
@@ -2196,8 +2202,11 @@ paths:
               schema:
                 type: object
                 properties:
+                  '70':
+                    description: 70 이하
+                    type: number
                   '80':
-                    description: 70대 이하
+                    description: 70~80대
                     type: number
                   '90':
                     description: 80~90대
@@ -2228,6 +2237,29 @@ paths:
                 oneOf:
                   - $ref: '#/components/schemas/TokenError'
                   - $ref: '#/components/schemas/TokenExpired'
+  /info/photo:
+    get:
+      tags:
+        - 특정 지원자 정보
+      summary: 사진 가져오기
+      responses:
+        '200':
+          description: Success
+          content:
+            'image/png, image/jpeg, image/jpg':
+              schema:
+                type: string
+                format: binary
+        '401':
+          description: Invalid token
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/TokenError'
+                  - $ref: '#/components/schemas/TokenExpired'
+        '404':
+          description: Image not found
 components:
   securitySchemes:
     JSONWebTokenAuthentication:
