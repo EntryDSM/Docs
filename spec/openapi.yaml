@@ -2099,7 +2099,7 @@ paths:
                     school_name:
                       type: string
                       example: "국악 학교"
-                    application_tel:  
+                    application_tel:
                       type: string
                       example: "010-1234-5678"
 
@@ -2348,7 +2348,7 @@ paths:
                 oneOf:
                   - $ref: "#/components/schemas/TokenError"
                   - $ref: "#/components/schemas/TokenExpired"
-  
+
   /info/photo:
     get:
       tags:
@@ -2372,7 +2372,7 @@ paths:
                 oneOf:
                   - $ref: "#/components/schemas/TokenError"
                   - $ref: "#/components/schemas/TokenExpired"
-        
+
 components:
   securitySchemes:
     JSONWebTokenAuthentication:
@@ -2498,15 +2498,15 @@ components:
       properties:
         first_grade_score:
           type: integer
-        second_grade_scores:
+        second_grade_score:
           type: integer
-        third_grade_scores:
+        third_grade_score:
           type: integer
         conversion_score:
           type: integer
         attendance_score:
           type: integer
-        volunteer_time:
+        volunteer_score:
           type: integer
         final_score:
           type: integer
@@ -2516,15 +2516,15 @@ components:
       properties:
         first_grade_score:
           type: integer
-        second_grade_scores:
+        second_grade_score:
           type: integer
-        third_grade_scores:
+        third_grade_score:
           type: integer
         conversion_score:
           type: integer
         attendance_score:
           type: integer
-        volunteer_time:
+        volunteer_score:
           type: integer
         final_score:
           type: integer
