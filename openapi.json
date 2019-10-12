@@ -3814,10 +3814,10 @@
           "first_grade_score": {
             "type": "integer"
           },
-          "second_grade_scores": {
+          "second_grade_score": {
             "type": "integer"
           },
-          "third_grade_scores": {
+          "third_grade_score": {
             "type": "integer"
           },
           "conversion_score": {
@@ -3826,7 +3826,7 @@
           "attendance_score": {
             "type": "integer"
           },
-          "volunteer_time": {
+          "volunteer_score": {
             "type": "integer"
           },
           "final_score": {
@@ -3840,10 +3840,10 @@
           "first_grade_score": {
             "type": "integer"
           },
-          "second_grade_scores": {
+          "second_grade_score": {
             "type": "integer"
           },
-          "third_grade_scores": {
+          "third_grade_score": {
             "type": "integer"
           },
           "conversion_score": {
@@ -3852,7 +3852,7 @@
           "attendance_score": {
             "type": "integer"
           },
-          "volunteer_time": {
+          "volunteer_score": {
             "type": "integer"
           },
           "final_score": {
