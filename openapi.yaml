@@ -1449,41 +1449,7 @@ paths:
           description: Check json format
         '409':
           description: This email has already been signed up.
-  /agency_admin/login:
-    post:
-      tags:
-        - Yves-Saint-Laurent
-      summary: 어드민 로그인
-      description: login to admin
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                eamil:
-                  type: string
-                  example: entry@dsm.hs.kr
-                password:
-                  type: string
-                  example: 1234qwer
-      responses:
-        '200':
-          description: Successful login to admin
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  access_token:
-                    type: string
-                    example: 3924802pedlefsdnkfsnlndlk
-                  refresh_token:
-                    type: string
-                    example: 304923j92030498920394830984
-        '400':
-          description: Cheak eamil and password
-  /interviewer/login:
+  /login:
     post:
       tags:
         - Yves-Saint-Laurent
@@ -1509,10 +1475,19 @@ paths:
               schema:
                 type: object
                 properties:
-                  access_token:
+                  admin:
+                    type: boolean
+                    example: true
+                  agency_name:
+                    type: string
+                    example: 엔트리 /어드민일경우만 보여줌
+                  agency_code:
+                    type: string
+                    example: 234234/ 어드민일경우만 보여줌
+                  access:
                     type: string
                     example: 3924802pedlefsdnkfsnlndlk
-                  refresh_token:
+                  refresh:
                     type: string
                     example: 304923j92030498920394830984
         '400':
